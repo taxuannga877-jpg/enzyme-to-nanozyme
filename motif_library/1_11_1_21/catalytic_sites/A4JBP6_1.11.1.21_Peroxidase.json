@@ -1,0 +1,300 @@
+{
+  "motif_id": "A4JBP6_1.11.1.21_Peroxidase",
+  "source_uniprot_id": "A4JBP6",
+  "source_ec_number": "1.11.1.21",
+  "nanozyme_type": "Peroxidase",
+  "anchor_atoms": [
+    {
+      "atom_name": "NH1",
+      "residue_name": "ARG",
+      "residue_number": 88,
+      "chain_id": "A",
+      "element": "N",
+      "coordinates": [
+        15.913,
+        6.315,
+        -15.336
+      ],
+      "atom_type": "CARBON",
+      "is_donor": true,
+      "role": ""
+    },
+    {
+      "atom_name": "NH2",
+      "residue_name": "ARG",
+      "residue_number": 88,
+      "chain_id": "A",
+      "element": "N",
+      "coordinates": [
+        16.605,
+        5.492,
+        -13.449
+      ],
+      "atom_type": "CARBON",
+      "is_donor": true,
+      "role": ""
+    },
+    {
+      "atom_name": "ND1",
+      "residue_name": "HIS",
+      "residue_number": 92,
+      "chain_id": "A",
+      "element": "N",
+      "coordinates": [
+        13.353,
+        3.832,
+        -11.057
+      ],
+      "atom_type": "CARBON",
+      "is_donor": true,
+      "role": ""
+    },
+    {
+      "atom_name": "NE2",
+      "residue_name": "HIS",
+      "residue_number": 92,
+      "chain_id": "A",
+      "element": "N",
+      "coordinates": [
+        13.465,
+        2.307,
+        -12.645
+      ],
+      "atom_type": "CARBON",
+      "is_donor": true,
+      "role": ""
+    },
+    {
+      "atom_name": "ND1",
+      "residue_name": "HIS",
+      "residue_number": 259,
+      "chain_id": "A",
+      "element": "N",
+      "coordinates": [
+        15.149,
+        -5.761,
+        -17.933
+      ],
+      "atom_type": "CARBON",
+      "is_donor": true,
+      "role": ""
+    },
+    {
+      "atom_name": "NE2",
+      "residue_name": "HIS",
+      "residue_number": 259,
+      "chain_id": "A",
+      "element": "N",
+      "coordinates": [
+        14.93,
+        -3.754,
+        -17.055
+      ],
+      "atom_type": "CARBON",
+      "is_donor": true,
+      "role": ""
+    }
+  ],
+  "geometry_constraints": [
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        0,
+        1
+      ],
+      "value": 2.1718568092763397,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        0,
+        2
+      ],
+      "value": 5.570343795494135,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        0,
+        3
+      ],
+      "value": 5.41278569684779,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        0,
+        4
+      ],
+      "value": 12.375697192481724,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        0,
+        5
+      ],
+      "value": 10.261871710365513,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        1,
+        2
+      ],
+      "value": 4.364947651461584,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        1,
+        3
+      ],
+      "value": 4.544253624083938,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        1,
+        4
+      ],
+      "value": 12.20066395734265,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        1,
+        5
+      ],
+      "value": 10.06465980547778,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        2,
+        3
+      ],
+      "value": 2.204521036415846,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        2,
+        4
+      ],
+      "value": 11.938619727589954,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        2,
+        5
+      ],
+      "value": 9.798486056529345,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        3,
+        4
+      ],
+      "value": 9.792416657802097,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        3,
+        5
+      ],
+      "value": 7.637410948744345,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        4,
+        5
+      ],
+      "value": 2.201566260642636,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "angle",
+      "atom_indices": [
+        0,
+        1,
+        2
+      ],
+      "value": 112.51076340444364,
+      "tolerance": 0.5,
+      "unit": "degree"
+    },
+    {
+      "constraint_type": "angle",
+      "atom_indices": [
+        1,
+        2,
+        3
+      ],
+      "value": 80.24012639795602,
+      "tolerance": 0.5,
+      "unit": "degree"
+    },
+    {
+      "constraint_type": "angle",
+      "atom_indices": [
+        2,
+        3,
+        4
+      ],
+      "value": 165.3909961968905,
+      "tolerance": 0.5,
+      "unit": "degree"
+    },
+    {
+      "constraint_type": "angle",
+      "atom_indices": [
+        3,
+        4,
+        5
+      ],
+      "value": 10.40502127093676,
+      "tolerance": 0.5,
+      "unit": "degree"
+    }
+  ],
+  "chemistry_tag": "",
+  "reaction_smiles": "",
+  "reaction_template": "",
+  "confidence_score": 0.0,
+  "extraction_method": "rule_based",
+  "notes": ""
+}

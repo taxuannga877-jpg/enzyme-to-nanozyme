@@ -119,9 +119,19 @@ class CatalyticMotif:
     confidence_score: float = 0.0
     extraction_method: str = ""
     notes: str = ""
+    
+    # Enhanced fields
+    residue_structures: Dict[Tuple[str, int], Dict] = field(default_factory=dict)
+    structure_2d_svg: str = ""
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary."""
+        # Convert residue_structures keys from tuples to strings for JSON serialization
+        residue_structures_dict = {}
+        for key, value in self.residue_structures.items():
+            key_str = f"{key[0]}_{key[1]}"
+            residue_structures_dict[key_str] = value
+        
         return {
             "motif_id": self.motif_id,
             "source_uniprot_id": self.source_uniprot_id,
@@ -134,7 +144,9 @@ class CatalyticMotif:
             "reaction_template": self.reaction_template,
             "confidence_score": self.confidence_score,
             "extraction_method": self.extraction_method,
-            "notes": self.notes
+            "notes": self.notes,
+            "residue_structures": residue_structures_dict,
+            "structure_2d_svg": self.structure_2d_svg
         }
 
     def to_json(self, filepath: str) -> None:
@@ -156,6 +168,20 @@ class CatalyticMotif:
         """Create from dictionary."""
         anchor_atoms = [AnchorAtom.from_dict(a) for a in data.get("anchor_atoms", [])]
         geometry = [GeometryConstraint.from_dict(g) for g in data.get("geometry_constraints", [])]
+        
+        # Convert residue_structures back from string keys to tuple keys
+        residue_structures = {}
+        residue_structures_dict = data.get("residue_structures", {})
+        for key_str, value in residue_structures_dict.items():
+            parts = key_str.split("_")
+            if len(parts) >= 2:
+                res_name = parts[0]
+                try:
+                    res_num = int(parts[1])
+                    residue_structures[(res_name, res_num)] = value
+                except ValueError:
+                    pass
+        
         return cls(
             motif_id=data["motif_id"],
             source_uniprot_id=data["source_uniprot_id"],
@@ -168,5 +194,7 @@ class CatalyticMotif:
             reaction_template=data.get("reaction_template", ""),
             confidence_score=data.get("confidence_score", 0.0),
             extraction_method=data.get("extraction_method", ""),
-            notes=data.get("notes", "")
+            notes=data.get("notes", ""),
+            residue_structures=residue_structures,
+            structure_2d_svg=data.get("structure_2d_svg", "")
         )

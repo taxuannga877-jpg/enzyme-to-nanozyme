@@ -1,0 +1,102 @@
+{
+  "motif_id": "P55304_1.11.1.6_Catalase",
+  "source_uniprot_id": "P55304",
+  "source_ec_number": "1.11.1.6",
+  "nanozyme_type": "Catalase",
+  "anchor_atoms": [
+    {
+      "atom_name": "ND1",
+      "residue_name": "HIS",
+      "residue_number": 63,
+      "chain_id": "A",
+      "element": "N",
+      "coordinates": [
+        -2.803,
+        1.089,
+        -7.522
+      ],
+      "atom_type": "CARBON",
+      "is_donor": true,
+      "role": ""
+    },
+    {
+      "atom_name": "NE2",
+      "residue_name": "HIS",
+      "residue_number": 63,
+      "chain_id": "A",
+      "element": "N",
+      "coordinates": [
+        -2.893,
+        3.25,
+        -7.942
+      ],
+      "atom_type": "CARBON",
+      "is_donor": true,
+      "role": ""
+    },
+    {
+      "atom_name": "OH",
+      "residue_name": "TYR",
+      "residue_number": 346,
+      "chain_id": "A",
+      "element": "O",
+      "coordinates": [
+        -6.136,
+        6.859,
+        -5.191
+      ],
+      "atom_type": "CARBON",
+      "is_donor": true,
+      "role": ""
+    }
+  ],
+  "geometry_constraints": [
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        0,
+        1
+      ],
+      "value": 2.2032750622652633,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        0,
+        2
+      ],
+      "value": 7.0594156982005245,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        1,
+        2
+      ],
+      "value": 5.577627721531798,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    },
+    {
+      "constraint_type": "angle",
+      "atom_indices": [
+        0,
+        1,
+        2
+      ],
+      "value": 124.35815310635984,
+      "tolerance": 0.5,
+      "unit": "degree"
+    }
+  ],
+  "chemistry_tag": "",
+  "reaction_smiles": "",
+  "reaction_template": "",
+  "confidence_score": 0.0,
+  "extraction_method": "rule_based",
+  "notes": ""
+}

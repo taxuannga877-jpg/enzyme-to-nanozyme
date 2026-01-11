@@ -92,3 +92,19 @@ Thumbs.db
 *.cif
 output/
 results/
+motifs/
+processed/
+metal_sites_output/
+nanozyme-env/
+envs/
+
+# Temporary analysis files
+cache_data_analysis.md
+MCSA_INTEGRATION_REPORT.md
+金属位点问题分析.md
+IMPLEMENTATION_SUMMARY.md
+monitor_progress.sh
+install_deps.sh
+install.log
+motif_extraction.log
+pipeline_run.log

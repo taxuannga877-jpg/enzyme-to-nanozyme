@@ -21,14 +21,14 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 
 # 本地模型检查点路径
 DEFAULT_ENZYME_MODEL_PATH = str(
-    PROJECT_ROOT / "models" / "easifa" / "checkpoints" /
+    PROJECT_ROOT / "data" / "models" / "models" / "easifa" / "checkpoints" /
     "enzyme_site_type_predition_model" /
     "train_in_uniprot_ecreact_cluster_split_merge_dataset_all_limit_3_at_2023-12-19-16-06-42" /
     "global_step_284000"
 )
 
 DEFAULT_REACTION_MODEL_PATH = str(
-    PROJECT_ROOT / "models" / "easifa" / "checkpoints" /
+    PROJECT_ROOT / "data" / "models" / "models" / "easifa" / "checkpoints" /
     "reaction_attn_net" /
     "model-ReactionMGMTurnNet_train_in_uspto_at_2023-04-05-23-46-25"
 )
@@ -36,7 +36,7 @@ DEFAULT_REACTION_MODEL_PATH = str(
 # ChemEnzyRetroPlanner 路径配置 (用于导入 EasIFA 模块)
 CHEMENZY_PATH = os.environ.get(
     "CHEMENZY_PATH",
-    "/home/tangboshi/.111tangboshi/参考项目代码库/ChemEnzyRetroPlanner-main"
+    str(PROJECT_ROOT / "参考项目" / "ChemEnzyRetroPlanner-main")
 )
 
 # 添加 EasIFA 到 Python 路径
@@ -132,10 +132,10 @@ class EasIFAPredictor:
             from easifa.interface.utils import EasIFAInferenceAPI
 
             # 使用本地模型检查点
+            # 注意：反应模型路径在 EasIFA 内部硬编码，不需要传入
             self._model = EasIFAInferenceAPI(
                 device=self.device,
                 model_checkpoint_path=self.enzyme_model_path,
-                reaction_model_checkpoint_path=self.reaction_model_path,
                 max_enzyme_aa_length=self.max_sequence_length
             )
 

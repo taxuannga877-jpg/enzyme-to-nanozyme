@@ -1,0 +1,56 @@
+{
+  "motif_id": "I6Y4U9_1.11.1.7_Peroxidase",
+  "source_uniprot_id": "I6Y4U9",
+  "source_ec_number": "1.11.1.7",
+  "nanozyme_type": "Peroxidase",
+  "anchor_atoms": [
+    {
+      "atom_name": "ND1",
+      "residue_name": "HIS",
+      "residue_number": 222,
+      "chain_id": "A",
+      "element": "N",
+      "coordinates": [
+        11.276,
+        -1.597,
+        -7.9
+      ],
+      "atom_type": "CARBON",
+      "is_donor": true,
+      "role": ""
+    },
+    {
+      "atom_name": "NE2",
+      "residue_name": "HIS",
+      "residue_number": 222,
+      "chain_id": "A",
+      "element": "N",
+      "coordinates": [
+        9.11,
+        -1.333,
+        -8.21
+      ],
+      "atom_type": "CARBON",
+      "is_donor": true,
+      "role": ""
+    }
+  ],
+  "geometry_constraints": [
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        0,
+        1
+      ],
+      "value": 2.203940108079165,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    }
+  ],
+  "chemistry_tag": "",
+  "reaction_smiles": "",
+  "reaction_template": "",
+  "confidence_score": 0.0,
+  "extraction_method": "rule_based",
+  "notes": ""
+}

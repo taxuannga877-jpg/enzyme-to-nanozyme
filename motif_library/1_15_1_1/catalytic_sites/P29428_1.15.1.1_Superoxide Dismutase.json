@@ -1,0 +1,56 @@
+{
+  "motif_id": "P29428_1.15.1.1_Superoxide Dismutase",
+  "source_uniprot_id": "P29428",
+  "source_ec_number": "1.15.1.1",
+  "nanozyme_type": "Superoxide Dismutase",
+  "anchor_atoms": [
+    {
+      "atom_name": "OD1",
+      "residue_name": "ASP",
+      "residue_number": 14,
+      "chain_id": "A",
+      "element": "O",
+      "coordinates": [
+        -15.755,
+        1.137,
+        10.678
+      ],
+      "atom_type": "CARBON",
+      "is_donor": true,
+      "role": ""
+    },
+    {
+      "atom_name": "OD2",
+      "residue_name": "ASP",
+      "residue_number": 14,
+      "chain_id": "A",
+      "element": "O",
+      "coordinates": [
+        -16.064,
+        3.23,
+        9.983
+      ],
+      "atom_type": "CARBON",
+      "is_donor": true,
+      "role": ""
+    }
+  ],
+  "geometry_constraints": [
+    {
+      "constraint_type": "distance",
+      "atom_indices": [
+        0,
+        1
+      ],
+      "value": 2.226916028951249,
+      "tolerance": 0.5,
+      "unit": "angstrom"
+    }
+  ],
+  "chemistry_tag": "",
+  "reaction_smiles": "",
+  "reaction_template": "",
+  "confidence_score": 0.0,
+  "extraction_method": "rule_based",
+  "notes": ""
+}

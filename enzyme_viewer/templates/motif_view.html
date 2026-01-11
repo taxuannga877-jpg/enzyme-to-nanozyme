@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motif 展示 - Catalytic Motif Viewer</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .motif-container {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .motif-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .motif-section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .motif-section h3 {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .residue-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .residue-header {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .residue-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .info-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        .info-value {
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+        .geometry-table {
+            width: 100%;
+            margin-top: 15px;
+        }
+        .geometry-table th {
+            background: #667eea;
+            color: white;
+            padding: 10px;
+        }
+        .geometry-table td {
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .back-btn {
+            margin-top: 20px;
+        }
+        .download-btn {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-shadow">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-arrow-left"></i> Enzyme Structure Viewer
+            </a>
+            <span class="navbar-text text-white">
+                <i class="fas fa-puzzle-piece"></i> Catalytic Motif Viewer
+            </span>
+        </div>
+    </nav>
+
+    <div class="motif-container">
+        <!-- 加载中 -->
+        <div id="loadingIndicator" style="text-align: center; padding: 50px;">
+            <i class="fas fa-spinner fa-spin fa-3x"></i>
+            <p style="margin-top: 20px; font-size: 1.2em;">正在加载 Motif 数据...</p>
+        </div>
+
+        <!-- Motif内容 -->
+        <div id="motifContent" style="display: none;">
+            <!-- Header -->
+            <div class="motif-header">
+                <h1><i class="fas fa-puzzle-piece"></i> <span id="motifId"></span></h1>
+                <p style="margin-top: 15px; font-size: 1.1em;">
+                    <i class="fas fa-dna"></i> <strong>EC Number:</strong> <span id="ecNumber"></span> &nbsp;&nbsp;
+                    <i class="fas fa-id-badge"></i> <strong>UniProt ID:</strong> <span id="uniprotId"></span> &nbsp;&nbsp;
+                    <i class="fas fa-tag"></i> <strong>Nanozyme Type:</strong> <span id="nanozymeType"></span>
+                </p>
+                <button class="btn btn-light download-btn" onclick="downloadMotifJSON()">
+                    <i class="fas fa-download"></i> 下载 Motif JSON
+                </button>
+            </div>
+
+            <!-- 催化残基信息 -->
+            <div class="motif-section">
+                <h3><i class="fas fa-atom"></i> 催化残基 (Anchor Atoms)</h3>
+                <div id="anchorAtomsContainer">
+                    <!-- 将在此动态生成残基卡片 -->
+                </div>
+            </div>
+
+            <!-- 几何约束 -->
+            <div class="motif-section">
+                <h3><i class="fas fa-ruler-combined"></i> 几何约束 (Geometry Constraints)</h3>
+                <table class="table table-striped geometry-table">
+                    <thead>
+                        <tr>
+                            <th>约束类型</th>
+                            <th>涉及原子</th>
+                            <th>数值</th>
+                            <th>单位</th>
+                        </tr>
+                    </thead>
+                    <tbody id="geometryTableBody">
+                        <!-- 将在此动态生成几何约束行 -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 3D可视化（可选） -->
+            <div class="motif-section">
+                <h3><i class="fas fa-cube"></i> 3D 可视化</h3>
+                <div id="motif3DViewer" style="width: 100%; height: 600px; position: relative;">
+                    <!-- 3D viewer将在此渲染 -->
+                </div>
+            </div>
+
+            <div class="back-btn">
+                <button class="btn btn-primary btn-lg" onclick="window.history.back()">
+                    <i class="fas fa-arrow-left"></i> 返回
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; 2024 Catalytic Motif Viewer. All rights reserved.
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="https://3Dmol.org/build/3Dmol-min.js"></script>
+    
+    <script>
+        let currentMotifData = null;
+
+        // 页面加载时从URL获取参数并加载Motif数据
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const motifId = urlParams.get('motif_id');
+            const ecNumber = urlParams.get('ec');
+            const uniprotId = urlParams.get('uniprot');
+
+            if (motifId) {
+                loadMotifData(motifId, ecNumber, uniprotId);
+            } else {
+                document.getElementById('loadingIndicator').innerHTML = 
+                    '<div class="error-text">错误：未提供 Motif ID</div>';
+            }
+        });
+
+        function loadMotifData(motifId, ecNumber, uniprotId) {
+            // 从服务器加载Motif JSON文件
+            fetch(`/api/get_motif?motif_id=${motifId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        currentMotifData = data.motif;
+                        displayMotif(data.motif, ecNumber, uniprotId);
+                    } else {
+                        document.getElementById('loadingIndicator').innerHTML = 
+                            '<div class="error-text">加载失败: ' + data.error + '</div>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('loadingIndicator').innerHTML = 
+                        '<div class="error-text">加载失败: ' + error + '</div>';
+                });
+        }
+
+        function displayMotif(motif, ecNumber, uniprotId) {
+            // 隐藏加载指示器
+            document.getElementById('loadingIndicator').style.display = 'none';
+            document.getElementById('motifContent').style.display = 'block';
+
+            // 填充Header信息
+            document.getElementById('motifId').textContent = motif.motif_id;
+            document.getElementById('ecNumber').textContent = ecNumber || motif.ec_number || 'N/A';
+            document.getElementById('uniprotId').textContent = uniprotId || motif.uniprot_id || 'N/A';
+            document.getElementById('nanozymeType').textContent = motif.nanozyme_type || 'N/A';
+
+            // 显示催化残基
+            const anchorContainer = document.getElementById('anchorAtomsContainer');
+            anchorContainer.innerHTML = '';
+
+            motif.anchor_atoms.forEach((atom, index) => {
+                const residueCard = document.createElement('div');
+                residueCard.className = 'residue-card';
+                residueCard.innerHTML = `
+                    <div class="residue-header">
+                        <i class="fas fa-circle" style="color: #e74c3c;"></i> 
+                        残基 ${index + 1}: ${atom.residue_name} ${atom.residue_number}
+                    </div>
+                    <div class="residue-info">
+                        <div class="info-item">
+                            <div class="info-label">原子名称</div>
+                            <div class="info-value">${atom.atom_name}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">残基类型</div>
+                            <div class="info-value">${atom.residue_name}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">残基编号</div>
+                            <div class="info-value">${atom.residue_number}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">链ID</div>
+                            <div class="info-value">${atom.chain_id || 'N/A'}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">坐标 (x, y, z)</div>
+                            <div class="info-value">
+                                ${atom.coordinates.map(c => c.toFixed(2)).join(', ')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                anchorContainer.appendChild(residueCard);
+            });
+
+            // 显示几何约束
+            const geometryTableBody = document.getElementById('geometryTableBody');
+            geometryTableBody.innerHTML = '';
+
+            motif.geometry_constraints.forEach((constraint, index) => {
+                const row = document.createElement('tr');
+                const atomLabels = constraint.atoms.map(i => {
+                    const atom = motif.anchor_atoms[i];
+                    return `${atom.residue_name}${atom.residue_number}`;
+                }).join(' ↔ ');
+                
+                row.innerHTML = `
+                    <td><strong>${constraint.type}</strong></td>
+                    <td>${atomLabels}</td>
+                    <td>${constraint.value}</td>
+                    <td>${constraint.unit}</td>
+                `;
+                geometryTableBody.appendChild(row);
+            });
+
+            // 可选：渲染3D可视化（如果有PDB数据）
+            // render3DMotif(motif);
+        }
+
+        function downloadMotifJSON() {
+            if (!currentMotifData) return;
+            
+            const dataStr = JSON.stringify(currentMotifData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = currentMotifData.motif_id + '.json';
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
+

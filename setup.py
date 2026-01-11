@@ -15,7 +15,7 @@ setup(
     description="EC-based Nanozyme Database and Catalytic Motif Extraction System",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/taxuannga877-jpg/CatalyticTriadNet",
+    url="https://github.com/taxuannga877-jpg/enzyme-to-nanozyme",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 3 - Alpha",

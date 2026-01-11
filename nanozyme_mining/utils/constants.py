@@ -8,6 +8,21 @@ Defines EC number mappings to nanozyme function types and other constants.
 from typing import Dict, List, Tuple
 from enum import Enum
 
+# ============================================================================
+# Download Configuration Constants
+# ============================================================================
+
+# Default download limits (increased from original small values)
+DEFAULT_UNIPROT_QUERY_SIZE = 500  # Default number of entries to query from UniProt
+DEFAULT_MAX_ENTRIES = 500  # Default max entries for fetch_and_populate
+DEFAULT_TOPK_ENZYMES = 50  # Default top-k enzymes for motif extraction
+
+# Use -1 to fetch all available results
+FETCH_ALL_RESULTS = -1
+
+# UniProt API pagination settings
+UNIPROT_PAGE_SIZE = 500  # Maximum page size supported by UniProt API
+
 
 class NanozymeType(Enum):
     """Nanozyme function types based on catalytic activity."""
@@ -19,6 +34,8 @@ class NanozymeType(Enum):
     LAC = "Laccase"              # 漆酶
     HRP = "Horseradish Peroxidase"  # 辣根过氧化物酶
     GOX = "Glucose Oxidase"      # 葡萄糖氧化酶
+    PHOS = "Phosphatase"         # 磷酸酶
+    DNASE = "DNase"              # 脱氧核酸酶
     UNKNOWN = "Unknown"
 
 
@@ -53,4 +70,10 @@ EC_TO_NANOZYME_TYPE: Dict[str, NanozymeType] = {
     "1.10.3.2": NanozymeType.LAC,   # Laccase
     "1.4.3.4": NanozymeType.OXD,    # Monoamine oxidase
     "1.3.3.4": NanozymeType.OXD,    # Protoporphyrinogen oxidase
+
+    # Phosphatase (PHOS) - EC 3.1.3.1
+    "3.1.3.1": NanozymeType.PHOS,   # Phosphatase
+
+    # DNase (DNASE) - EC 3.1.21.1
+    "3.1.21.1": NanozymeType.DNASE, # DNase
 }

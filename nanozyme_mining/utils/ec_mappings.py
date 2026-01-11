@@ -20,6 +20,8 @@ EC_PATTERNS: Dict[NanozymeType, List[str]] = {
     NanozymeType.LAC: ["1.10.3.2"],                            # Laccase
     NanozymeType.GOX: ["1.1.3.4"],                             # Glucose oxidase
     NanozymeType.HRP: ["1.11.1.7"],                            # Horseradish peroxidase
+    NanozymeType.PHOS: ["3.1.3.1"],                            # Phosphatase
+    NanozymeType.DNASE: ["3.1.21.1"],                          # DNase
 }
 
 
@@ -60,6 +62,12 @@ NANOZYME_EC_MAPPINGS: Dict[str, Dict] = {
         "primary_ec": "3.1.3.1",
         "description": "水解磷酸单酯，释放无机磷酸",
         "reaction": "phosphate monoester + H2O → alcohol + phosphate",
+    },
+    "DNase": {
+        "name": "DNase-like (脱氧核酸酶样)",
+        "primary_ec": "3.1.21.1",
+        "description": "水解DNA链中的磷酸二酯键，产生单核苷酸或寡核苷酸",
+        "reaction": "DNA + H2O → nucleotides/oligonucleotides",
     },
 }
 

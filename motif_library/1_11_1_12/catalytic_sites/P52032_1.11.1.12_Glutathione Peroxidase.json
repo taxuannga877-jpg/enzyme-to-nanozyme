@@ -1,0 +1,30 @@
+{
+  "motif_id": "P52032_1.11.1.12_Glutathione Peroxidase",
+  "source_uniprot_id": "P52032",
+  "source_ec_number": "1.11.1.12",
+  "nanozyme_type": "Glutathione Peroxidase",
+  "anchor_atoms": [
+    {
+      "atom_name": "SG",
+      "residue_name": "CYS",
+      "residue_number": 111,
+      "chain_id": "A",
+      "element": "S",
+      "coordinates": [
+        8.19,
+        7.016,
+        -5.136
+      ],
+      "atom_type": "CARBON",
+      "is_donor": true,
+      "role": ""
+    }
+  ],
+  "geometry_constraints": [],
+  "chemistry_tag": "",
+  "reaction_smiles": "",
+  "reaction_template": "",
+  "confidence_score": 0.0,
+  "extraction_method": "rule_based",
+  "notes": ""
+}

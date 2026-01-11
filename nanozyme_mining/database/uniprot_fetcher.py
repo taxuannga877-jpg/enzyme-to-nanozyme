@@ -16,11 +16,25 @@ from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass
 
 from .nanozyme_db import NanozymeDatabase, EnzymeEntry
-from ..utils.constants import NanozymeType
+from ..utils.constants import (
+    NanozymeType,
+    DEFAULT_UNIPROT_QUERY_SIZE,
+    DEFAULT_MAX_ENTRIES,
+    FETCH_ALL_RESULTS,
+    UNIPROT_PAGE_SIZE
+)
 from ..utils.ec_mappings import EC_PATTERNS
 
+# 导入 M-CSA 查询工具
+try:
+    from .mcsa_query import get_mcsa_query
+    MCSA_AVAILABLE = True
+except ImportError:
+    MCSA_AVAILABLE = False
+    print("⚠️  M-CSA 查询模块不可用")
 
-AFDB_VERSION = "4"  # AlphaFold DB version
+
+AFDB_VERSION = "6"  # AlphaFold DB version (updated to v6)
 
 
 class UniProtFetcher:
@@ -40,7 +54,8 @@ class UniProtFetcher:
         self,
         cache_dir: str = "./cache",
         download_timeout: int = 60,
-        max_sequence_length: int = 600
+        max_sequence_length: int = 600,
+        use_mcsa: bool = True
     ):
         """
         Initialize UniProt fetcher.
@@ -49,10 +64,12 @@ class UniProtFetcher:
             cache_dir: Directory for caching downloaded data
             download_timeout: Timeout for downloads in seconds
             max_sequence_length: Maximum protein sequence length
+            use_mcsa: Whether to query M-CSA for metal site information
         """
         self.cache_dir = Path(cache_dir)
         self.download_timeout = download_timeout
         self.max_sequence_length = max_sequence_length
+        self.use_mcsa = use_mcsa and MCSA_AVAILABLE
 
         # Create cache directories
         self.csv_cache = self.cache_dir / "csv"
@@ -62,6 +79,16 @@ class UniProtFetcher:
         # Separate folders for annotated vs unannotated
         self.annotated_dir = self.cache_dir / "annotated"
         self.unannotated_dir = self.cache_dir / "unannotated"
+        
+        # Initialize M-CSA query tool
+        self.mcsa_query = None
+        if self.use_mcsa:
+            try:
+                self.mcsa_query = get_mcsa_query()
+                print("✓ M-CSA 数据库已启用")
+            except Exception as e:
+                print(f"⚠️  M-CSA 数据库加载失败: {e}")
+                self.use_mcsa = False
 
         for d in [self.csv_cache, self.json_cache, self.pdb_cache,
                   self.annotated_dir, self.unannotated_dir]:
@@ -75,10 +102,13 @@ class UniProtFetcher:
             "&format=tsv&size={size}"
         )
 
-        # JSON format for detailed info including active sites
+        # JSON format for detailed info including active sites and metal binding
+        # Note: Removed database:(alphafolddb) filter as it may cause 400 errors
+        # We'll filter for AlphaFold entries after fetching
+        # Note: ft_metal is not a valid field, removed it
         self.uniprot_json_template = (
             "https://rest.uniprot.org/uniprotkb/search?"
-            "query=ec:{ec}+AND+reviewed:true+AND+database:(alphafolddb)"
+            "query=ec:{ec}+AND+reviewed:true"
             "&fields=accession,ec,sequence,ft_act_site,ft_binding,ft_site,xref_alphafolddb"
             "&format=json"
         )
@@ -91,14 +121,14 @@ class UniProtFetcher:
     def query_by_ec(
         self,
         ec_number: str,
-        size: int = 10
+        size: int = DEFAULT_UNIPROT_QUERY_SIZE
     ) -> List[Dict]:
         """
         Query UniProt for enzymes by EC number.
 
         Args:
             ec_number: EC number (e.g., "1.11.1.7")
-            size: Maximum number of results
+            size: Maximum number of results (default: 500, use -1 for all results)
 
         Returns:
             List of enzyme data dictionaries
@@ -110,8 +140,11 @@ class UniProtFetcher:
             return self._parse_tsv(cache_file)
 
         # Query UniProt API
+        # Use large size for /stream endpoint (supports up to 500+ results)
+        # If size is FETCH_ALL_RESULTS (-1), try to get all results by using a very large number
+        query_size = 10000 if size == FETCH_ALL_RESULTS else size
         url = self.uniprot_query_template.format(
-            ec=ec_number, size=size
+            ec=ec_number, size=query_size
         )
 
         try:
@@ -122,7 +155,15 @@ class UniProtFetcher:
             with open(cache_file, 'w') as f:
                 f.write(response.text)
 
-            return self._parse_tsv(cache_file)
+            results = self._parse_tsv(cache_file)
+            
+            # If size was specified and we got fewer results, that's fine
+            # If size was FETCH_ALL_RESULTS (-1), return all results
+            if size > 0 and len(results) > size:
+                results = results[:size]
+            
+            print(f"  ✓ Retrieved {len(results)} entries for EC {ec_number}")
+            return results
 
         except Exception as e:
             print(f"Error querying UniProt for EC {ec_number}: {e}")
@@ -148,15 +189,20 @@ class UniProtFetcher:
 
         return results
 
-    def query_with_active_sites(self, ec_number: str) -> List[Dict]:
+    def query_with_active_sites(
+        self, 
+        ec_number: str,
+        max_results: int = DEFAULT_UNIPROT_QUERY_SIZE
+    ) -> List[Dict]:
         """
-        Query UniProt with active site annotations (JSON format).
+        Query UniProt with active site annotations (JSON format) with pagination.
 
         This method gets KNOWN active sites from UniProt annotations,
         NOT predicted by any ML model.
 
         Args:
             ec_number: EC number
+            max_results: Maximum number of results to retrieve (default: 500, use FETCH_ALL_RESULTS=-1 for all)
 
         Returns:
             List of enzyme data with active site info
@@ -164,42 +210,90 @@ class UniProtFetcher:
         cache_file = self.json_cache / f"{ec_number}_sites.json"
 
         if cache_file.exists():
-            with open(cache_file, 'r') as f:
-                return json.load(f)
+            try:
+                with open(cache_file, 'r') as f:
+                    cached_results = json.load(f)
+                    # Check if cache is empty or invalid
+                    if not cached_results or len(cached_results) == 0:
+                        print(f"  ⚠️  Cache file is empty, re-fetching...")
+                    # Check if cache has required fields (alphafold_id)
+                    elif cached_results and len(cached_results) > 0 and "alphafold_id" not in cached_results[0]:
+                        print(f"  ⚠️  Cache file missing alphafold_id, re-fetching...")
+                    # If requesting all results and cache has fewer, re-fetch
+                    elif max_results == FETCH_ALL_RESULTS and len(cached_results) < 100:
+                        print(f"  ⚠️  Cache has only {len(cached_results)} entries, re-fetching...")
+                    else:
+                        return cached_results
+            except (json.JSONDecodeError, KeyError, IndexError) as e:
+                print(f"  ⚠️  Cache file corrupted, re-fetching... ({e})")
 
-        url = self.uniprot_json_template.format(ec=ec_number)
+        results = []
+        page_size = UNIPROT_PAGE_SIZE
+        from_index = 0
+        
+        print(f"  Querying UniProt for EC {ec_number} (with pagination)...")
 
-        try:
-            response = requests.get(url, timeout=self.download_timeout)
-            response.raise_for_status()
-            data = response.json()
+        while True:
+            # Build URL with pagination
+            url = (
+                f"{self.uniprot_json_template.format(ec=ec_number)}"
+                f"&size={page_size}&from={from_index}"
+            )
 
-            results = []
-            for entry in data.get("results", []):
-                active_sites = self._extract_active_sites(entry)
-                results.append({
-                    "uniprot_id": entry.get("primaryAccession", ""),
-                    "sequence": entry.get("sequence", {}).get("value", ""),
-                    "active_sites": active_sites
-                })
+            try:
+                response = requests.get(url, timeout=self.download_timeout)
+                response.raise_for_status()
+                data = response.json()
 
-            with open(cache_file, 'w') as f:
-                json.dump(results, f, indent=2)
+                page_results = data.get("results", [])
+                if not page_results:
+                    break
 
-            return results
+                for entry in page_results:
+                    active_sites = self._extract_active_sites(entry)
+                    # Extract AlphaFold ID from xref_alphafolddb
+                    alphafold_id = self._extract_alphafold_id(entry)
+                    results.append({
+                        "uniprot_id": entry.get("primaryAccession", ""),
+                        "alphafold_id": alphafold_id,
+                        "sequence": entry.get("sequence", {}).get("value", ""),
+                        "active_sites": active_sites
+                    })
 
-        except Exception as e:
-            print(f"Error querying active sites for EC {ec_number}: {e}")
-            return []
+                # Check if we've got all results
+                total_results = data.get("totalResults", len(page_results))
+                from_index += len(page_results)
+                
+                print(f"    Retrieved {from_index}/{total_results} entries...", end='\r')
+
+                # Stop if we've got all results or reached max_results
+                if from_index >= total_results:
+                    break
+                if max_results > 0 and len(results) >= max_results:
+                    results = results[:max_results]
+                    break
+
+            except Exception as e:
+                print(f"\n  ⚠️  Error querying page (from={from_index}): {e}")
+                break
+
+        print(f"\n  ✓ Retrieved {len(results)} entries with active site info")
+
+        # Save to cache
+        with open(cache_file, 'w') as f:
+            json.dump(results, f, indent=2)
+
+        return results
 
     def _extract_active_sites(self, entry: Dict) -> List[Dict]:
-        """Extract active site annotations from UniProt entry."""
+        """Extract active site annotations from UniProt entry, including metal binding sites."""
         sites = []
         features = entry.get("features", [])
 
         for feat in features:
             feat_type = feat.get("type", "")
-            if feat_type in ["Active site", "Binding site", "Site"]:
+            # Include metal binding sites for nanozyme design
+            if feat_type in ["Active site", "Binding site", "Site", "Metal binding"]:
                 location = feat.get("location", {})
                 sites.append({
                     "type": feat_type,
@@ -209,6 +303,21 @@ class UniProtFetcher:
                 })
 
         return sites
+
+    def _extract_alphafold_id(self, entry: Dict) -> Optional[str]:
+        """Extract AlphaFold database ID from UniProt entry."""
+        cross_references = entry.get("uniProtKBCrossReferences", [])
+        for xref in cross_references:
+            if xref.get("database") == "AlphaFoldDB":
+                # Extract ID from the URL or id field
+                xref_id = xref.get("id", "")
+                if xref_id:
+                    return xref_id
+                # Alternative: extract from properties
+                properties = xref.get("properties", {})
+                if "id" in properties:
+                    return properties["id"]
+        return None
 
     def download_pdb(self, alphafold_id: str) -> Optional[Path]:
         """
@@ -248,7 +357,7 @@ class UniProtFetcher:
         db: NanozymeDatabase,
         ec_number: str,
         nanozyme_type: NanozymeType,
-        max_entries: int = 10
+        max_entries: int = DEFAULT_MAX_ENTRIES
     ) -> int:
         """
         Fetch enzymes by EC and populate database.
@@ -297,10 +406,60 @@ class UniProtFetcher:
 
         return count
 
+    def _enrich_with_mcsa(self, entry_data: Dict, ec_number: str) -> Dict:
+        """
+        Enrich entry data with M-CSA metal site information.
+        
+        Args:
+            entry_data: Entry data dictionary
+            ec_number: EC number
+            
+        Returns:
+            Enriched entry data
+        """
+        try:
+            # Query M-CSA for metal sites
+            mcsa_data = self.mcsa_query.get_metal_sites(ec_number)
+            
+            if mcsa_data["has_metal"]:
+                # Add M-CSA metal information
+                if "metal_info" not in entry_data:
+                    entry_data["metal_info"] = {}
+                
+                entry_data["metal_info"].update({
+                    "has_metal": True,
+                    "metal_types": mcsa_data["metal_types"],
+                    "metal_coordination": mcsa_data["metal_coordination"],
+                    "mcsa_references": mcsa_data["mcsa_references"],
+                })
+                
+                # Merge M-CSA catalytic residues into active_sites
+                active_sites = entry_data.get("active_sites", [])
+                
+                for residue in mcsa_data["catalytic_residues"]:
+                    # Convert M-CSA residue format to active_site format
+                    site = {
+                        "position": residue.get("residue_number"),
+                        "type": residue.get("residue_type"),
+                        "description": f"M-CSA catalytic residue ({', '.join(residue.get('roles', []))})",
+                        "source": "M-CSA",
+                        "is_metal_ligand": residue.get("is_metal_ligand", False),
+                        "mcsa_id": residue.get("mcsa_id"),
+                    }
+                    active_sites.append(site)
+                
+                entry_data["active_sites"] = active_sites
+                
+        except Exception as e:
+            print(f"  ⚠️  M-CSA enrichment failed for {ec_number}: {e}")
+        
+        return entry_data
+    
     def fetch_and_classify(
         self,
         ec_number: str,
-        nanozyme_type: NanozymeType
+        nanozyme_type: NanozymeType,
+        max_results: int = DEFAULT_UNIPROT_QUERY_SIZE
     ) -> Tuple[List[Dict], List[Dict]]:
         """
         Fetch enzymes and classify into annotated vs unannotated.
@@ -312,26 +471,32 @@ class UniProtFetcher:
         Args:
             ec_number: EC number to query
             nanozyme_type: Nanozyme type
+            max_results: Maximum number of results to fetch (default: 500, use -1 for all)
 
         Returns:
             Tuple of (annotated_list, unannotated_list)
         """
-        # Get detailed info with active sites
-        entries = self.query_with_active_sites(ec_number)
+        # Get detailed info with active sites (with pagination)
+        entries = self.query_with_active_sites(ec_number, max_results=max_results)
 
         annotated = []
         unannotated = []
 
         for entry in entries:
             uniprot_id = entry.get("uniprot_id", "")
+            alphafold_id = entry.get("alphafold_id", "")
             active_sites = entry.get("active_sites", [])
             sequence = entry.get("sequence", "")
 
             if len(sequence) > self.max_sequence_length:
                 continue
 
-            # Download PDB
-            pdb_path = self.download_pdb(uniprot_id)
+            # Download PDB using AlphaFold ID
+            pdb_path = None
+            if alphafold_id:
+                pdb_path = self.download_pdb(alphafold_id)
+            else:
+                print(f"  ⚠️  No AlphaFold ID for {uniprot_id}, skipping PDB download")
 
             entry_data = {
                 "uniprot_id": uniprot_id,
@@ -341,9 +506,13 @@ class UniProtFetcher:
                 "pdb_path": str(pdb_path) if pdb_path else None,
                 "active_sites": active_sites
             }
+            
+            # Enrich with M-CSA metal site information
+            if self.use_mcsa and self.mcsa_query:
+                entry_data = self._enrich_with_mcsa(entry_data, ec_number)
 
             # Classify based on annotation
-            if active_sites and len(active_sites) > 0:
+            if entry_data["active_sites"] and len(entry_data["active_sites"]) > 0:
                 annotated.append(entry_data)
                 self._save_to_folder(entry_data, self.annotated_dir)
             else:
