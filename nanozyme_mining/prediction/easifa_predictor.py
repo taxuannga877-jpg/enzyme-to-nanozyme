@@ -15,6 +15,8 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass, field
+import multiprocessing
+import signal
 
 # 项目根目录
 PROJECT_ROOT = Path(__file__).parent.parent.parent
@@ -172,14 +174,47 @@ class EasIFAPredictor:
             print(f"[EasIFA] PDB 文件不存在: {pdb_path}")
             return None
 
+        # 验证反应 SMILES 格式（参考项目的保护措施）
+        if not reaction_smiles or ">>" not in reaction_smiles:
+            print(f"[EasIFA] 无效的反应 SMILES 格式: {reaction_smiles}")
+            return None
+
+        # 检查 PDB 文件大小（避免处理过大的文件）
         try:
+            file_size = os.path.getsize(pdb_path)
+            if file_size > 50 * 1024 * 1024:  # 50MB
+                print(f"[EasIFA] PDB 文件过大 ({file_size / 1024 / 1024:.1f}MB)，跳过")
+                return None
+        except OSError:
+            pass
+
+        # 检查 PDB 文件是否为空或损坏
+        try:
+            with open(pdb_path, 'r') as f:
+                first_line = f.readline()
+                if not first_line or (not first_line.startswith("ATOM") and not first_line.startswith("HEADER") and not first_line.startswith("REMARK")):
+                    print(f"[EasIFA] PDB 文件格式可能无效: {pdb_path}")
+                    return None
+        except Exception as e:
+            print(f"[EasIFA] 无法读取 PDB 文件: {e}")
+            return None
+
+        try:
+            # 参考项目的 inference 方法内部已经有 try-except，但我们在外层再加一层保护
             predictions = self._model.inference(
                 rxn=reaction_smiles,
                 enzyme_structure_path=pdb_path
             )
+            # inference 方法可能返回 None（如果序列太长或出错）
             return predictions
+        except KeyboardInterrupt:
+            # 不要捕获 KeyboardInterrupt，让它正常传播
+            raise
         except Exception as e:
+            # 捕获所有其他异常，包括可能的段错误前的异常
             print(f"[EasIFA] 预测失败: {e}")
+            import traceback
+            traceback.print_exc()
             return None
 
     def predict_with_details(

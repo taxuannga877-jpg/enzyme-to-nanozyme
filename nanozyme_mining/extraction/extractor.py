@@ -11,9 +11,12 @@ import json
 import math
 import numpy as np
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Dict, List, Optional, Tuple
 
 from .motif import CatalyticMotif, AnchorAtom, GeometryConstraint
+from ..structure.pdb_parser import PDBParser as ComprehensivePDBParser
+from ..structure.pdb_metal_extractor import PDBMetalExtractor
+from ..structure.environment_analyzer import EnvironmentAnalyzer
 
 # Try to import RDKit for 2D structure generation
 try:
@@ -34,21 +37,8 @@ except ImportError:
     print("⚠️  BioPython not available. Full residue structure extraction will be limited.")
 
 
-# Catalytic residue definitions for common enzyme types
-CATALYTIC_RESIDUES = {
-    "POD": ["HIS", "ARG", "ASN"],      # Peroxidase
-    "Peroxidase": ["HIS", "ARG", "ASN"],
-    "SOD": ["HIS", "ASP", "CYS"],      # Superoxide dismutase
-    "Superoxide Dismutase": ["HIS", "ASP", "CYS"],
-    "CAT": ["HIS", "ASN", "TYR"],      # Catalase
-    "Catalase": ["HIS", "ASN", "TYR"],
-    "GSH": ["SEC", "CYS", "GLN"],      # Glutathione peroxidase
-    "Glutathione Peroxidase": ["SEC", "CYS", "GLN"],
-    "OXD": ["HIS", "CYS", "TYR"],      # Oxidase
-    "Oxidase": ["HIS", "CYS", "TYR"],
-    "LAC": ["HIS", "CYS", "ASP"],      # Laccase
-    "Laccase": ["HIS", "CYS", "ASP"],
-}
+# Note: Catalytic residues are now extracted from PDB SITE records,
+# not hardcoded. This ensures we extract what's actually in the PDB file.
 
 # Key donor atoms for each residue type
 DONOR_ATOMS = {
@@ -87,6 +77,11 @@ class MotifExtractor:
         # Initialize PDB parser if BioPython is available
         if BIOPYTHON_AVAILABLE:
             self.pdb_parser = PDBParser(QUIET=True)
+        
+        # Initialize comprehensive PDB parser and analyzers
+        self.comprehensive_parser = ComprehensivePDBParser()
+        self.metal_extractor = PDBMetalExtractor()
+        self.env_analyzer = EnvironmentAnalyzer()
 
     def parse_pdb(self, pdb_path: str) -> List[Dict]:
         """
@@ -131,41 +126,144 @@ class MotifExtractor:
     def find_catalytic_residues(
         self,
         atoms: List[Dict],
-        nanozyme_type: str,
+        pdb_path: str,
         active_site_indices: Optional[List[int]] = None
-    ) -> List[Dict]:
+    ) -> Tuple[List[Dict], str]:
         """
-        Find catalytic residues in the structure.
+        Find catalytic residues from PDB file.
+
+        Priority:
+        1. PDB SITE records (highest priority)
+        2. active_site_indices parameter (from JSON file)
 
         Args:
             atoms: List of atom dictionaries
-            nanozyme_type: Type of nanozyme
-            active_site_indices: Known active site residue indices
+            pdb_path: Path to PDB file (to extract SITE records)
+            active_site_indices: Known active site residue indices (optional)
 
         Returns:
-            List of catalytic residue atoms
+            Tuple of (catalytic_atoms: List[Dict], source: str)
+            - catalytic_atoms: List of atom dictionaries in unified format
+            - source: "pdb_site" or "none"
         """
-        target_residues = CATALYTIC_RESIDUES.get(nanozyme_type, [])
-        catalytic_atoms = []
-
-        for atom in atoms:
-            res_name = atom["residue_name"]
-            res_num = atom["residue_number"]
-
-            # Check if residue is catalytic type
-            if res_name not in target_residues:
-                continue
-
-            # Check if in known active sites
-            if active_site_indices and res_num not in active_site_indices:
-                continue
-
-            # Check if atom is a donor atom
-            if res_name in DONOR_ATOMS:
-                if atom["atom_name"] in DONOR_ATOMS[res_name]:
+        # 1. Try PDB SITE records first (highest priority)
+        site_residues = self._extract_site_residues(pdb_path)
+        
+        # If no SITE records found, fall back to active_site_indices if provided
+        has_explicit_active_sites = active_site_indices is not None and len(active_site_indices) > 0
+        if not site_residues and has_explicit_active_sites:
+            site_residues = {(None, idx) for idx in active_site_indices}
+        
+        if site_residues:
+            # Find atoms matching SITE residues
+            catalytic_atoms = []
+            for atom in atoms:
+                res_name = atom["residue_name"]
+                res_num = atom["residue_number"]
+                chain_id = atom["chain_id"]
+                
+                # Check if this residue is in SITE records
+                is_catalytic = False
+                for site_chain, site_num in site_residues:
+                    if site_chain is None:
+                        # Match by residue number only
+                        if res_num == site_num:
+                            is_catalytic = True
+                            break
+                    else:
+                        # Match by chain and residue number
+                        if chain_id == site_chain and res_num == site_num:
+                            is_catalytic = True
+                            break
+                
+                if not is_catalytic:
+                    continue
+                
+                # Check if atom is a donor atom (catalytic atoms are usually donor/acceptor atoms)
+                if res_name in DONOR_ATOMS:
+                    if atom["atom_name"] in DONOR_ATOMS[res_name]:
+                        catalytic_atoms.append(atom)
+                else:
+                    # If residue type not in DONOR_ATOMS, still include key atoms
                     catalytic_atoms.append(atom)
+            
+            # If we have explicit active_site information, try to extract atoms even if no match found
+            if has_explicit_active_sites:
+                if catalytic_atoms:
+                    return catalytic_atoms, "pdb_site"
+                else:
+                    # Try to extract atoms from active_site_indices
+                    # This handles cases where residue numbering doesn't match
+                    fallback_atoms = []
+                    for idx in active_site_indices:
+                        for atom in atoms:
+                            if atom["residue_number"] == idx:
+                                # Prefer key atoms (CA, or donor atoms)
+                                if atom["atom_name"] == "CA":
+                                    fallback_atoms.append(atom)
+                                    break
+                                elif atom["residue_name"] in DONOR_ATOMS:
+                                    if atom["atom_name"] in DONOR_ATOMS[atom["residue_name"]]:
+                                        fallback_atoms.append(atom)
+                                        break
+                    
+                    # If still no atoms found, at least include CA atoms
+                    if not fallback_atoms:
+                        for idx in active_site_indices:
+                            for atom in atoms:
+                                if atom["residue_number"] == idx and atom["atom_name"] == "CA":
+                                    fallback_atoms.append(atom)
+                                    break
+                    
+                    return fallback_atoms, "pdb_site" if fallback_atoms else "none"
+            
+            # If we found atoms from PDB SITE records, return them
+            if catalytic_atoms:
+                return catalytic_atoms, "pdb_site"
+        
+        # No catalytic residues found
+        return [], "none"
+    
+    def _extract_site_residues(self, pdb_path: str) -> set:
+        """
+        Extract catalytic residues from PDB SITE records.
+        
+        Args:
+            pdb_path: Path to PDB file
+            
+        Returns:
+            Set of (chain_id, residue_number) tuples from SITE records
+        """
+        site_residues = set()
+        
+        try:
+            with open(pdb_path, 'r') as f:
+                for line in f:
+                    if line.startswith("SITE"):
+                        # Parse SITE record
+                        # Format: SITE    1 AC1 4 HIS A 146  HIS A  57  HIS A  87  HIS A 119
+                        try:
+                            # SITE can have up to 4 residues per line
+                            for i in range(4):
+                                start = 18 + i * 11
+                                if len(line) > start + 10:
+                                    res_name = line[start:start+3].strip()
+                                    chain = line[start+4:start+5].strip() if len(line) > start+4 else ""
+                                    res_num_str = line[start+5:start+10].strip()
+                                    if res_name and res_num_str:
+                                        try:
+                                            res_num = int(res_num_str)
+                                            chain_id = chain if chain else None
+                                            site_residues.add((chain_id, res_num))
+                                        except ValueError:
+                                            pass
+                        except (ValueError, IndexError):
+                            continue
+        except Exception as e:
+            print(f"⚠️  Warning: Error reading SITE records from {pdb_path}: {e}")
+        
+        return site_residues
 
-        return catalytic_atoms
 
     def extract_motif(
         self,
@@ -174,8 +272,7 @@ class MotifExtractor:
         ec_number: str,
         nanozyme_type: str,
         active_site_indices: Optional[List[int]] = None,
-        functional_roles: Optional[Dict[Tuple[str, int], str]] = None,
-        mcsa_query: Optional[Any] = None
+        functional_roles: Optional[Dict[Tuple[str, int], str]] = None
     ) -> Optional[CatalyticMotif]:
         """
         Extract catalytic motif from PDB structure with full residue information.
@@ -186,8 +283,7 @@ class MotifExtractor:
             ec_number: EC number
             nanozyme_type: Nanozyme type
             active_site_indices: Known active site residue indices
-            functional_roles: Dict mapping (residue_name, residue_number) to functional role
-            mcsa_query: M-CSA query instance for getting functional roles
+            functional_roles: Dict mapping (residue_name, residue_number) to functional role (optional)
 
         Returns:
             CatalyticMotif object or None
@@ -196,12 +292,9 @@ class MotifExtractor:
         if not atoms:
             return None
 
-        # Get functional roles from M-CSA if available
-        if mcsa_query and not functional_roles:
-            functional_roles = self._get_functional_roles_from_mcsa(mcsa_query, ec_number, atoms)
-
-        catalytic_atoms = self.find_catalytic_residues(
-            atoms, nanozyme_type, active_site_indices
+        # Extract catalytic residues from PDB file
+        catalytic_atoms, extraction_source = self.find_catalytic_residues(
+            atoms, pdb_path, active_site_indices
         )
 
         if not catalytic_atoms:
@@ -249,7 +342,8 @@ class MotifExtractor:
             nanozyme_type=nanozyme_type,
             anchor_atoms=anchor_atoms,
             geometry_constraints=geometry,
-            extraction_method="rule_based_enhanced"
+            extraction_method=extraction_source,
+            reaction_smiles=""  # No longer used, but kept for compatibility
         )
 
         # Add residue structure information
@@ -258,8 +352,95 @@ class MotifExtractor:
         # Generate 2D structure if RDKit is available
         if RDKIT_AVAILABLE:
             motif.structure_2d_svg = self._generate_2d_structure(motif, residue_structures)
+        
+        # Extract extended PDB information
+        try:
+            self._extract_extended_pdb_info(motif, pdb_path, catalytic_atoms)
+        except Exception as e:
+            print(f"⚠️  Warning: Error extracting extended PDB information: {e}")
 
         return motif
+    
+    def _extract_extended_pdb_info(
+        self,
+        motif: CatalyticMotif,
+        pdb_path: str,
+        catalytic_atoms: List[Dict]
+    ) -> None:
+        """
+        Extract extended PDB information and add to motif.
+        
+        Args:
+            motif: CatalyticMotif object to update
+            pdb_path: Path to PDB file
+            catalytic_atoms: List of catalytic atom dictionaries
+        """
+        pdb_file = Path(pdb_path)
+        
+        # 1. Parse comprehensive PDB information
+        parsed_data = self.comprehensive_parser.parse_pdb_file(pdb_file)
+        
+        # Check if any data was calculated (fallback) rather than parsed
+        calculated_flags = []
+        if parsed_data.get("_calculated_ssbonds"):
+            calculated_flags.append("disulfide bonds")
+        if parsed_data.get("_calculated_ligands"):
+            calculated_flags.append("ligands/cofactors")
+        
+        # 2. Extract metal sites first (needed for calculating metal coordination links)
+        metal_sites = []
+        try:
+            metal_sites = self.metal_extractor.parse_pdb_file(pdb_file)
+            motif.metal_sites = [site.to_dict() for site in metal_sites]
+        except Exception as e:
+            print(f"⚠️  Warning: Error extracting metal sites: {e}")
+            motif.metal_sites = []
+        
+        # 3. Extract chemical bonds (with fallback calculation support)
+        motif.chemical_bonds = self.comprehensive_parser.extract_chemical_bonds(
+            parsed_data, pdb_file=pdb_file, metal_sites=[site.to_dict() for site in metal_sites]
+        )
+        
+        # Check if links were calculated
+        if motif.chemical_bonds.get("links") and any(
+            link.get("calculated_from_coords", False) 
+            for link in motif.chemical_bonds.get("links", [])
+        ):
+            calculated_flags.append("metal coordination links")
+        
+        # 4. Extract ligands and cofactors
+        motif.ligands_and_cofactors = self.comprehensive_parser.extract_ligands_and_cofactors(
+            parsed_data, parsed_data.get("het_info")
+        )
+        
+        # 5. Extract site annotations
+        motif.site_annotations = parsed_data.get("sites", [])
+        
+        # 6. Extract secondary structure
+        motif.secondary_structure = self.comprehensive_parser.extract_secondary_structure(parsed_data)
+        
+        # 7. Print warnings if data was calculated rather than parsed
+        if calculated_flags:
+            print(f"ℹ️  Note: The following information was calculated from coordinates "
+                  f"(not parsed from PDB records): {', '.join(calculated_flags)}. "
+                  f"This is common for AlphaFold-predicted structures.")
+        
+        # 8. Analyze residue environment for catalytic residues
+        try:
+            target_residues = [
+                (atom["residue_name"], atom["residue_number"])
+                for atom in catalytic_atoms
+            ]
+            # Remove duplicates
+            target_residues = list(set(target_residues))
+            
+            residue_env = self.env_analyzer.analyze_residue_environment(
+                pdb_file, target_residues
+            )
+            motif.residue_environment = residue_env
+        except Exception as e:
+            print(f"⚠️  Warning: Error analyzing residue environment: {e}")
+            motif.residue_environment = {}
 
     def _calculate_geometry(self, anchor_atoms: List[AnchorAtom]) -> List[GeometryConstraint]:
         """Calculate geometry constraints between anchor atoms."""
@@ -415,48 +596,6 @@ class MotifExtractor:
 
         return residue_structures
 
-    def _get_functional_roles_from_mcsa(
-        self,
-        mcsa_query: Any,
-        ec_number: str,
-        atoms: List[Dict]
-    ) -> Dict[Tuple[str, int], str]:
-        """
-        Get functional roles from M-CSA database.
-
-        Args:
-            mcsa_query: M-CSA query instance
-            ec_number: EC number
-            atoms: List of atoms to match
-
-        Returns:
-            Dictionary mapping (residue_name, residue_number) to functional role
-        """
-        functional_roles = {}
-
-        try:
-            # Query M-CSA for catalytic residues
-            metal_sites = mcsa_query.get_metal_sites(ec_number)
-            catalytic_residues = metal_sites.get("catalytic_residues", [])
-
-            # Create mapping from M-CSA residues
-            for residue in catalytic_residues:
-                res_name = residue.get("residue_type", "")
-                res_num = residue.get("residue_number")
-                roles = residue.get("roles", [])
-                roles_summary = residue.get("roles_summary", "")
-                
-                if res_name and res_num:
-                    key = (res_name, res_num)
-                    # Combine roles into a single string
-                    if roles_summary:
-                        functional_roles[key] = roles_summary
-                    elif roles:
-                        functional_roles[key] = ", ".join(roles)
-        except Exception as e:
-            print(f"⚠️  Error getting functional roles from M-CSA: {e}")
-
-        return functional_roles
 
     def _infer_functional_role(self, residue_name: str, atom_name: str) -> str:
         """
@@ -621,7 +760,7 @@ class MotifExtractor:
             
             drawer = rdMolDraw2D.MolDraw2DSVG(width, height)
             opts = drawer.drawOptions()
-            opts.backgroundColour = (255, 255, 255, 0)  # Transparent background
+            opts.backgroundColour = (1.0, 1.0, 1.0)  # White background (RGB 0-1 range, no alpha)
             opts.addStereoAnnotation = True
             opts.annotationFontScale = 0.8
             
@@ -640,14 +779,33 @@ class MotifExtractor:
                 # Draw molecule
                 drawer.SetOffset(x_offset, y_offset)
                 drawer.DrawMolecule(mol)
-                
-                # Add label
-                if idx < len(labels):
-                    drawer.SetFontSize(12)
-                    drawer.DrawAnnotation((x_offset + 150, y_offset + 180), labels[idx])
 
             drawer.FinishDrawing()
             svg = drawer.GetDrawingText()
+            
+            # Add labels directly to SVG (more compatible than DrawAnnotation)
+            if labels:
+                import re
+                # Find the closing </svg> tag
+                svg_end = svg.rfind('</svg>')
+                if svg_end != -1:
+                    label_elements = []
+                    for idx, label in enumerate(labels):
+                        row = idx // cols
+                        col = idx % cols
+                        x_pos = col * 300 + 150
+                        y_pos = row * 200 + 180
+                        # Split label by newline for multi-line text
+                        label_lines = label.split('\n')
+                        for line_idx, line in enumerate(label_lines):
+                            y_offset_line = y_pos + line_idx * 15
+                            label_elements.append(
+                                f'<text x="{x_pos}" y="{y_offset_line}" '
+                                f'font-family="Arial" font-size="12" '
+                                f'text-anchor="middle" fill="black">{line}</text>'
+                            )
+                    # Insert labels before closing </svg> tag
+                    svg = svg[:svg_end] + '\n'.join(label_elements) + '\n' + svg[svg_end:]
             
             # Clean up SVG
             svg = svg.replace('white', 'none')

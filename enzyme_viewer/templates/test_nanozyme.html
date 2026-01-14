@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>测试纳米酶类型API</title>
+</head>
+<body>
+    <h1>纳米酶类型API测试</h1>
+    <div id="result"></div>
+    <button onclick="testAPI()">测试API</button>
+    
+    <script>
+        function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '正在测试...';
+            
+            fetch('/api/list_nanozyme_types')
+                .then(response => {
+                    console.log('响应状态:', response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('响应数据:', data);
+                    resultDiv.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                    
+                    if (data.nanozyme_types && data.nanozyme_types.length > 0) {
+                        const list = document.createElement('ul');
+                        data.nanozyme_types.forEach(type => {
+                            const li = document.createElement('li');
+                            li.textContent = type;
+                            list.appendChild(li);
+                        });
+                        resultDiv.appendChild(list);
+                    }
+                })
+                .catch(error => {
+                    console.error('错误:', error);
+                    resultDiv.innerHTML = '错误: ' + error.message;
+                });
+        }
+        
+        // 页面加载时自动测试
+        window.addEventListener('load', testAPI);
+    </script>
+</body>
+</html>
+
+
+

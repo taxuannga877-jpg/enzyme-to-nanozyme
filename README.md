@@ -1,270 +1,157 @@
-# Nanozyme Mining System
+# Enzyme-to-Nanozyme Mining System
 
-<div align="center">
+A comprehensive system for mining catalytic motifs from enzymes and mapping them to nanozyme design. This project extracts catalytic sites from enzyme structures based on EC numbers, predicts active sites using the EasIFA model, and organizes the data for nanozyme design applications.
 
-![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-![Status](https://img.shields.io/badge/status-active-success)
+## Features
 
-**A comprehensive system for mining catalytic motifs from enzyme structures and designing nanozyme materials**
+- **EC Number to Nanozyme Type Mapping**: Automatically maps Enzyme Commission (EC) numbers to nanozyme function types (Peroxidase, Catalase, SOD, etc.)
+- **Dual-Track Processing**: 
+  - **Annotated Data**: Directly uses UniProt/M-CSA active site annotations
+  - **Unannotated Data**: Uses EasIFA model to predict active sites
+- **Catalytic Motif Extraction**: Extracts catalytic motifs from PDB structures with full residue information
+- **Web Interface**: Interactive web viewer for enzyme structures and catalytic sites
+- **Organized Data Storage**: Structured data repositories for PDB structures and extracted motifs
 
-[Features](#-features) • [Installation](#-installation) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [Contributing](#-contributing)
+## Installation
 
-</div>
-
----
-
-## 📖 Overview
-
-**Nanozyme Mining System** is a three-stage pipeline for extracting catalytic motifs from natural enzyme structures and using them to design artificial nanozyme materials. The system bridges the gap between enzyme catalysis and nanozyme design by:
-
-1. **Database Layer**: Mapping EC numbers to nanozyme function types and fetching enzyme data
-2. **Extraction Layer**: Extracting catalytic motifs from PDB structures
-3. **Assembly Layer**: Assembling nanozyme structures from extracted motifs
-
-### Key Concept
-
-> **Nanozymes are NOT proteins!** They are artificial nanomaterials (metal oxides, MOFs, single-atom catalysts, etc.) with enzyme-like activities. This system extracts catalytic patterns from natural enzymes and adapts them for nanozyme design.
-
----
-
-## ✨ Features
-
-### 🔍 Data Acquisition
-- **UniProt Integration**: Automatic enzyme data fetching by EC number
-- **AlphaFold Database**: Download high-quality protein structures
-- **M-CSA Database**: Query metal sites and catalytic residue information
-- **Dual-Track Processing**: Handle both annotated and unannotated data
-
-### 🧬 Motif Extraction
-- **Active Site Detection**: 
-  - Direct annotation from UniProt/M-CSA
-  - ML-based prediction using EasIFA model for unannotated data
-- **Catalytic Motif Extraction**: Extract anchor atoms, geometry constraints, and chemical tags
-- **Multi-format Support**: JSON, PDB, and custom motif formats
-
-### 🏗️ Nanozyme Assembly
-- **Multiple Material Types**:
-  - Metal oxides (Fe₃O₄, CeO₂, MnO₂)
-  - Single-atom catalysts (Fe-N₄-C, Cu-N₄)
-  - Metal-organic frameworks (MOFs)
-  - Carbon-based nanomaterials
-  - Metal clusters
-- **Assembly Strategies**: Rule-based, template-based (diffusion-based in development)
-- **Structure Validation**: Chemical validity checking and geometry validation
-
-### 🌐 Web Interface
-- **Interactive Visualization**: 3D structure viewer with py3Dmol
-- **EC Number Browser**: Search and explore enzymes by EC number
-- **Motif Library**: Browse and manage extracted motifs
-- **M-CSA Integration**: Visualize metal sites and coordination
-
-### 🎯 Supported Nanozyme Types
-- **POD** (Peroxidase-like, EC 1.11.1.7)
-- **CAT** (Catalase-like, EC 1.11.1.6)
-- **SOD** (Superoxide dismutase-like, EC 1.15.1.1)
-- **GPx** (Glutathione peroxidase-like, EC 1.11.1.9)
-- **Phosphatase** (EC 3.1.3.1)
-- **DNase** (EC 3.1.21.1)
-
----
-
-## 🚀 Installation
-
-### Prerequisites
+### System Requirements
 
 - Python 3.8 or higher
-- pip package manager
+- Linux, macOS, or Windows (WSL2 recommended for Windows)
 
-### Basic Installation
+### Install Dependencies
 
 ```bash
 # Clone the repository
-git clone git@github.com:taxuannga877-jpg/enzyme-to-nanozyme.git
+git clone https://github.com/taxuannga877-jpg/enzyme-to-nanozyme.git
 cd enzyme-to-nanozyme
 
 # Install core dependencies
 pip install -r requirements.txt
+
+# For EasIFA model support (optional, for active site prediction)
+pip install -r requirements.txt  # Includes PyTorch, DGL, dgllife, fair-esm
 ```
 
-### Full Installation (with ML models)
-
-For full functionality including EasIFA prediction:
+### Optional: Install in Development Mode
 
 ```bash
-# Install with all dependencies
-pip install -r requirements.txt
-
-# Install PyTorch (if not already installed)
-# For CPU:
-pip install torch torchvision torchaudio
-
-# For GPU (CUDA 11.8):
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip install -e .
 ```
 
-### Optional Dependencies
+## Quick Start
+
+### 1. Process an EC Number
+
+Process a single EC number to fetch enzyme data, download PDB structures, and extract motifs:
 
 ```bash
-# For advanced visualization
-pip install matplotlib seaborn
-
-# For molecular structure generation
-pip install rdkit-pypi  # or conda install -c conda-forge rdkit
+python scripts/run_pipeline.py --ec 1.11.1.7 --max_results 100
 ```
 
----
-
-## 📦 Quick Start
-
-### 1. Basic Usage: Extract Motifs from EC Number
-
-```python
-from nanozyme_mining.database import UniProtFetcher
-from nanozyme_mining.extraction import MotifExtractor
-
-# Initialize fetcher
-fetcher = UniProtFetcher(cache_dir="./cache")
-
-# Fetch enzyme data for POD (EC 1.11.1.7)
-annotated, unannotated = fetcher.fetch_and_classify(
-    ec_number="1.11.1.7",
-    nanozyme_type="POD",
-    max_results=10
-)
-
-# Extract motifs
-extractor = MotifExtractor(output_dir="./motifs")
-for entry in annotated:
-    motif = extractor.extract_motif(
-        pdb_path=entry["pdb_path"],
-        uniprot_id=entry["uniprot_id"],
-        ec_number="1.11.1.7",
-        nanozyme_type="POD",
-        active_site_indices=entry["active_site_indices"]
-    )
-    print(f"Extracted motif: {motif.motif_id}")
-```
-
-### 2. Using Dual-Track Processor
-
-```python
-from nanozyme_mining.core import DualTrackProcessor
-
-# Initialize processor (handles both annotated and unannotated data)
-processor = DualTrackProcessor(
-    output_dir="./processed",
-    device="cpu"  # or "cuda" for GPU
-)
-
-# Process enzyme entries
-results = processor.process_batch(
-    entries=enzyme_entries,
-    reaction_smiles="C>>C"
-)
-```
-
-### 3. Assembling Nanozyme Structures
-
-```python
-from nanozyme_mining.assembly import (
-    NanozymeAssembler,
-    MaterialType,
-    convert_basic_to_nanozyme_motif
-)
-
-# Convert basic motif to nanozyme motif
-nanozyme_motif = convert_basic_to_nanozyme_motif(
-    basic_motif=motif,
-    material_type=MaterialType.METAL_OXIDE
-)
-
-# Initialize assembler
-assembler = NanozymeAssembler(
-    strategy="rule",
-    material_type=MaterialType.METAL_OXIDE,
-    output_dir="./output"
-)
-
-# Assemble nanozyme
-nanozyme = assembler.assemble(
-    motifs=nanozyme_motif,
-    num_metal_centers=3
-)
-
-# Save structure
-assembler.save_structure(nanozyme, "Fe3O4_nanozyme", formats=['xyz', 'json'])
-```
-
-### 4. Running the Web Interface
+### 2. Process All Supported EC Numbers
 
 ```bash
-# Navigate to enzyme_viewer directory
+python scripts/run_pipeline.py --all --max_results 50
+```
+
+### 3. Start Web Interface
+
+```bash
 cd enzyme_viewer
-
-# Run the Flask app
 python app.py
-
-# Or use the provided script
-bash run.sh
 ```
 
 Then open your browser to `http://localhost:5000`
 
----
+### 4. Extract Motifs from Cache
 
-## 📚 Documentation
+If you already have cached data, extract motifs directly:
 
-### Project Structure
+```bash
+python scripts/extract_motifs_from_cache.py --ec 1.11.1.7
+```
+
+## Data Repositories
+
+The system uses two main data directories that are generated at runtime:
+
+### `pdb_library/`
+
+PDB structure library organized by EC numbers. Contains:
+- PDB files (AlphaFold structures and experimental PDBs)
+- JSON index files (`{EC_number}_sites.json`) with enzyme metadata and active site annotations
+
+**Structure:**
+```
+pdb_library/
+├── library_index.json
+└── {EC_number}/
+    ├── AF-{uniprot_id}-F1-model_v6.pdb
+    ├── {pdb_id}.pdb  (experimental structures)
+    └── {EC_number}_sites.json
+```
+
+**Note**: This directory is generated at runtime and should be added to `.gitignore`. It can be large (several GB depending on the number of structures downloaded).
+
+### `motif_library/`
+
+Motif repository organized by EC numbers and motif types. Contains extracted catalytic motifs classified by type.
+
+**Structure:**
+```
+motif_library/
+└── {EC_number}/
+    ├── catalytic_sites/
+    │   └── {uniprot_id}_{site_id}.json
+    ├── binding_sites/
+    │   └── {uniprot_id}_{site_id}.json
+    ├── metal_sites/
+    │   └── {uniprot_id}_{site_id}.json
+    └── other/
+        └── {uniprot_id}_{site_id}.json
+```
+
+Each motif JSON file contains:
+- Residue information (name, number, coordinates)
+- Atom coordinates
+- Functional roles
+- Extraction source (UniProt, M-CSA, or EasIFA prediction)
+
+**Note**: This directory is also generated at runtime and should be added to `.gitignore`.
+
+## Project Structure
 
 ```
-nanozyme_mining/
-├── nanozyme_mining/          # Core package
-│   ├── database/             # Data acquisition (UniProt, M-CSA)
+enzyme-to-nanozyme/
+├── nanozyme_mining/          # Core mining module
+│   ├── database/             # Database layer (UniProt, M-CSA)
 │   ├── extraction/           # Motif extraction
-│   ├── prediction/           # EasIFA model integration
-│   ├── core/                 # Dual-track processor
-│   ├── assembly/             # Nanozyme assembly
-│   └── utils/                # Utilities and constants
-├── enzyme_viewer/            # Web interface
-├── scripts/                  # Batch processing scripts
-├── docs/                     # Documentation
-│   ├── ASSEMBLY_GUIDE.md    # Assembly guide
-│   ├── MIGRATION_PLAN.md    # Migration from reference projects
-│   └── IMPLEMENTATION_SUMMARY.md
-├── examples/                 # Example scripts
-├── cache/                    # Cached data
-├── pdb_library/             # PDB structure library
-└── motif_library/           # Extracted motif library
+│   ├── prediction/          # EasIFA active site prediction
+│   ├── structure/           # PDB parsing and structure handling
+│   ├── core/                # Dual-track processor
+│   └── utils/               # Utilities and constants
+├── enzyme_viewer/           # Web interface
+│   ├── app.py              # Flask application
+│   ├── templates/          # HTML templates
+│   └── motif_db.py        # Motif database indexing
+├── scripts/                # Utility scripts
+│   ├── run_pipeline.py    # Main pipeline script
+│   ├── extract_motifs_from_cache.py
+│   └── init_local_data.py
+├── pdb_library/            # PDB structure library (generated)
+├── motif_library/         # Motif repository (generated)
+├── cache/                 # Temporary cache (generated)
+├── requirements.txt       # Python dependencies
+├── setup.py              # Package setup
+└── README.md             # This file
 ```
 
-### Key Modules
+## Usage
 
-#### Database Layer
-- **`UniProtFetcher`**: Fetches enzyme data from UniProt API
-- **`MCSAFetcher`**: Queries M-CSA database for metal sites
-- **`NanozymeDatabase`**: Manages enzyme entry database
+### Command-Line Tools
 
-#### Extraction Layer
-- **`MotifExtractor`**: Extracts catalytic motifs from PDB structures
-- **`CatalyticMotif`**: Data structure for motifs (anchor atoms, geometry constraints)
-
-#### Assembly Layer
-- **`NanozymeAssembler`**: Main assembly engine
-- **`NanozymeValidator`**: Structure validation
-- **`NanozymeMotif`**: Enhanced motif representation for nanozymes
-
-### Detailed Documentation
-
-- **[Assembly Guide](docs/ASSEMBLY_GUIDE.md)**: Comprehensive guide for nanozyme assembly
-- **[Migration Plan](docs/MIGRATION_PLAN.md)**: Migration from reference projects (DiffLinker, LigandDiff, stk)
-- **[Implementation Summary](docs/IMPLEMENTATION_SUMMARY.md)**: Detailed implementation notes
-
----
-
-## 🔧 Usage Examples
-
-### Example 1: Batch Processing EC Numbers
+#### Process EC Numbers
 
 ```bash
 # Process a single EC number
@@ -272,135 +159,122 @@ python scripts/run_pipeline.py --ec 1.11.1.7 --max_results 100
 
 # Process all supported EC numbers
 python scripts/run_pipeline.py --all --max_results 50
+
+# Skip EasIFA prediction (only process annotated data)
+python scripts/run_pipeline.py --ec 1.11.1.7 --skip-prediction
 ```
 
-### Example 2: Extract Motifs from Cache
+#### Extract Motifs
 
 ```bash
-# Extract motifs from cached JSON data
+# Extract motifs for a specific EC number
 python scripts/extract_motifs_from_cache.py --ec 1.11.1.7
+
+# Extract all motifs and rebuild index
+python scripts/extract_motifs_from_cache.py --clear
 ```
 
-### Example 3: Predict Active Sites for Unannotated Data
+### Python API
+
+```python
+from nanozyme_mining import (
+    UniProtFetcher,
+    EasIFAPredictor,
+    MotifExtractor,
+    DualTrackProcessor
+)
+
+# Fetch enzyme data
+fetcher = UniProtFetcher(cache_dir="./cache")
+annotated, unannotated = fetcher.fetch_and_classify(
+    ec_number="1.11.1.7",
+    nanozyme_type="POD",
+    max_results=100
+)
+
+# Predict active sites for unannotated data
+processor = DualTrackProcessor(output_dir="./processed")
+results = processor.predict_unannotated_batch(
+    unannotated,
+    reaction_smiles="C>>C"
+)
+
+# Extract motifs
+extractor = MotifExtractor(output_dir="./motifs")
+motif = extractor.extract_motif(
+    pdb_path="path/to/structure.pdb",
+    uniprot_id="P12345",
+    ec_number="1.11.1.7",
+    nanozyme_type="POD",
+    active_site_indices=[50, 51, 52]
+)
+```
+
+## Supported EC Numbers
+
+The system currently supports the following nanozyme types and their corresponding EC numbers:
+
+- **Peroxidases (POD)**: 1.11.1.7, 1.11.1.11, 1.11.1.21
+- **Catalases (CAT)**: 1.11.1.6, 1.11.1.21
+- **Superoxide Dismutase (SOD)**: 1.15.1.1
+- **Glutathione Peroxidases (GSH)**: 1.11.1.9, 1.11.1.12
+- **Oxidases (OXD)**: 1.4.3.4, 1.3.3.4
+- **Laccase (LAC)**: 1.10.3.2
+- **Glucose Oxidase (GOX)**: 1.1.3.4
+- **Phosphatase (PHOS)**: 3.1.3.1
+- **DNase (DNASE)**: 3.1.21.1
+
+## Configuration
+
+### EasIFA Model Path
+
+The EasIFA model checkpoint path is configured in `nanozyme_mining/prediction/easifa_predictor.py`. By default, it looks for:
+
+```
+data/models/models/easifa/checkpoints/enzyme_site_type_predition_model/
+train_in_uniprot_ecreact_cluster_split_merge_dataset_all_limit_3_at_2023-12-19-16-06-42/
+global_step_284000
+```
+
+You can override this by setting the `ENZYME_MODEL_PATH` environment variable or modifying the code.
+
+## Development
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines and contribution instructions.
+
+### Running Tests
 
 ```bash
-# Use EasIFA to predict active sites
-python scripts/predict_unannotated_pdb.py --ec 1.11.1.7
+pytest tests/
 ```
 
-See the `examples/` directory for more detailed examples.
-
----
-
-## 🧪 Testing
-
-```bash
-# Run tests
-python -m pytest tests/
-
-# Run specific test module
-python -m pytest tests/test_extraction.py
-```
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-### How to Contribute
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Development Setup
-
-```bash
-# Clone your fork
-git clone git@github.com:taxuannga877-jpg/enzyme-to-nanozyme.git
-cd enzyme-to-nanozyme
-
-# Install in development mode
-pip install -e .
-
-# Install development dependencies
-pip install -r requirements-dev.txt  # if available
-```
-
----
-
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
----
+## Acknowledgments
 
-## 🙏 Acknowledgments
-
-### Reference Projects
-
-This project is inspired by and adapts concepts from:
-
-- **[DiffLinker](https://github.com/gcorso/DiffLinker)**: Fragment linking with diffusion models
-- **[LigandDiff](https://github.com/THUNLP-MT/LigandDiff)**: Metal complex generation
-- **[stk](https://github.com/lukasturcani/stk)**: Template-based molecular assembly
-- **[ChemEnzyRetroPlanner](https://github.com/yourusername/ChemEnzyRetroPlanner)**: Enzyme retro-planning framework
-
-### Data Sources
-
-- **UniProt**: Enzyme sequence and annotation data
+- **ChemEnzyRetroPlanner**: Architecture inspiration and EasIFA model
+- **UniProt**: Enzyme data and annotations
+- **M-CSA**: Catalytic Site Atlas for active site annotations
 - **AlphaFold Database**: Protein structure predictions
-- **M-CSA**: Metal-containing active sites database
+- **DGL**: Deep Graph Library for graph neural networks
+- **RDKit**: Chemical informatics toolkit
 
-### Models
-
-- **EasIFA**: Active site prediction model (integrated from ChemEnzyRetroPlanner)
-
----
-
-## 📧 Contact
-
-For questions, issues, or suggestions:
-
-- **Issues**: [GitHub Issues](https://github.com/taxuannga877-jpg/enzyme-to-nanozyme/issues)
-
----
-
-## 🗺️ Roadmap
-
-- [ ] Diffusion-based assembly strategy
-- [ ] Template-based assembly from MOF databases
-- [ ] Catalytic activity prediction
-- [ ] Multi-motif assembly
-- [ ] Web-based assembly interface
-- [ ] Database integration for motif sharing
-
----
-
-## 📊 Citation
+## Citation
 
 If you use this project in your research, please cite:
 
 ```bibtex
-@software{nanozyme_mining,
-  title = {Nanozyme Mining System: From Enzyme Structures to Nanozyme Design},
+@software{enzyme_to_nanozyme,
+  title = {Enzyme-to-Nanozyme Mining System},
   author = {Nanozyme Design Team},
   year = {2024},
-  url = {https://github.com/taxuannga877-jpg/enzyme-to-nanozyme},
-  version = {0.2.0}
+  url = {https://github.com/taxuannga877-jpg/enzyme-to-nanozyme}
 }
 ```
 
----
+## Contact
 
-<div align="center">
-
-**Made with ❤️ by the Nanozyme Design Team**
-
-⭐ Star this repo if you find it useful!
-
-</div>
+For questions, issues, or contributions, please open an issue on GitHub.
 

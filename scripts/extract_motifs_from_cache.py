@@ -55,20 +55,30 @@ def get_nanozyme_name(ec_number: str) -> str:
     return EC_TO_NANOZYME_NAME.get(ec_number, "Other")
 
 
+# 不再使用黑名单 - 通过进程隔离和错误处理来防止崩溃
+
+
 def ensure_pdb_downloaded(
     uniprot_id: str,
     alphafold_id: str,
     pdb_cache_dir: Path,
-    fetcher: UniProtFetcher
+    fetcher: UniProtFetcher,
+    ec_number: Optional[str] = None,
+    pdb_library_dir: Optional[Path] = None,
+    pdb_id: Optional[str] = None
 ) -> Optional[Path]:
     """
-    确保PDB文件已下载
+    确保PDB文件已下载 - 优先从pdb_library查找，然后从cache查找，最后下载
+    优先查找实验PDB，如果没有再查找AlphaFold PDB
     
     Args:
         uniprot_id: UniProt ID
         alphafold_id: AlphaFold ID
-        pdb_cache_dir: PDB缓存目录
+        pdb_cache_dir: PDB缓存目录（旧目录，兼容性）
         fetcher: UniProtFetcher实例
+        ec_number: EC号（用于在pdb_library中查找）
+        pdb_library_dir: PDB库目录（新目录，按EC号组织）
+        pdb_id: 实验PDB ID（可选，优先使用）
         
     Returns:
         PDB文件路径，如果下载失败返回None
@@ -76,6 +86,44 @@ def ensure_pdb_downloaded(
     # 尝试多种可能的文件名格式
     AFDB_VERSION = "6"
     
+    # ========== 优先从pdb_library查找（按EC号组织）==========
+    if pdb_library_dir and ec_number:
+        ec_dir_name = ec_number.replace('.', '_')
+        pdb_library_ec_dir = pdb_library_dir / ec_dir_name
+        
+        if pdb_library_ec_dir.exists():
+            # 优先级1: 查找实验PDB (格式: {PDB_ID}.pdb)
+            if pdb_id:
+                pdb_id = pdb_id.upper().strip()
+                exp_pdb_filename = f"{pdb_id}.pdb"
+                exp_pdb_path = pdb_library_ec_dir / exp_pdb_filename
+                if exp_pdb_path.exists():
+                    return exp_pdb_path
+            
+            # 优先级2: AlphaFold PDB - 标准格式
+            pdb_filename = f"AF-{alphafold_id}-F1-model_v{AFDB_VERSION}.pdb"
+            pdb_path = pdb_library_ec_dir / pdb_filename
+            
+            if pdb_path.exists():
+                return pdb_path
+            
+            # 优先级3: AlphaFold PDB - 查找任何包含该ID的PDB文件
+            matching_pdb = list(pdb_library_ec_dir.glob(f"AF-{alphafold_id}-*.pdb"))
+            if matching_pdb:
+                return matching_pdb[0]
+            
+            # 优先级4: 如果alphafold_id和uniprot_id不同，尝试uniprot_id
+            if uniprot_id and uniprot_id != alphafold_id:
+                pdb_filename = f"AF-{uniprot_id}-F1-model_v{AFDB_VERSION}.pdb"
+                pdb_path = pdb_library_ec_dir / pdb_filename
+                if pdb_path.exists():
+                    return pdb_path
+                
+                matching_pdb = list(pdb_library_ec_dir.glob(f"AF-{uniprot_id}-*.pdb"))
+                if matching_pdb:
+                    return matching_pdb[0]
+    
+    # ========== 回退到旧缓存目录（兼容性）==========
     # 方法1: 标准格式
     pdb_filename = f"AF-{alphafold_id}-F1-model_v{AFDB_VERSION}.pdb"
     pdb_path = pdb_cache_dir / pdb_filename
@@ -118,7 +166,8 @@ def extract_motif_from_entry(
     ec_number: str,
     extractor: MotifExtractor,
     fetcher: UniProtFetcher,
-    pdb_cache_dir: Path
+    pdb_cache_dir: Path,
+    pdb_library_dir: Optional[Path] = None
 ) -> Optional[Dict]:
     """
     从单个条目提取motif
@@ -128,17 +177,24 @@ def extract_motif_from_entry(
         ec_number: EC号
         extractor: MotifExtractor实例
         fetcher: UniProtFetcher实例
-        pdb_cache_dir: PDB缓存目录
+        pdb_cache_dir: PDB缓存目录（旧目录，兼容性）
+        pdb_library_dir: PDB库目录（新目录，按EC号组织）
         
     Returns:
         提取结果字典，失败返回None
     """
     uniprot_id = entry.get('uniprot_id', '')
     alphafold_id = entry.get('alphafold_id', uniprot_id)
+    pdb_id = entry.get('pdb_id', '')
+    
     active_sites = entry.get('active_sites', [])
     
-    # 确保PDB文件存在
-    pdb_path = ensure_pdb_downloaded(uniprot_id, alphafold_id, pdb_cache_dir, fetcher)
+    # 确保PDB文件存在 - 优先从pdb_library查找（优先使用实验PDB）
+    pdb_path = ensure_pdb_downloaded(
+        uniprot_id, alphafold_id, pdb_cache_dir, fetcher,
+        ec_number=ec_number, pdb_library_dir=pdb_library_dir,
+        pdb_id=pdb_id
+    )
     if not pdb_path:
         return None
     
@@ -157,7 +213,7 @@ def extract_motif_from_entry(
     
     nanozyme_name = get_nanozyme_name(ec_number)
     
-    # 提取motif
+    # 提取motif（仅从PDB文件提取，不使用模型预测）
     try:
         motif = extractor.extract_motif(
             pdb_path=str(pdb_path),
@@ -201,7 +257,8 @@ def process_ec_number(
     pdb_cache_dir: Path,
     motif_library_dir: Path,
     fetcher: UniProtFetcher,
-    clear_existing: bool = False
+    clear_existing: bool = False,
+    pdb_library_dir: Optional[Path] = None
 ):
     """
     处理单个EC号的所有motif提取，按EC号和类型分类组织
@@ -226,8 +283,13 @@ def process_ec_number(
     print(f"处理 EC {ec_number}")
     print(f"{'='*80}")
     
-    # 读取JSON缓存
-    json_file = json_cache_dir / f"{ec_number}_sites.json"
+    # 读取JSON缓存（优先从pdb_library读取）
+    if pdb_library_dir:
+        ec_dir_name = ec_number.replace(".", "_")
+        json_file = pdb_library_dir / ec_dir_name / f"{ec_number}_sites.json"
+    else:
+        json_file = json_cache_dir / f"{ec_number}_sites.json"
+    
     if not json_file.exists():
         print(f"  ⚠️  JSON缓存文件不存在: {json_file}")
         return
@@ -268,14 +330,32 @@ def process_ec_number(
     # 处理每个酶
     success_count = 0
     fail_count = 0
+    skip_count = 0
     category_counts = {cat: 0 for cat in category_dirs.keys()}
     
     for idx, entry in enumerate(enzyme_data, 1):
         uniprot_id = entry.get('uniprot_id', 'Unknown')
+        
+        # 检查是否已处理过（检查所有分类目录）
+        nanozyme_name = get_nanozyme_name(ec_number)
+        expected_motif_id = f"{uniprot_id}_{ec_number}_{nanozyme_name}"
+        already_processed = False
+        
+        for cat_dir in category_dirs.values():
+            if (cat_dir / f"{expected_motif_id}.json").exists():
+                already_processed = True
+                break
+        
+        if already_processed:
+            skip_count += 1
+            print(f"  [{idx}/{len(enzyme_data)}] 跳过 {uniprot_id} (已处理)")
+            continue
+        
         print(f"  [{idx}/{len(enzyme_data)}] 处理 {uniprot_id}...")
         
         result = extract_motif_from_entry(
-            entry, ec_number, extractor, fetcher, pdb_cache_dir
+            entry, ec_number, extractor, fetcher, pdb_cache_dir,
+            pdb_library_dir=pdb_library_dir
         )
         
         if result:
@@ -302,6 +382,7 @@ def process_ec_number(
     
     print(f"\n  [完成] EC {ec_number}:")
     print(f"    ✓ 成功: {success_count}")
+    print(f"    ⏭️  跳过: {skip_count}")
     print(f"    ✗ 失败: {fail_count}")
     print(f"    📊 分类统计:")
     for cat, count in category_counts.items():
@@ -345,10 +426,13 @@ def main():
     
     # 设置路径
     project_root = Path(__file__).parent.parent
-    cache_dir = project_root / args.cache_dir
-    json_cache_dir = cache_dir / "json"
-    pdb_cache_dir = cache_dir / "pdb"
+    pdb_library_dir = project_root / "pdb_library"  # PDB库目录（按EC号组织，包含JSON和PDB）
     motif_library_dir = project_root / args.motif_dir
+    
+    # 保留旧路径用于兼容性（但不再使用）
+    cache_dir = project_root / args.cache_dir if args.cache_dir else None
+    json_cache_dir = cache_dir / "json" if cache_dir else None
+    pdb_cache_dir = cache_dir / "pdb" if cache_dir else None
     
     # 清空motif_library（如果指定）
     if args.clear and motif_library_dir.exists():
@@ -358,17 +442,28 @@ def main():
     
     motif_library_dir.mkdir(parents=True, exist_ok=True)
     
-    # 初始化UniProtFetcher
-    fetcher = UniProtFetcher(cache_dir=str(cache_dir))
+    # 初始化UniProtFetcher（使用pdb_library）
+    fetcher = UniProtFetcher(
+        cache_dir=str(cache_dir) if cache_dir else "./cache",
+        pdb_library_dir=str(pdb_library_dir)
+    )
     
     # 确定要处理的EC号列表
     if args.ec:
         ec_numbers = [ec.strip() for ec in args.ec.split(",")]
     else:
-        # 扫描所有_sites.json文件
-        json_files = list(json_cache_dir.glob("*_sites.json"))
-        ec_numbers = [f.stem.replace("_sites", "") for f in json_files]
-        ec_numbers.sort()
+        # 扫描所有_sites.json文件（从pdb_library）
+        if pdb_library_dir.exists():
+            json_files = list(pdb_library_dir.glob("*/*_sites.json"))
+            ec_numbers = [f.stem.replace("_sites", "") for f in json_files]
+            ec_numbers.sort()
+        elif json_cache_dir and json_cache_dir.exists():
+            # 向后兼容：如果pdb_library不存在，尝试旧路径
+            json_files = list(json_cache_dir.glob("*_sites.json"))
+            ec_numbers = [f.stem.replace("_sites", "") for f in json_files]
+            ec_numbers.sort()
+        else:
+            ec_numbers = []
     
     if not ec_numbers:
         print("⚠️  未找到任何EC号数据")
@@ -378,8 +473,7 @@ def main():
     print("Motif提取流程")
     print("="*80)
     print(f"EC号列表: {ec_numbers}")
-    print(f"JSON缓存: {json_cache_dir}")
-    print(f"PDB缓存: {pdb_cache_dir}")
+    print(f"PDB库: {pdb_library_dir} (包含JSON和PDB文件)")
     print(f"Motif库: {motif_library_dir}")
     print("="*80)
     
@@ -392,11 +486,12 @@ def main():
         try:
             process_ec_number(
                 ec_number=ec_number,
-                json_cache_dir=json_cache_dir,
-                pdb_cache_dir=pdb_cache_dir,
+                json_cache_dir=json_cache_dir,  # 保留用于兼容性，但不再使用
+                pdb_cache_dir=pdb_cache_dir,  # 保留用于兼容性，但不再使用
                 motif_library_dir=motif_library_dir,
                 fetcher=fetcher,
-                clear_existing=args.clear and i == 1  # 只在第一次清空
+                clear_existing=args.clear and i == 1,  # 只在第一次清空
+                pdb_library_dir=pdb_library_dir
             )
         except KeyboardInterrupt:
             print("\n\n用户中断，退出...")

@@ -5,6 +5,7 @@ Motif数据库索引模块
 
 import json
 import sqlite3
+import threading
 from pathlib import Path
 from typing import List, Dict, Optional
 from dataclasses import dataclass
@@ -26,7 +27,7 @@ class MotifIndex:
 
 
 class MotifDatabase:
-    """Motif数据库管理类"""
+    """Motif数据库管理类（线程安全）"""
     
     def __init__(self, db_path: Path):
         """
@@ -36,15 +37,25 @@ class MotifDatabase:
             db_path: SQLite数据库文件路径
         """
         self.db_path = Path(db_path)
-        self.conn = None
+        # 使用线程本地存储，为每个线程创建独立的连接
+        self._local = threading.local()
         self._init_database()
+    
+    def _get_connection(self):
+        """获取当前线程的数据库连接（线程安全）"""
+        if not hasattr(self._local, 'conn') or self._local.conn is None:
+            # 为当前线程创建新连接
+            self._local.conn = sqlite3.connect(
+                str(self.db_path),
+                check_same_thread=False  # 允许在不同线程中使用
+            )
+            self._local.conn.row_factory = sqlite3.Row  # 返回字典格式
+        return self._local.conn
     
     def _init_database(self):
         """初始化数据库表结构"""
-        self.conn = sqlite3.connect(str(self.db_path))
-        self.conn.row_factory = sqlite3.Row  # 返回字典格式
-        
-        cursor = self.conn.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
         
         # 创建motif索引表
         cursor.execute("""
@@ -78,7 +89,7 @@ class MotifDatabase:
             CREATE INDEX IF NOT EXISTS idx_nanozyme_type ON motif_index(nanozyme_type)
         """)
         
-        self.conn.commit()
+        conn.commit()
     
     def add_motif(self, motif: MotifIndex) -> bool:
         """
@@ -91,7 +102,8 @@ class MotifDatabase:
             是否成功
         """
         try:
-            cursor = self.conn.cursor()
+            conn = self._get_connection()
+            cursor = conn.cursor()
             cursor.execute("""
                 INSERT OR REPLACE INTO motif_index 
                 (motif_id, uniprot_id, ec_number, nanozyme_type, category, 
@@ -110,7 +122,7 @@ class MotifDatabase:
                 motif.chemistry_tag,
                 motif.reaction_smiles
             ))
-            self.conn.commit()
+            conn.commit()
             return True
         except Exception as e:
             print(f"  ⚠️  添加motif失败 {motif.motif_id}: {e}")
@@ -126,7 +138,8 @@ class MotifDatabase:
         Returns:
             Motif列表（字典格式）
         """
-        cursor = self.conn.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
         cursor.execute("""
             SELECT * FROM motif_index 
             WHERE ec_number = ?
@@ -147,7 +160,8 @@ class MotifDatabase:
         Returns:
             Motif列表
         """
-        cursor = self.conn.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
         cursor.execute("""
             SELECT * FROM motif_index 
             WHERE ec_number = ? AND category = ?
@@ -167,7 +181,8 @@ class MotifDatabase:
         Returns:
             Motif信息或None
         """
-        cursor = self.conn.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
         cursor.execute("""
             SELECT * FROM motif_index 
             WHERE motif_id = ?
@@ -183,13 +198,48 @@ class MotifDatabase:
         Returns:
             EC号列表
         """
-        cursor = self.conn.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
         cursor.execute("""
             SELECT DISTINCT ec_number FROM motif_index
             ORDER BY ec_number
         """)
         
         return [row[0] for row in cursor.fetchall()]
+    
+    def get_all_nanozyme_types(self) -> List[str]:
+        """
+        获取所有纳米酶类型列表
+        
+        Returns:
+            纳米酶类型列表
+        """
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT DISTINCT nanozyme_type FROM motif_index
+            WHERE nanozyme_type IS NOT NULL AND nanozyme_type != ''
+            ORDER BY nanozyme_type
+        """)
+        
+        return [row[0] for row in cursor.fetchall()]
+    
+    def get_all(self) -> List[Dict]:
+        """
+        获取所有motif
+        
+        Returns:
+            Motif列表（字典格式）
+        """
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT * FROM motif_index
+            ORDER BY nanozyme_type, ec_number, confidence_score DESC
+        """)
+        
+        rows = cursor.fetchall()
+        return [dict(row) for row in rows]
     
     def count_by_ec(self, ec_number: str) -> Dict[str, int]:
         """
@@ -201,7 +251,8 @@ class MotifDatabase:
         Returns:
             各分类的数量统计
         """
-        cursor = self.conn.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
         cursor.execute("""
             SELECT category, COUNT(*) as count
             FROM motif_index
@@ -217,15 +268,16 @@ class MotifDatabase:
     
     def clear(self):
         """清空数据库"""
-        cursor = self.conn.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
         cursor.execute("DELETE FROM motif_index")
-        self.conn.commit()
+        conn.commit()
     
     def close(self):
-        """关闭数据库连接"""
-        if self.conn:
-            self.conn.close()
-            self.conn = None
+        """关闭当前线程的数据库连接"""
+        if hasattr(self._local, 'conn') and self._local.conn:
+            self._local.conn.close()
+            self._local.conn = None
     
     def __enter__(self):
         return self
@@ -248,14 +300,26 @@ def classify_motif(motif_data: Dict, active_sites: Optional[List[Dict]] = None) 
     anchor_atoms = motif_data.get('anchor_atoms', [])
     nanozyme_type = motif_data.get('nanozyme_type', '').upper()
     
-    # 首先检查active_sites中的type信息（最准确）
+    # 获取motif涉及的残基编号（用于检查与金属位点的重叠）
+    motif_residues = {atom.get('residue_number') for atom in anchor_atoms}
+    
+    # 检查从PDB提取的metal_sites信息（优先级最高）
+    metal_sites = motif_data.get('metal_sites', [])
+    if metal_sites:
+        # 检查是否有金属位点的配位残基与motif残基重叠
+        for metal_site in metal_sites:
+            coordinating_residues = metal_site.get('coordinating_residues', [])
+            for coord_res in coordinating_residues:
+                coord_res_num = coord_res.get('residue_number') or coord_res.get('res_id')
+                if coord_res_num and coord_res_num in motif_residues:
+                    # 如果motif包含金属配位残基，分类为metal_sites
+                    return 'metal_sites'
+    
+    # 检查active_sites中的type信息
     if active_sites:
         has_metal_site = False
         has_active_site = False
         has_binding_site = False
-        
-        # 获取motif涉及的残基编号
-        motif_residues = {atom.get('residue_number') for atom in anchor_atoms}
         
         for site in active_sites:
             site_type = site.get('type', '').lower()

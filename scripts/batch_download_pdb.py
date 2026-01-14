@@ -21,18 +21,32 @@ from nanozyme_mining.utils.constants import EC_TO_NANOZYME_TYPE
 from nanozyme_mining.utils.ec_mappings import EC_PATTERNS
 
 
-def scan_json_cache(json_cache_dir: Path) -> Dict[str, List[Dict]]:
+def scan_json_cache(json_cache_dir: Path = None, pdb_library_dir: Path = None) -> Dict[str, List[Dict]]:
     """
     扫描JSON缓存目录，提取所有需要下载的PDB信息
+    优先从pdb_library读取，向后兼容旧路径
+    
+    Args:
+        json_cache_dir: 旧JSON缓存目录（向后兼容）
+        pdb_library_dir: PDB库目录（新结构，按EC号组织）
     
     Returns:
         Dict mapping EC number to list of entries with alphafold_id
     """
     ec_entries = {}
     
-    print(f"扫描JSON缓存目录: {json_cache_dir}")
+    # 优先从pdb_library扫描
+    if pdb_library_dir and pdb_library_dir.exists():
+        print(f"扫描PDB库目录: {pdb_library_dir}")
+        json_files = list(pdb_library_dir.glob("*/*_sites.json"))
+    elif json_cache_dir and json_cache_dir.exists():
+        print(f"扫描JSON缓存目录: {json_cache_dir}")
+        json_files = list(json_cache_dir.glob("*_sites.json"))
+    else:
+        print("⚠️  未找到JSON缓存目录")
+        return ec_entries
     
-    for json_file in json_cache_dir.glob("*_sites.json"):
+    for json_file in json_files:
         ec_number = json_file.stem.replace("_sites", "")
         
         try:
@@ -114,6 +128,7 @@ def query_ec_from_uniprot(
 def batch_download_pdb(
     json_cache_dir: Path = None,
     pdb_cache_dir: Path = None,
+    pdb_library_dir: Path = None,
     cache_dir: str = "./cache",
     max_entries: int = None,
     max_per_ec: int = FETCH_ALL_RESULTS,
@@ -125,8 +140,9 @@ def batch_download_pdb(
     批量下载PDB文件
     
     Args:
-        json_cache_dir: JSON缓存目录（如果使用缓存模式）
-        pdb_cache_dir: PDB缓存目录
+        json_cache_dir: JSON缓存目录（如果使用缓存模式，向后兼容）
+        pdb_cache_dir: PDB缓存目录（向后兼容）
+        pdb_library_dir: PDB库目录（新结构，按EC号组织）
         cache_dir: 缓存根目录
         max_entries: 全局最大下载条目数（None表示全部）
         max_per_ec: 每个EC号最大查询数量（-1表示全部，默认全部）
@@ -134,8 +150,17 @@ def batch_download_pdb(
         use_cache: 是否使用JSON缓存（False则直接从UniProt查询）
         ec_numbers: 要处理的EC号列表（None表示所有纳米酶EC号）
     """
-    # 初始化UniProtFetcher
-    fetcher = UniProtFetcher(cache_dir=cache_dir)
+    # 确定pdb_library目录
+    if pdb_library_dir is None:
+        # 尝试从cache_dir推断
+        cache_path = Path(cache_dir)
+        pdb_library_dir = cache_path.parent / "pdb_library" if cache_path.parent.exists() else None
+    
+    # 初始化UniProtFetcher（使用pdb_library）
+    fetcher = UniProtFetcher(
+        cache_dir=cache_dir,
+        pdb_library_dir=str(pdb_library_dir) if pdb_library_dir else None
+    )
     
     if pdb_cache_dir is None:
         pdb_cache_dir = Path(cache_dir) / "pdb"
@@ -158,10 +183,16 @@ def batch_download_pdb(
     print("\n[步骤1] 获取所有需要下载的条目...")
     all_entries = []
     
-    if use_cache and json_cache_dir and json_cache_dir.exists():
-        # 模式1: 从JSON缓存扫描
+    # 确定pdb_library目录
+    if pdb_library_dir is None:
+        # 尝试从cache_dir推断
+        cache_path = Path(cache_dir)
+        pdb_library_dir = cache_path.parent / "pdb_library" if cache_path.parent.exists() else None
+    
+    if use_cache and (json_cache_dir and json_cache_dir.exists() or pdb_library_dir and pdb_library_dir.exists()):
+        # 模式1: 从JSON缓存扫描（优先pdb_library）
         print("  模式: 从JSON缓存扫描")
-        ec_entries = scan_json_cache(json_cache_dir)
+        ec_entries = scan_json_cache(json_cache_dir=json_cache_dir, pdb_library_dir=pdb_library_dir)
         for ec_number, entries in ec_entries.items():
             for entry in entries:
                 all_entries.append({
@@ -314,18 +345,24 @@ def main():
     project_root = Path(__file__).parent.parent
     json_cache_dir = project_root / args.json_cache if args.json_cache else None
     pdb_cache_dir = project_root / args.pdb_cache if args.pdb_cache else None
+    pdb_library_dir = project_root / "pdb_library"  # 新结构
     cache_dir = project_root / args.cache_dir if args.cache_dir else project_root / "./cache"
     
-    # 如果使用缓存模式，检查目录
-    if not args.no_cache and json_cache_dir and not json_cache_dir.exists():
-        print(f"警告: JSON缓存目录不存在: {json_cache_dir}")
-        print("  将切换到直接从UniProt查询模式")
-        args.no_cache = True
+    # 如果使用缓存模式，检查目录（优先pdb_library）
+    if not args.no_cache:
+        if not (pdb_library_dir.exists() or (json_cache_dir and json_cache_dir.exists())):
+            print(f"警告: 数据目录不存在")
+            print(f"  尝试查找: {pdb_library_dir}")
+            if json_cache_dir:
+                print(f"  或旧路径: {json_cache_dir}")
+            print("  将切换到直接从UniProt查询模式")
+            args.no_cache = True
     
     # 执行批量下载（无限制模式）
     batch_download_pdb(
         json_cache_dir=json_cache_dir,
         pdb_cache_dir=pdb_cache_dir,
+        pdb_library_dir=pdb_library_dir,
         cache_dir=str(cache_dir),
         max_entries=args.max_entries,  # None表示无限制
         max_per_ec=args.max_per_ec if args.max_per_ec > 0 else FETCH_ALL_RESULTS,

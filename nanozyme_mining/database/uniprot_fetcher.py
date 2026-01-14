@@ -53,6 +53,7 @@ class UniProtFetcher:
     def __init__(
         self,
         cache_dir: str = "./cache",
+        pdb_library_dir: Optional[str] = None,
         download_timeout: int = 60,
         max_sequence_length: int = 600,
         use_mcsa: bool = True
@@ -61,20 +62,23 @@ class UniProtFetcher:
         Initialize UniProt fetcher.
 
         Args:
-            cache_dir: Directory for caching downloaded data
+            cache_dir: Directory for caching downloaded data (legacy, for CSV and other caches)
+            pdb_library_dir: PDB library directory organized by EC numbers (new structure)
             download_timeout: Timeout for downloads in seconds
             max_sequence_length: Maximum protein sequence length
             use_mcsa: Whether to query M-CSA for metal site information
         """
         self.cache_dir = Path(cache_dir)
+        self.pdb_library_dir = Path(pdb_library_dir) if pdb_library_dir else None
         self.download_timeout = download_timeout
         self.max_sequence_length = max_sequence_length
         self.use_mcsa = use_mcsa and MCSA_AVAILABLE
 
-        # Create cache directories
+        # Create cache directories (for CSV and other legacy caches)
         self.csv_cache = self.cache_dir / "csv"
-        self.json_cache = self.cache_dir / "json"
-        self.pdb_cache = self.cache_dir / "pdb"
+        # JSON cache: use pdb_library if provided, otherwise use legacy cache/json
+        self.json_cache = self.cache_dir / "json"  # Legacy path (for backward compatibility)
+        self.pdb_cache = self.cache_dir / "pdb"  # Legacy PDB cache (for backward compatibility)
 
         # Separate folders for annotated vs unannotated
         self.annotated_dir = self.cache_dir / "annotated"
@@ -109,7 +113,7 @@ class UniProtFetcher:
         self.uniprot_json_template = (
             "https://rest.uniprot.org/uniprotkb/search?"
             "query=ec:{ec}+AND+reviewed:true"
-            "&fields=accession,ec,sequence,ft_act_site,ft_binding,ft_site,xref_alphafolddb"
+            "&fields=accession,ec,sequence,ft_act_site,ft_binding,ft_site,xref_alphafolddb,xref_pdb"
             "&format=json"
         )
 
@@ -117,6 +121,9 @@ class UniProtFetcher:
             "https://alphafold.ebi.ac.uk/files/"
             "AF-{alphafold_id}-F1-model_v{version}.pdb"
         )
+        
+        # RCSB PDB URL template for experimental structures
+        self.rcsb_pdb_url_template = "https://files.rcsb.org/download/{pdb_id}.pdb"
 
     def query_by_ec(
         self,
@@ -189,6 +196,27 @@ class UniProtFetcher:
 
         return results
 
+    def _get_json_cache_path(self, ec_number: str) -> Path:
+        """
+        Get the JSON cache file path for an EC number.
+        Uses pdb_library if available, otherwise falls back to legacy cache/json.
+        
+        Args:
+            ec_number: EC number (e.g., "1.4.3.4")
+            
+        Returns:
+            Path to JSON cache file
+        """
+        if self.pdb_library_dir:
+            # New structure: pdb_library/{EC号}/{EC号}_sites.json
+            ec_dir_name = ec_number.replace(".", "_")
+            ec_dir = self.pdb_library_dir / ec_dir_name
+            ec_dir.mkdir(parents=True, exist_ok=True)
+            return ec_dir / f"{ec_number}_sites.json"
+        else:
+            # Legacy structure: cache/json/{EC号}_sites.json
+            return self.json_cache / f"{ec_number}_sites.json"
+
     def query_with_active_sites(
         self, 
         ec_number: str,
@@ -207,7 +235,7 @@ class UniProtFetcher:
         Returns:
             List of enzyme data with active site info
         """
-        cache_file = self.json_cache / f"{ec_number}_sites.json"
+        cache_file = self._get_json_cache_path(ec_number)
 
         if cache_file.exists():
             try:
@@ -253,9 +281,15 @@ class UniProtFetcher:
                     active_sites = self._extract_active_sites(entry)
                     # Extract AlphaFold ID from xref_alphafolddb
                     alphafold_id = self._extract_alphafold_id(entry)
+                    # Extract PDB ID from xref_pdb (experimental structures)
+                    # 优先使用所有PDB ID，如果没有则使用第一个
+                    all_pdb_ids = self._extract_all_pdb_ids(entry)
+                    pdb_id = all_pdb_ids[0] if all_pdb_ids else None
                     results.append({
                         "uniprot_id": entry.get("primaryAccession", ""),
                         "alphafold_id": alphafold_id,
+                        "pdb_id": pdb_id,  # Experimental PDB ID (first one for compatibility)
+                        "pdb_ids": all_pdb_ids,  # All PDB IDs
                         "sequence": entry.get("sequence", {}).get("value", ""),
                         "active_sites": active_sites
                     })
@@ -319,19 +353,147 @@ class UniProtFetcher:
                     return properties["id"]
         return None
 
-    def download_pdb(self, alphafold_id: str) -> Optional[Path]:
+    def _extract_pdb_id(self, entry: Dict) -> Optional[str]:
+        """Extract PDB database ID from UniProt entry (experimental structures).
+        
+        Returns the first available PDB ID, or None if no experimental structure exists.
+        """
+        cross_references = entry.get("uniProtKBCrossReferences", [])
+        for xref in cross_references:
+            if xref.get("database") == "PDB":
+                pdb_id = xref.get("id")
+                if pdb_id:
+                    return pdb_id.upper()  # PDB IDs are uppercase
+
+        return None
+
+    def _extract_all_pdb_ids(self, entry: Dict) -> List[str]:
+        """Extract ALL PDB database IDs from UniProt entry (experimental structures).
+        
+        Returns a list of all available PDB IDs, or empty list if no experimental structure exists.
+        """
+        pdb_ids = []
+        cross_references = entry.get("uniProtKBCrossReferences", [])
+        for xref in cross_references:
+            if xref.get("database") == "PDB":
+                pdb_id = xref.get("id")
+                if pdb_id:
+                    pdb_ids.append(pdb_id.upper())  # PDB IDs are uppercase
+
+        return pdb_ids
+
+    def query_rcsb_pdb_by_ec(self, ec_number: str, timeout: int = 30) -> List[str]:
+        """
+        直接从RCSB PDB查询指定EC号的所有实验结构PDB ID
+        
+        Args:
+            ec_number: EC号 (e.g., "1.1.1.1")
+            timeout: 请求超时时间（秒）
+        
+        Returns:
+            PDB ID列表
+        """
+        # RCSB PDB Search API v2 endpoint
+        search_url = "https://search.rcsb.org/rcsbsearch/v2/query"
+        
+        # 构建查询JSON - 使用full_text服务查询EC号
+        # 注意：text服务不支持rcsb_ec_lineage.id属性，需要使用full_text服务
+        query_json = {
+            "query": {
+                "type": "terminal",
+                "service": "full_text",
+                "parameters": {
+                    "value": f"EC {ec_number}"
+                }
+            },
+            "return_type": "entry",
+            "request_options": {
+                "return_all_hits": True
+            }
+        }
+        
+        try:
+            response = requests.post(
+                search_url,
+                json=query_json,
+                headers={"Content-Type": "application/json"},
+                timeout=timeout
+            )
+            response.raise_for_status()
+            
+            result = response.json()
+            pdb_ids = []
+            
+            # 解析结果
+            if "result_set" in result:
+                for item in result["result_set"]:
+                    if "identifier" in item:
+                        pdb_ids.append(item["identifier"].upper())
+            
+            return sorted(set(pdb_ids))  # 去重并排序
+            
+        except Exception as e:
+            print(f"  ⚠️  查询RCSB PDB失败 (EC {ec_number}): {e}")
+            return []
+
+    def download_experimental_pdb(self, pdb_id: str, target_dir: Optional[Path] = None) -> Optional[Path]:
+        """
+        Download experimental PDB structure from RCSB PDB.
+
+        Args:
+            pdb_id: PDB database ID (e.g., "1ABC")
+            target_dir: Target directory for download (default: pdb_cache)
+
+        Returns:
+            Path to downloaded PDB file or None
+        """
+        if target_dir is None:
+            target_dir = self.pdb_cache
+        target_dir.mkdir(parents=True, exist_ok=True)
+        
+        pdb_id = pdb_id.upper()
+        pdb_file = target_dir / f"{pdb_id}.pdb"
+
+        if pdb_file.exists() and pdb_file.stat().st_size > 0:
+            return pdb_file
+
+        url = self.rcsb_pdb_url_template.format(pdb_id=pdb_id)
+
+        try:
+            response = requests.get(url, timeout=self.download_timeout)
+            response.raise_for_status()
+
+            # Check if response is valid (not a 404 page)
+            if len(response.text) < 1000:  # RCSB 404 pages are usually small
+                print(f"Warning: Downloaded file for {pdb_id} seems too small, might be invalid")
+            
+            with open(pdb_file, 'w') as f:
+                f.write(response.text)
+
+            return pdb_file
+
+        except Exception as e:
+            print(f"Error downloading experimental PDB for {pdb_id}: {e}")
+            return None
+
+    def download_pdb(self, alphafold_id: str, target_dir: Optional[Path] = None) -> Optional[Path]:
         """
         Download AlphaFold PDB structure.
 
         Args:
             alphafold_id: AlphaFold database ID
+            target_dir: Target directory for download (default: pdb_cache)
 
         Returns:
             Path to downloaded PDB file or None
         """
-        pdb_file = self.pdb_cache / f"AF-{alphafold_id}-F1-model_v{AFDB_VERSION}.pdb"
+        if target_dir is None:
+            target_dir = self.pdb_cache
+        target_dir.mkdir(parents=True, exist_ok=True)
 
-        if pdb_file.exists():
+        pdb_file = target_dir / f"AF-{alphafold_id}-F1-model_v{AFDB_VERSION}.pdb"
+
+        if pdb_file.exists() and pdb_file.stat().st_size > 0:
             return pdb_file
 
         url = self.alphafold_url_template.format(
@@ -350,6 +512,35 @@ class UniProtFetcher:
 
         except Exception as e:
             print(f"Error downloading PDB for {alphafold_id}: {e}")
+            return None
+
+    def download_pdb_prioritized(
+        self, 
+        pdb_id: Optional[str] = None,
+        alphafold_id: Optional[str] = None,
+        target_dir: Optional[Path] = None
+    ) -> Optional[Path]:
+        """
+        Download PDB structure with priority: experimental PDB > AlphaFold.
+        
+        Args:
+            pdb_id: Experimental PDB ID (optional, highest priority)
+            alphafold_id: AlphaFold ID (optional, fallback)
+            target_dir: Target directory for download (default: pdb_cache)
+            
+        Returns:
+            Path to downloaded PDB file or None
+        """
+        # Priority 1: Try experimental PDB
+        if pdb_id:
+            pdb_path = self.download_experimental_pdb(pdb_id, target_dir)
+            if pdb_path:
+                return pdb_path
+        
+        # Priority 2: Fallback to AlphaFold
+        if alphafold_id:
+            return self.download_pdb(alphafold_id, target_dir)
+        
             return None
 
     def fetch_and_populate(

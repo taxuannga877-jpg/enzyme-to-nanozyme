@@ -98,6 +98,10 @@ metal_sites_output/
 nanozyme-env/
 envs/
 
+# Data libraries (generated at runtime)
+pdb_library/
+motif_library/
+
 # Temporary analysis files
 cache_data_analysis.md
 MCSA_INTEGRATION_REPORT.md
@@ -108,3 +112,4 @@ install_deps.sh
 install.log
 motif_extraction.log
 pipeline_run.log
+dgl/

@@ -13,36 +13,37 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from nanozyme_mining.database.uniprot_fetcher import UniProtFetcher
 from nanozyme_mining.prediction.easifa_predictor import EasIFAPredictor, LABEL_TO_SITE_TYPE
 from nanozyme_mining.extraction.extractor import MotifExtractor
+from nanozyme_mining.structure.pdb_parser import PDBParser as ComprehensivePDBParser
 from enzyme_viewer.motif_db import MotifDatabase, classify_motif
 
 app = Flask(__name__)
 CORS(app)
 
-# 配置路径 - 使用本地 cache 数据
+# 配置路径 - 使用 pdb_library（统一的数据目录）
 BASE_DIR = Path(__file__).parent.parent
-app.config['CACHE_DIR'] = BASE_DIR / 'cache'
-app.config['JSON_CACHE_DIR'] = app.config['CACHE_DIR'] / 'json'
-app.config['PDB_CACHE_DIR'] = app.config['CACHE_DIR'] / 'pdb'  # 旧缓存目录（兼容）
-app.config['PDB_LIBRARY_DIR'] = BASE_DIR / 'pdb_library'  # 新的PDB库目录（按EC号组织）
+app.config['PDB_LIBRARY_DIR'] = BASE_DIR / 'pdb_library'  # PDB库目录（按EC号组织，包含JSON和PDB）
 app.config['MOTIF_LIBRARY_DIR'] = BASE_DIR / 'motif_library'
 app.config['MOTIF_OUTPUT_DIR'] = BASE_DIR / 'motifs'
 app.config['MOTIF_DB_PATH'] = Path(__file__).parent / 'motif_index.db'
 
+# 向后兼容：保留旧路径（但不再使用）
+app.config['CACHE_DIR'] = BASE_DIR / 'cache'  # 仅用于向后兼容
+app.config['JSON_CACHE_DIR'] = app.config['CACHE_DIR'] / 'json'  # 仅用于向后兼容
+app.config['PDB_CACHE_DIR'] = app.config['CACHE_DIR'] / 'pdb'  # 仅用于向后兼容
+
 # 确保文件夹存在
-app.config['JSON_CACHE_DIR'].mkdir(parents=True, exist_ok=True)
-app.config['PDB_CACHE_DIR'].mkdir(parents=True, exist_ok=True)
 app.config['PDB_LIBRARY_DIR'].mkdir(parents=True, exist_ok=True)
 app.config['MOTIF_OUTPUT_DIR'].mkdir(parents=True, exist_ok=True)
 
-print(f"✓ 使用本地缓存数据:")
-print(f"  - JSON 缓存: {app.config['JSON_CACHE_DIR']}")
-print(f"  - PDB 缓存: {app.config['PDB_CACHE_DIR']} (兼容)")
-print(f"  - PDB 库: {app.config['PDB_LIBRARY_DIR']} (主要)")
-print(f"  - Motif 库: {app.config['MOTIF_LIBRARY_DIR']}")
+print(f"✓ 使用本地数据:")
+print(f"  - PDB 库: {app.config['PDB_LIBRARY_DIR']} (包含JSON和PDB文件)")
 
 # 初始化功能模块
 print("✓ 初始化功能模块...")
-uniprot_fetcher = UniProtFetcher(cache_dir=str(app.config['CACHE_DIR']))
+uniprot_fetcher = UniProtFetcher(
+    cache_dir=str(app.config['CACHE_DIR']),
+    pdb_library_dir=str(app.config['PDB_LIBRARY_DIR'])
+)
 print("  - UniProt Fetcher 初始化完成")
 
 # EasIFA预测器（延迟初始化，只在需要时加载）
@@ -108,17 +109,37 @@ def motif_library():
     """Motif库浏览页面"""
     return render_template('motif_library.html')
 
+@app.route('/test_nanozyme')
+def test_nanozyme():
+    """测试纳米酶类型API页面"""
+    return render_template('test_nanozyme.html')
+
+def get_json_file_path(ec_number: str) -> Path:
+    """获取JSON文件路径（优先从pdb_library，向后兼容旧路径）"""
+    ec_dir_name = ec_number.replace(".", "_")
+    json_file = app.config['PDB_LIBRARY_DIR'] / ec_dir_name / f"{ec_number}_sites.json"
+    if not json_file.exists() and app.config['JSON_CACHE_DIR'].exists():
+        # 向后兼容：尝试旧路径
+        json_file = get_json_file_path(ec_number)
+    return json_file
+
 @app.route('/api/list_ec', methods=['GET'])
 def list_ec():
     """列出所有可用的EC号"""
     try:
         ec_list = []
-        json_dir = app.config['JSON_CACHE_DIR']
         
-        # 扫描所有 _sites.json 文件
-        for json_file in json_dir.glob("*_sites.json"):
+        # 扫描 pdb_library 中的所有 _sites.json 文件
+        for json_file in app.config['PDB_LIBRARY_DIR'].glob("*/*_sites.json"):
             ec_number = json_file.stem.replace("_sites", "")
             ec_list.append(ec_number)
+        
+        # 向后兼容：如果pdb_library中没有，尝试旧路径
+        if not ec_list and app.config['JSON_CACHE_DIR'].exists():
+            for json_file in app.config['JSON_CACHE_DIR'].glob("*_sites.json"):
+                ec_number = json_file.stem.replace("_sites", "")
+                if ec_number not in ec_list:
+                    ec_list.append(ec_number)
         
         # 按EC号排序
         ec_list.sort()
@@ -139,42 +160,82 @@ def list_ec():
 
 @app.route('/api/list_nanozyme_types', methods=['GET'])
 def list_nanozyme_types():
-    """列出所有可用的纳米酶类型（从motif库目录中扫描）"""
+    """列出所有可用的纳米酶类型（优先使用数据库，回退到文件系统扫描）"""
     try:
-        nanozyme_types = []
-        motif_library_dir = app.config['MOTIF_LIBRARY_DIR']
+        nanozyme_types_set = set()
         
-        if not motif_library_dir.exists():
-            return jsonify({
-                "status": "error",
-                "error": f"Motif library directory not found: {motif_library_dir}"
-            }), 404
+        # 优先使用数据库查询（快速）
+        db = get_motif_db()
+        if db:
+            try:
+                # 使用专门的方法获取所有纳米酶类型（更快）
+                if hasattr(db, 'get_all_nanozyme_types'):
+                    nanozyme_types_list = db.get_all_nanozyme_types()
+                    nanozyme_types_set = set(nanozyme_types_list)
+                else:
+                    # 回退到获取所有motif然后提取
+                    all_motifs = db.get_all()
+                    for motif in all_motifs:
+                        nanozyme_type = motif.get('nanozyme_type', '')
+                        if nanozyme_type:
+                            nanozyme_types_set.add(nanozyme_type)
+                print(f"  ✓ 从数据库查询到 {len(nanozyme_types_set)} 种纳米酶类型")
+            except Exception as db_error:
+                print(f"  ⚠️  数据库查询失败，回退到文件系统扫描: {db_error}")
+                db = None
         
-        # 扫描所有目录，排除EC号格式的目录（只保留nanozyme类型目录）
-        for sub_dir in motif_library_dir.iterdir():
-            if not sub_dir.is_dir():
-                continue
+        # 如果数据库查询失败或不存在，使用文件系统扫描
+        if not db or len(nanozyme_types_set) == 0:
+            motif_library_dir = app.config['MOTIF_LIBRARY_DIR']
             
-            dir_name = sub_dir.name
-            # 判断是否为EC号格式（如 1_11_1_6）或nanozyme类型目录
-            # EC号格式：数字_数字_数字_数字
-            # Nanozyme类型：通常是英文单词，可能包含下划线
-            is_ec_format = False
-            parts = dir_name.split('_')
-            if len(parts) == 4:
-                try:
-                    # 尝试将每部分转换为数字，如果成功则是EC号格式
-                    [int(p) for p in parts]
-                    is_ec_format = True
-                except ValueError:
-                    pass
+            if not motif_library_dir.exists():
+                return jsonify({
+                    "status": "error",
+                    "error": f"Motif library directory not found: {motif_library_dir}"
+                }), 404
             
-            # 如果不是EC号格式，则认为是nanozyme类型目录
-            if not is_ec_format:
-                nanozyme_types.append(dir_name)
+            print(f"  ⚠️  使用文件系统扫描 (目录: {motif_library_dir})")
+            
+            # 扫描所有EC号目录下的motif JSON文件，提取nanozyme_type
+            for sub_dir in motif_library_dir.iterdir():
+                if not sub_dir.is_dir():
+                    continue
+                
+                # 检查是否为EC号格式目录（如 1_11_1_6）
+                dir_name = sub_dir.name
+                parts = dir_name.split('_')
+                is_ec_format = False
+                if len(parts) == 4:
+                    try:
+                        [int(p) for p in parts]
+                        is_ec_format = True
+                    except ValueError:
+                        pass
+                
+                # 如果是EC号格式目录，扫描其下的所有分类子目录
+                if is_ec_format:
+                    # 扫描所有分类子目录（metal_sites, catalytic_sites, binding_sites, other）
+                    for category_dir in sub_dir.iterdir():
+                        if not category_dir.is_dir():
+                            continue
+                        
+                        # 扫描该分类目录下的所有JSON文件
+                        for motif_file in category_dir.glob("*.json"):
+                            try:
+                                with open(motif_file, 'r', encoding='utf-8') as f:
+                                    motif_data = json.load(f)
+                                    nanozyme_type = motif_data.get('nanozyme_type', '')
+                                    if nanozyme_type:
+                                        nanozyme_types_set.add(nanozyme_type)
+                            except Exception as e:
+                                print(f"  ⚠️  读取motif文件失败 {motif_file}: {e}")
+                                continue
+                else:
+                    # 如果不是EC号格式，可能是旧的nanozyme类型目录结构，直接添加
+                    nanozyme_types_set.add(dir_name)
         
-        # 按名称排序
-        nanozyme_types.sort()
+        # 转换为列表并排序
+        nanozyme_types = sorted(list(nanozyme_types_set))
         
         return jsonify({
             "status": "success",
@@ -202,8 +263,8 @@ def query_ec():
         return jsonify({"error": "EC number is required"}), 400
     
     try:
-        # 从本地 JSON 缓存读取数据
-        json_file = app.config['JSON_CACHE_DIR'] / f"{ec_number}_sites.json"
+        # 从本地 JSON 缓存读取数据（优先从pdb_library）
+        json_file = get_json_file_path(ec_number)
         
         if not json_file.exists():
             return jsonify({
@@ -236,24 +297,35 @@ def query_ec():
         for idx, entry in enumerate(enzyme_data):
             uniprot_id = entry.get('uniprot_id', '')
             alphafold_id = entry.get('alphafold_id', uniprot_id)
+            pdb_id = entry.get('pdb_id', '')
             sequence = entry.get('sequence', '')
             
             # 构建 PDB 文件路径 - 优先从PDB库查找，然后回退到旧缓存目录
+            # 优先级：实验PDB > AlphaFold PDB
             pdb_path = None
             
             # ========== 优先从PDB库查找（按EC号组织）==========
             if pdb_library_ec_dir.exists():
-                # 方法1: 标准格式 AF-{id}-F1-model_v6.pdb
-                pdb_filename = f"AF-{alphafold_id}-F1-model_v{AFDB_VERSION}.pdb"
-                pdb_path = pdb_library_ec_dir / pdb_filename
+                # 优先级1: 查找实验PDB (格式: {PDB_ID}.pdb)
+                if pdb_id:
+                    pdb_id = pdb_id.upper().strip()
+                    exp_pdb_filename = f"{pdb_id}.pdb"
+                    exp_pdb_path = pdb_library_ec_dir / exp_pdb_filename
+                    if exp_pdb_path.exists():
+                        pdb_path = exp_pdb_path
                 
-                # 方法2: 如果不存在，尝试查找任何包含该 ID 的 PDB 文件
-                if not pdb_path.exists():
+                # 优先级2: AlphaFold PDB - 标准格式 AF-{id}-F1-model_v6.pdb
+                if not pdb_path or not pdb_path.exists():
+                    pdb_filename = f"AF-{alphafold_id}-F1-model_v{AFDB_VERSION}.pdb"
+                    pdb_path = pdb_library_ec_dir / pdb_filename
+                
+                # 优先级3: AlphaFold PDB - 查找任何包含该 ID 的 PDB 文件
+                if not pdb_path or not pdb_path.exists():
                     matching_pdb = list(pdb_library_ec_dir.glob(f"AF-{alphafold_id}-*.pdb"))
                     if matching_pdb:
                         pdb_path = matching_pdb[0]
                 
-                # 方法3: 如果还是找不到，尝试使用 uniprot_id
+                # 优先级4: 如果还是找不到，尝试使用 uniprot_id
                 if not pdb_path or not pdb_path.exists():
                     if uniprot_id and uniprot_id != alphafold_id:
                         pdb_filename = f"AF-{uniprot_id}-F1-model_v{AFDB_VERSION}.pdb"
@@ -340,7 +412,7 @@ def get_structure():
         site_labels = None
         active_sites_data = []
         
-        json_file = app.config['JSON_CACHE_DIR'] / f"{ec_number}_sites.json"
+        json_file = get_json_file_path(ec_number)
         if json_file.exists():
             with open(json_file, 'r', encoding='utf-8') as f:
                 enzyme_data = json.load(f)
@@ -553,7 +625,7 @@ def predict_active_sites():
                 site_labels[site.residue_index] = 3
         
         # 保存预测结果到JSON缓存（可选）
-        json_file = app.config['JSON_CACHE_DIR'] / f"{ec_number}_sites.json"
+        json_file = get_json_file_path(ec_number)
         if json_file.exists():
             with open(json_file, 'r') as f:
                 enzyme_data = json.load(f)
@@ -848,7 +920,7 @@ def extract_motif():
     try:
         # 从JSON缓存读取活性位点信息
         active_site_indices = []
-        json_file = app.config['JSON_CACHE_DIR'] / f"{ec_number}_sites.json"
+        json_file = get_json_file_path(ec_number)
         
         if json_file.exists():
             with open(json_file, 'r') as f:
@@ -942,13 +1014,94 @@ def list_motifs():
         return jsonify({"error": "Missing nanozyme type"}), 400
     
     try:
+        # 辅助函数：判断是否为金属元素
+        def _is_metal_element(element: str) -> bool:
+            """Check if an element symbol represents a metal."""
+            if not element:
+                return False
+            element_upper = element.upper().strip()
+            metal_elements = {
+                "FE", "CU", "ZN", "MN", "CA", "MG", "CO", "NI",
+                "MO", "W", "V", "CR", "TI", "AL", "PB", "HG",
+                "CD", "AG", "AU", "PT", "PD", "RU", "RH", "IR",
+                "OS", "RE", "TC", "NB", "TA", "HF", "ZR", "Y",
+                "SC", "LA", "CE", "PR", "ND", "PM", "SM", "EU",
+                "GD", "TB", "DY", "HO", "ER", "TM", "YB", "LU",
+                "AC", "TH", "PA", "U", "NP", "PU", "AM", "CM",
+                "BK", "CF", "ES", "FM", "MD", "NO", "LR", "K", "NA"
+            }
+            return element_upper in metal_elements
+        
+        # 辅助函数：判断配体是否为金属
+        def _is_metal_ligand(ligand: dict) -> bool:
+            """Check if a ligand is a metal (by element or residue_name)."""
+            element = ligand.get("element", "").strip()
+            res_name = ligand.get("residue_name", "").upper().strip()
+            
+            # 检查元素是否为金属
+            if element and _is_metal_element(element):
+                return True
+            
+            # 检查配体名称是否为金属（如FE, ZN, MG等）
+            # 注意：HEM和HEC是复合配体（包含金属的完整分子），不作为纯金属处理
+            metal_residue_names = {
+                "FE", "FE2", "FE3", "CU", "CU1", "CU2", "ZN", "ZN2",
+                "MN", "MN2", "CO", "CO2", "NI", "NI2", "CA", "MG",
+                "K", "NA", "MO", "W", "V", "SE"
+            }
+            if res_name in metal_residue_names:
+                return True
+            
+            return False
+        
+        # 辅助函数：判断是否为酸根配体
+        def _is_acid_anion_ligand(residue_name: str) -> bool:
+            """Check if a ligand is an acid anion (SO4, PO4, etc.)."""
+            if not residue_name:
+                return False
+            res_name_upper = residue_name.upper().strip()
+            acid_anions = {
+                "SO4", "PO4", "NO3", "CO3", "CLO4", "CLO3",
+                "SO3", "PO3", "NO2", "CO2", "HCO3", "HPO4",
+                "H2PO4", "H3PO4", "HSO4", "H2SO4"
+            }
+            return res_name_upper in acid_anions
+        
+        # 辅助函数：获取金属类型
+        def _get_metal_type(ligand: dict) -> str:
+            """Get metal type from ligand (element or residue_name)."""
+            element = ligand.get("element", "").strip().upper()
+            res_name = ligand.get("residue_name", "").strip().upper()
+            
+            # 优先使用元素符号
+            if element and _is_metal_element(element):
+                return element
+            
+            # 如果residue_name是金属名称，使用它
+            if res_name in {"FE", "FE2", "FE3", "CU", "CU1", "CU2", "ZN", "ZN2",
+                           "MN", "MN2", "CO", "CO2", "NI", "NI2", "CA", "MG",
+                           "K", "NA", "MO", "W", "V", "SE", "HEM", "HEC"}:
+                # 对于复合物如HEM，提取主要金属元素
+                if res_name in {"HEM", "HEC"}:
+                    return "FE"  # Heme contains Fe
+                return res_name
+            
+            return element or res_name or "UNK"
+        
         motifs_by_category = {
             'metal_sites': [],
             'catalytic_sites': [],
             'binding_sites': [],
+            'ligands_cofactors': [],
             'other': []
         }
         total_count = 0
+        
+        # 用于金属去重的字典：metal_type -> metal_entry
+        metal_deduplication = {}
+        
+        # 用于配体去重的字典：ligand_name -> ligand_entry（只保留第一个出现的实例）
+        ligand_deduplication = {}
         
         # 优先使用本地数据库
         db = get_motif_db()
@@ -966,14 +1119,19 @@ def list_motifs():
                 
                 for db_motif in db_motifs:
                     category = db_motif['category']
+                    motif_id = db_motif['motif_id']
+                    # 检查是否为M-CSA来源的motif
+                    is_mcsa = '_mcsa_' in motif_id.lower()
+                    
                     motif_info = {
-                        'motif_id': db_motif['motif_id'],
+                        'motif_id': motif_id,
                         'uniprot_id': db_motif['uniprot_id'],
                         'ec_number': db_motif['ec_number'],
                         'nanozyme_type': db_motif['nanozyme_type'],
                         'anchor_atoms_count': db_motif['anchor_atoms_count'],
                         'category': category,
-                        'file_path': db_motif['file_path']
+                        'file_path': db_motif['file_path'],
+                        'source': 'M-CSA' if is_mcsa else 'standard'
                     }
                     motifs_by_category[category].append(motif_info)
                     total_count += 1
@@ -988,48 +1146,301 @@ def list_motifs():
             print(f"  ⚠️  使用文件系统扫描 (nanozyme_type: {nanozyme_type})")
             motif_library_dir = app.config['MOTIF_LIBRARY_DIR']
             
-            # 直接查找对应nanozyme类型的目录
-            nanozyme_dir = motif_library_dir / nanozyme_type
-            
-            if not nanozyme_dir.exists() or not nanozyme_dir.is_dir():
-                return jsonify({
-                    "status": "error",
-                    "error": f"Nanozyme type directory not found: {nanozyme_type}"
-                }), 404
-            
-            # 递归查找该目录下的所有JSON文件
-            for motif_file in nanozyme_dir.rglob("*.json"):
-                try:
-                    with open(motif_file, 'r') as f:
-                        motif_data = json.load(f)
-                    
-                    # 验证nanozyme类型是否匹配（不区分大小写）
-                    file_nanozyme_type = motif_data.get('nanozyme_type', '').upper()
-                    if file_nanozyme_type != nanozyme_type.upper():
-                        # 如果文件中的nanozyme_type不匹配，但目录名匹配，也接受
-                        # 因为目录名就是nanozyme类型
-                        pass
-                    
-                    # 分类motif
-                    category = classify_motif(motif_data)
-                    
-                    # 准备motif信息
-                    motif_info = {
-                        'motif_id': motif_data.get('motif_id', ''),
-                        'uniprot_id': motif_data.get('source_uniprot_id', ''),
-                        'ec_number': motif_data.get('source_ec_number', ''),
-                        'nanozyme_type': motif_data.get('nanozyme_type', nanozyme_type),
-                        'anchor_atoms_count': len(motif_data.get('anchor_atoms', [])),
-                        'category': category,
-                        'file_path': str(motif_file)
-                    }
-                    
-                    motifs_by_category[category].append(motif_info)
-                    total_count += 1
-                    
-                except Exception as e:
-                    print(f"  ⚠️  Error loading motif {motif_file}: {e}")
+            # 扫描所有EC号目录，查找匹配nanozyme_type的motif
+            for sub_dir in motif_library_dir.iterdir():
+                if not sub_dir.is_dir():
                     continue
+                
+                # 检查是否为EC号格式目录（如 1_11_1_6）
+                dir_name = sub_dir.name
+                parts = dir_name.split('_')
+                is_ec_format = False
+                if len(parts) == 4:
+                    try:
+                        [int(p) for p in parts]
+                        is_ec_format = True
+                    except ValueError:
+                        pass
+                
+                # 如果是EC号格式目录，扫描其下的所有分类子目录
+                if is_ec_format:
+                    # 扫描所有分类子目录（metal_sites, catalytic_sites, binding_sites, other）
+                    for category_dir in sub_dir.iterdir():
+                        if not category_dir.is_dir():
+                            continue
+                        
+                        # 扫描该分类目录下的所有JSON文件
+                        for motif_file in category_dir.glob("*.json"):
+                            try:
+                                with open(motif_file, 'r', encoding='utf-8') as f:
+                                    motif_data = json.load(f)
+                                
+                                # 验证nanozyme类型是否匹配（不区分大小写）
+                                file_nanozyme_type = motif_data.get('nanozyme_type', '').upper()
+                                if file_nanozyme_type != nanozyme_type.upper():
+                                    continue  # 不匹配，跳过
+                                
+                                # 分类motif（使用目录名作为分类，如果motif数据中没有）
+                                category = classify_motif(motif_data)
+                                # 如果分类失败，使用目录名
+                                if category not in motifs_by_category:
+                                    category = category_dir.name if category_dir.name in motifs_by_category else 'other'
+                                
+                                # 准备motif信息
+                                motif_id = motif_data.get('motif_id', '')
+                                # 检查是否为M-CSA来源的motif
+                                source = motif_data.get('source', '')
+                                is_mcsa = '_mcsa_' in motif_id.lower() or source == 'M-CSA'
+                                
+                                motif_info = {
+                                    'motif_id': motif_id,
+                                    'uniprot_id': motif_data.get('source_uniprot_id', ''),
+                                    'ec_number': motif_data.get('source_ec_number', ''),
+                                    'nanozyme_type': motif_data.get('nanozyme_type', nanozyme_type),
+                                    'anchor_atoms_count': len(motif_data.get('anchor_atoms', [])),
+                                    'category': category,
+                                    'file_path': str(motif_file),
+                                    'source': 'M-CSA' if is_mcsa else 'standard'
+                                }
+                                
+                                motifs_by_category[category].append(motif_info)
+                                total_count += 1
+                                
+                            except Exception as e:
+                                print(f"  ⚠️  Error loading motif {motif_file}: {e}")
+                                continue
+                else:
+                    # 如果不是EC号格式，可能是旧的nanozyme类型目录结构
+                    if dir_name.upper() == nanozyme_type.upper():
+                        # 递归查找该目录下的所有JSON文件
+                        for motif_file in sub_dir.rglob("*.json"):
+                            try:
+                                with open(motif_file, 'r', encoding='utf-8') as f:
+                                    motif_data = json.load(f)
+                                
+                                # 分类motif
+                                category = classify_motif(motif_data)
+                                
+                                # 准备motif信息
+                                motif_id = motif_data.get('motif_id', '')
+                                # 检查是否为M-CSA来源的motif
+                                source = motif_data.get('source', '')
+                                is_mcsa = '_mcsa_' in motif_id.lower() or source == 'M-CSA'
+                                
+                                motif_info = {
+                                    'motif_id': motif_id,
+                                    'uniprot_id': motif_data.get('source_uniprot_id', ''),
+                                    'ec_number': motif_data.get('source_ec_number', ''),
+                                    'nanozyme_type': motif_data.get('nanozyme_type', nanozyme_type),
+                                    'anchor_atoms_count': len(motif_data.get('anchor_atoms', [])),
+                                    'category': category,
+                                    'file_path': str(motif_file),
+                                    'source': 'M-CSA' if is_mcsa else 'standard'
+                                }
+                                
+                                motifs_by_category[category].append(motif_info)
+                                total_count += 1
+                            
+                            except Exception as e:
+                                print(f"  ⚠️  Error loading motif {motif_file}: {e}")
+                                continue
+        
+        # 提取配体/辅因子信息
+        try:
+            pdb_parser = ComprehensivePDBParser()
+            pdb_library_dir = app.config['PDB_LIBRARY_DIR']
+            
+            # 扫描所有EC号目录，查找匹配nanozyme_type的PDB文件
+            for sub_dir in pdb_library_dir.iterdir():
+                if not sub_dir.is_dir():
+                    continue
+                
+                # 检查是否为EC号格式目录（如 1_11_1_6）
+                dir_name = sub_dir.name
+                parts = dir_name.split('_')
+                is_ec_format = False
+                if len(parts) == 4:
+                    try:
+                        [int(p) for p in parts]
+                        is_ec_format = True
+                    except ValueError:
+                        pass
+                
+                if not is_ec_format:
+                    continue
+                
+                # 查找该EC号对应的JSON文件，检查nanozyme_type
+                ec_number = dir_name.replace('_', '.')
+                json_file = sub_dir / f"{ec_number}_sites.json"
+                if not json_file.exists():
+                    continue
+                
+                try:
+                    with open(json_file, 'r', encoding='utf-8') as f:
+                        enzyme_data = json.load(f)
+                    
+                    # 检查是否有匹配nanozyme_type的条目
+                    has_matching_entry = False
+                    for entry in enzyme_data:
+                        # 这里需要根据EC号推断nanozyme_type，或者从其他地方获取
+                        # 暂时跳过nanozyme_type检查，直接提取所有配体
+                        has_matching_entry = True
+                        break
+                    
+                    if not has_matching_entry:
+                        continue
+                    
+                    # 扫描该目录下的所有PDB文件
+                    for pdb_file in sub_dir.glob("*.pdb"):
+                        try:
+                            parsed_data = pdb_parser.parse_pdb_file(pdb_file)
+                            ligands = parsed_data.get("ligands", [])
+                            
+                            if not ligands:
+                                continue
+                            
+                            # 按配体名称、链和残基编号分组
+                            ligand_groups = {}
+                            for ligand in ligands:
+                                res_name = ligand.get("residue_name", "UNK")
+                                
+                                # 过滤掉水分子（HOH）
+                                if res_name.upper() == "HOH":
+                                    continue
+                                
+                                # 过滤掉酸根配体（SO4, PO4等）
+                                if _is_acid_anion_ligand(res_name):
+                                    continue
+                                
+                                chain = ligand.get("chain", "")
+                                res_num = ligand.get("residue_number")
+                                
+                                key = f"{res_name}_{chain}_{res_num}"
+                                if key not in ligand_groups:
+                                    ligand_groups[key] = {
+                                        "ligand_name": res_name,
+                                        "chain": chain,
+                                        "residue_number": res_num,
+                                        "pdb_id": pdb_file.stem.replace(".pdb", "").upper(),
+                                        "atom_count": 0,
+                                        "atoms": [],
+                                        "is_metal": False
+                                    }
+                                
+                                ligand_groups[key]["atom_count"] += 1
+                                ligand_groups[key]["atoms"].append(ligand)
+                                
+                                # 检查是否为金属配体
+                                if _is_metal_ligand(ligand):
+                                    ligand_groups[key]["is_metal"] = True
+                            
+                            # 从JSON文件中获取uniprot_id和ec_number
+                            uniprot_id = ""
+                            if enzyme_data:
+                                uniprot_id = enzyme_data[0].get("uniprot_id", "")
+                            
+                            # 处理配体：金属配体整合到metal_sites，其他配体添加到ligands_cofactors
+                            for ligand_key, ligand_info in ligand_groups.items():
+                                res_name = ligand_info['ligand_name']
+                                
+                                # 如果是金属配体，整合到metal_sites分类
+                                if ligand_info["is_metal"]:
+                                    # 获取金属类型
+                                    metal_type = _get_metal_type(ligand_info["atoms"][0])
+                                    
+                                    # 金属去重：每种金属类型只保留一个条目（第一个出现的实例）
+                                    if metal_type not in metal_deduplication:
+                                        metal_entry = {
+                                            'metal_type': metal_type,
+                                            'metal_name': res_name,
+                                            'ligand_name': res_name,  # 和配体条目保持一致
+                                            'ligand_id': f"{metal_type}_metal",  # 金属的唯一标识
+                                            'uniprot_id': uniprot_id,
+                                            'ec_number': ec_number,
+                                            'occurrence_count': 1,  # 记录出现次数
+                                            'atom_count': ligand_info['atom_count'],  # 只保留第一个实例的原子数
+                                            'chain': ligand_info['chain'],  # 保存第一个实例的chain
+                                            'residue_number': ligand_info['residue_number'],  # 保存第一个实例的residue_number
+                                            'pdb_ids': set(),
+                                            'file_paths': [],
+                                            'category': 'metal_sites',
+                                            'source': 'standard'
+                                        }
+                                        metal_deduplication[metal_type] = metal_entry
+                                        metal_deduplication[metal_type]['pdb_ids'].add(ligand_info['pdb_id'])
+                                        if str(pdb_file) not in metal_deduplication[metal_type]['file_paths']:
+                                            metal_deduplication[metal_type]['file_paths'].append(str(pdb_file))
+                                    else:
+                                        # 如果已经存在，只增加出现次数计数，不累计原子数
+                                        metal_deduplication[metal_type]['occurrence_count'] += 1
+                                        metal_deduplication[metal_type]['pdb_ids'].add(ligand_info['pdb_id'])
+                                        if str(pdb_file) not in metal_deduplication[metal_type]['file_paths']:
+                                            metal_deduplication[metal_type]['file_paths'].append(str(pdb_file))
+                                else:
+                                    # 非金属配体：只保留第一个出现的实例
+                                    ligand_name = ligand_info['ligand_name'].upper()
+                                    
+                                    # 如果这个配体类型还没有被处理过，创建条目
+                                    if ligand_name not in ligand_deduplication:
+                                        ligand_id = f"{ligand_info['pdb_id']}_{ligand_info['ligand_name']}_{ligand_info['chain']}_{ligand_info['residue_number']}"
+                                        
+                                        ligand_entry = {
+                                            'ligand_id': ligand_id,
+                                            'ligand_name': ligand_info['ligand_name'],
+                                            'pdb_id': ligand_info['pdb_id'],
+                                            'uniprot_id': uniprot_id,
+                                            'ec_number': ec_number,
+                                            'atom_count': ligand_info['atom_count'],
+                                            'chain': ligand_info['chain'],
+                                            'residue_number': ligand_info['residue_number'],
+                                            'file_path': str(pdb_file),
+                                            'category': 'ligands_cofactors',
+                                            'source': 'standard',
+                                            'occurrence_count': 1  # 记录出现次数
+                                        }
+                                        
+                                        ligand_deduplication[ligand_name] = ligand_entry
+                                        motifs_by_category['ligands_cofactors'].append(ligand_entry)
+                                        total_count += 1
+                                    else:
+                                        # 如果已经存在，只增加出现次数计数
+                                        ligand_deduplication[ligand_name]['occurrence_count'] += 1
+                        
+                        except Exception as e:
+                            print(f"  ⚠️  Error parsing PDB file {pdb_file}: {e}")
+                            continue
+                
+                except Exception as e:
+                    print(f"  ⚠️  Error reading JSON file {json_file}: {e}")
+                    continue
+        
+        except Exception as e:
+            print(f"  ⚠️  Error extracting ligands/cofactors: {e}")
+            import traceback
+            traceback.print_exc()
+        
+        # 将去重后的金属条目添加到metal_sites分类
+        for metal_type, metal_entry in metal_deduplication.items():
+            # 转换set为list以便JSON序列化
+            metal_entry['pdb_ids'] = sorted(list(metal_entry['pdb_ids']))
+            # 创建metal_id和motif_id（前端需要motif_id）
+            metal_id = f"{metal_type}_metal_{metal_entry['occurrence_count']}occ"
+            metal_entry['metal_id'] = metal_id
+            metal_entry['motif_id'] = metal_id  # 前端需要motif_id字段
+            metal_entry['anchor_atoms_count'] = 0  # 金属位点没有锚点原子
+            # 确保ligand_name存在（用于前端显示）
+            if 'ligand_name' not in metal_entry:
+                metal_entry['ligand_name'] = metal_entry.get('metal_name', metal_type)
+            motifs_by_category['metal_sites'].append(metal_entry)
+            total_count += 1
+        
+        # 过滤掉未分类（other）的条目
+        if 'other' in motifs_by_category:
+            # 从total_count中减去other分类的数量
+            other_count = len(motifs_by_category['other'])
+            total_count -= other_count
+            # 清空other分类
+            motifs_by_category['other'] = []
         
         return jsonify({
             "status": "success",
@@ -1037,6 +1448,219 @@ def list_motifs():
             "motifs": motifs_by_category,
             "total_count": total_count,
             "source": "database" if db else "filesystem"
+        })
+        
+    except Exception as e:
+        import traceback
+        return jsonify({
+            "status": "error",
+            "error": str(e),
+            "traceback": traceback.format_exc()
+        }), 500
+
+def generate_pdb_from_residues(residue_structures, anchor_atoms):
+    """
+    从residue_structures生成PDB格式字符串
+    用于3Dmol.js可视化完整的分子结构
+    
+    对于配体/小分子（如HEM），只保留第一个出现的实例，不合并所有出现的原子
+    """
+    pdb_lines = []
+    atom_serial = 1
+    
+    # 标准氨基酸列表
+    standard_aa = {
+        "ALA", "ARG", "ASN", "ASP", "CYS", "GLN", "GLU", "GLY",
+        "HIS", "ILE", "LEU", "LYS", "MET", "PHE", "PRO", "SER",
+        "THR", "TRP", "TYR", "VAL", "SEC", "PYL"
+    }
+    
+    # 创建锚定原子的映射，用于后续高亮
+    anchor_atom_map = {}
+    for anchor in anchor_atoms:
+        key = (anchor['residue_name'], anchor['residue_number'], anchor['atom_name'])
+        anchor_atom_map[key] = anchor
+    
+    # 用于跟踪已处理的配体/小分子（只保留第一个出现的实例）
+    processed_ligands = set()
+    
+    # 先处理标准氨基酸残基（保留所有实例）
+    for key_str, residue in residue_structures.items():
+        # 解析key (格式: "RESNAME_RESNUM")
+        parts = key_str.split('_')
+        if len(parts) < 2:
+            continue
+        res_name = parts[0].upper()
+        
+        # 如果是标准氨基酸，处理所有实例
+        if res_name in standard_aa:
+            try:
+                res_num = int(parts[1])
+            except ValueError:
+                continue
+            
+            chain_id = residue.get('chain_id', 'A')
+            atoms = residue.get('atoms', [])
+            
+            # 添加每个原子
+            for atom_info in atoms:
+                atom_name = atom_info.get('atom_name', '')
+                element = atom_info.get('element', '')
+                coords = atom_info.get('coordinates', [0, 0, 0])
+                occupancy = atom_info.get('occupancy', 1.0)
+                bfactor = atom_info.get('bfactor', 0.0)
+                
+                if len(coords) < 3:
+                    continue
+                
+                x, y, z = coords[0], coords[1], coords[2]
+                
+                # 格式化PDB ATOM行
+                atom_name_padded = atom_name[:4].ljust(4)
+                res_name_padded = res_name[:3].ljust(3)
+                element_padded = element[:2].rjust(2) if element else "  "
+                
+                pdb_line = (
+                    f"ATOM  {atom_serial:5d} {atom_name_padded:4s} {res_name_padded:3s} {chain_id:1s}"
+                    f"{res_num:4d}   {x:8.3f}{y:8.3f}{z:8.3f}{occupancy:6.2f}{bfactor:6.2f}          {element_padded:2s}  \n"
+                )
+                pdb_lines.append(pdb_line)
+                atom_serial += 1
+    
+    # 再处理配体/小分子（只保留第一个出现的实例）
+    for key_str, residue in residue_structures.items():
+        # 解析key (格式: "RESNAME_RESNUM")
+        parts = key_str.split('_')
+        if len(parts) < 2:
+            continue
+        res_name = parts[0].upper()
+        
+        # 如果是配体/小分子（非标准氨基酸），只保留第一个出现的实例
+        if res_name not in standard_aa:
+            # 检查是否已经处理过这个配体类型
+            if res_name in processed_ligands:
+                continue  # 跳过，只保留第一个出现的实例
+            
+            processed_ligands.add(res_name)
+            
+            try:
+                res_num = int(parts[1])
+            except ValueError:
+                continue
+            
+            chain_id = residue.get('chain_id', 'A')
+            atoms = residue.get('atoms', [])
+            
+            # 添加每个原子（只处理第一个出现的配体实例）
+            for atom_info in atoms:
+                atom_name = atom_info.get('atom_name', '')
+                element = atom_info.get('element', '')
+                coords = atom_info.get('coordinates', [0, 0, 0])
+                occupancy = atom_info.get('occupancy', 1.0)
+                bfactor = atom_info.get('bfactor', 0.0)
+                
+                if len(coords) < 3:
+                    continue
+                
+                x, y, z = coords[0], coords[1], coords[2]
+                
+                # 格式化PDB HETATM行（配体使用HETATM）
+                atom_name_padded = atom_name[:4].ljust(4)
+                res_name_padded = res_name[:3].ljust(3)
+                element_padded = element[:2].rjust(2) if element else "  "
+                
+                pdb_line = (
+                    f"HETATM{atom_serial:5d} {atom_name_padded:4s} {res_name_padded:3s} {chain_id:1s}"
+                    f"{res_num:4d}   {x:8.3f}{y:8.3f}{z:8.3f}{occupancy:6.2f}{bfactor:6.2f}          {element_padded:2s}  \n"
+                )
+                pdb_lines.append(pdb_line)
+                atom_serial += 1
+    
+    # 添加CONECT记录（基于距离约束，这里简化处理）
+    # 注意：完整的CONECT需要知道键连接信息，这里先不添加
+    
+    pdb_lines.append("END\n")
+    return "".join(pdb_lines)
+
+@app.route('/api/get_ligand_structure', methods=['POST'])
+def get_ligand_structure():
+    """获取指定配体的3D结构数据"""
+    if not request.is_json:
+        return jsonify({"error": "Missing JSON in request"}), 400
+    
+    data = request.get_json()
+    ligand_id = data.get('ligand_id', '')
+    pdb_path = data.get('pdb_path', '')
+    ligand_name = data.get('ligand_name', '')
+    chain = data.get('chain', '')
+    residue_number = data.get('residue_number', '')
+    
+    if not pdb_path or not os.path.exists(pdb_path):
+        return jsonify({"error": f"PDB file not found: {pdb_path}"}), 404
+    
+    if not ligand_name:
+        return jsonify({"error": "Ligand name is required"}), 400
+    
+    try:
+        pdb_parser = ComprehensivePDBParser()
+        parsed_data = pdb_parser.parse_pdb_file(Path(pdb_path))
+        ligands = parsed_data.get("ligands", [])
+        
+        # 筛选出匹配的配体原子（排除水分子HOH）
+        matching_atoms = []
+        for ligand in ligands:
+            res_name = ligand.get("residue_name", "").upper()
+            
+            # 过滤掉水分子（HOH）
+            if res_name == "HOH":
+                continue
+            
+            if (res_name == ligand_name.upper() and
+                ligand.get("chain", "") == chain and
+                ligand.get("residue_number") == residue_number):
+                matching_atoms.append(ligand)
+        
+        if not matching_atoms:
+            return jsonify({
+                "status": "error",
+                "error": f"Ligand {ligand_name} not found in PDB file"
+            }), 404
+        
+        # 生成PDB格式字符串（仅包含该配体的原子）
+        pdb_lines = []
+        atom_serial = 1
+        
+        for atom in matching_atoms:
+            atom_name = atom.get("atom_name", "")
+            element = atom.get("element", "")
+            coords = atom.get("coordinates", [0, 0, 0])
+            
+            if len(coords) < 3:
+                continue
+            
+            x, y, z = coords[0], coords[1], coords[2]
+            
+            # 格式化PDB HETATM行
+            atom_name_padded = atom_name[:4].ljust(4)
+            res_name_padded = ligand_name[:3].ljust(3)
+            element_padded = element[:2].rjust(2) if element else "  "
+            
+            pdb_line = (
+                f"HETATM{atom_serial:5d} {atom_name_padded:4s} {res_name_padded:3s} {chain:1s}"
+                f"{residue_number:4d}   {x:8.3f}{y:8.3f}{z:8.3f}  1.00  0.00          {element_padded:2s}  \n"
+            )
+            pdb_lines.append(pdb_line)
+            atom_serial += 1
+        
+        pdb_lines.append("END\n")
+        pdb_string = "".join(pdb_lines)
+        
+        return jsonify({
+            "status": "success",
+            "ligand_id": ligand_id,
+            "ligand_name": ligand_name,
+            "pdb_string": pdb_string,
+            "atom_count": len(matching_atoms)
         })
         
     except Exception as e:
@@ -1058,6 +1682,18 @@ def get_motif_structure():
     # ec_number 和 nanozyme_type 都是可选的，用于辅助查找
     ec_number = data.get('ec_number', '')
     nanozyme_type = data.get('nanozyme_type', '')
+    # 前端可能传递的额外信息（用于金属位点）
+    file_paths_from_frontend = data.get('file_paths', [])
+    ligand_name_from_frontend = data.get('ligand_name', '')
+    metal_type_from_frontend = data.get('metal_type', '')
+    chain_from_frontend = data.get('chain') or ''
+    residue_number_from_frontend = data.get('residue_number') or ''
+    
+    # 处理null值（前端可能传递字符串"null"或null）
+    if chain_from_frontend in [None, 'null', 'None', '']:
+        chain_from_frontend = ''
+    if residue_number_from_frontend in [None, 'null', 'None', '']:
+        residue_number_from_frontend = ''
     
     if not motif_id:
         return jsonify({"error": "Missing motif_id"}), 400
@@ -1123,7 +1759,275 @@ def get_motif_structure():
                     if motif_file and motif_file.exists():
                         break
         
+        # 如果找不到文件，检查是否是金属条目（金属条目没有对应的JSON文件）
         if not motif_file or not motif_file.exists():
+            # 检查是否是金属条目ID（格式：{metal_type}_metal_{count}occ）
+            if '_metal_' in motif_id:
+                # 这是金属条目，需要从PDB文件中提取结构
+                # 从motif_id中提取金属类型
+                metal_type = motif_id.split('_metal_')[0]
+                
+                # 尝试从数据库或前端传递的信息获取金属条目信息
+                metal_entry = None
+                file_paths = file_paths_from_frontend or []
+                
+                # 优先从数据库获取完整信息
+                chain = None
+                residue_number = None
+                if db:
+                    db_motif = db.get_by_id(motif_id)
+                    if db_motif:
+                        metal_entry = db_motif
+                        # 从数据库获取metal_name和ligand_name（优先使用ligand_name，因为它更准确）
+                        metal_name = db_motif.get('ligand_name') or db_motif.get('metal_name') or metal_type
+                        if not file_paths:
+                            file_paths = db_motif.get('file_paths', [])
+                        # 从数据库获取chain和residue_number（用于精确匹配）
+                        chain = db_motif.get('chain', '')
+                        residue_number = db_motif.get('residue_number', '')
+                        print(f"  [Metal Site] Found in database: metal_name={metal_name}, chain={chain}, residue_number={residue_number}, file_paths={len(file_paths)} files")
+                
+                # 如果数据库中没有，使用前端传递的信息
+                if not metal_entry:
+                    metal_name = ligand_name_from_frontend or metal_type  # 优先使用前端传递的ligand_name
+                    # 从前端获取chain和residue_number（如果数据库中没有）
+                    if not chain:
+                        chain = chain_from_frontend
+                    if not residue_number:
+                        residue_number = residue_number_from_frontend
+                    print(f"  [Metal Site] Using frontend data: metal_type={metal_type}, metal_name={metal_name}, chain={chain}, residue_number={residue_number}, file_paths_from_frontend={len(file_paths)} files")
+                
+                print(f"  [Metal Site] Final: metal_type={metal_type}, metal_name={metal_name}, chain={chain}, residue_number={residue_number}, file_paths={len(file_paths)} files")
+                
+                # 如果还是没有，尝试从文件系统中查找第一个PDB文件
+                # 注意：PDB文件在PDB_LIBRARY_DIR中，不在MOTIF_LIBRARY_DIR中
+                if not file_paths:
+                    pdb_library_dir = app.config['PDB_LIBRARY_DIR']
+                    print(f"  [Metal Site] Searching for PDB files in: {pdb_library_dir}")
+                    
+                    # 方法1：如果有nanozyme_type，尝试在对应的EC号目录中查找
+                    if nanozyme_type:
+                        # 先尝试在nanozyme_type目录中查找（如果存在）
+                        nanozyme_dir = pdb_library_dir / nanozyme_type
+                        if nanozyme_dir.exists() and nanozyme_dir.is_dir():
+                            pdb_files = list(nanozyme_dir.rglob("*.pdb"))
+                            if pdb_files:
+                                file_paths = [str(pdb_files[0])]
+                                print(f"  [Metal Site] Found PDB file in nanozyme_type directory: {file_paths[0]}")
+                    
+                    # 方法2：如果还没找到，扫描所有EC号目录，查找包含该金属的PDB文件
+                    if not file_paths:
+                        print(f"  [Metal Site] Scanning all EC directories for PDB files...")
+                        for sub_dir in pdb_library_dir.iterdir():
+                            if not sub_dir.is_dir():
+                                continue
+                            
+                            # 检查是否为EC号格式目录（如 1_11_1_6）
+                            dir_name = sub_dir.name
+                            parts = dir_name.split('_')
+                            is_ec_format = False
+                            if len(parts) == 4:
+                                try:
+                                    [int(p) for p in parts]
+                                    is_ec_format = True
+                                except ValueError:
+                                    pass
+                            
+                            if is_ec_format:
+                                pdb_files = list(sub_dir.glob("*.pdb"))
+                                if pdb_files:
+                                    # 使用第一个找到的PDB文件
+                                    file_paths = [str(pdb_files[0])]
+                                    print(f"  [Metal Site] Found PDB file in EC directory {dir_name}: {file_paths[0]}")
+                                    break
+                    
+                    # 方法3：如果还是没找到，尝试在整个PDB_LIBRARY_DIR中递归查找
+                    if not file_paths:
+                        print(f"  [Metal Site] Recursively searching all PDB files...")
+                        all_pdb_files = list(pdb_library_dir.rglob("*.pdb"))
+                        if all_pdb_files:
+                            file_paths = [str(all_pdb_files[0])]
+                            print(f"  [Metal Site] Found PDB file: {file_paths[0]}")
+                    
+                    if not file_paths:
+                        print(f"  [Metal Site] WARNING: No PDB files found in {pdb_library_dir}")
+                
+                # 尝试从第一个PDB文件中提取配体结构
+                pdb_string = ""
+                print(f"  [Metal Site] file_paths={file_paths}, len={len(file_paths) if file_paths else 0}")
+                if file_paths and len(file_paths) > 0:
+                        first_pdb_path = Path(file_paths[0])
+                        print(f"  [Metal Site] Trying to extract from: {first_pdb_path}, exists={first_pdb_path.exists()}")
+                        if first_pdb_path.exists():
+                            try:
+                                # 使用ComprehensivePDBParser解析PDB文件
+                                pdb_parser = ComprehensivePDBParser()
+                                parsed_data = pdb_parser.parse_pdb_file(first_pdb_path)
+                                ligands = parsed_data.get("ligands", [])
+                                print(f"  [Metal Site] Found {len(ligands)} ligands in PDB file")
+                                if ligands:
+                                    print(f"  [Metal Site] First ligand keys: {list(ligands[0].keys())}")
+                                    print(f"  [Metal Site] First ligand residue_name: {ligands[0].get('residue_name', 'N/A')}")
+                                
+                                # 查找匹配的金属配体（使用ligand_name或metal_name，以及chain和residue_number进行精确匹配）
+                                matching_atoms = []
+                                print(f"  [Metal Site] Searching for metal_name={metal_name.upper()}, metal_type={metal_type.upper()}, chain={chain}, residue_number={residue_number}")
+                                
+                                # 构建搜索名称列表：包括metal_name、metal_type，以及特殊处理（如HEM->FE）
+                                search_names = [metal_name.upper(), metal_type.upper()]
+                                # 特殊处理：如果metal_type是FE，也尝试匹配HEM和HEC
+                                if metal_type.upper() == "FE":
+                                    search_names.extend(["HEM", "HEC"])
+                                # 特殊处理：如果metal_name是HEM或HEC，也尝试匹配FE
+                                if metal_name.upper() in ["HEM", "HEC"]:
+                                    search_names.append("FE")
+                                
+                                search_names = list(set(search_names))  # 去重
+                                print(f"  [Metal Site] Search names: {search_names}")
+                                
+                                # 精确匹配：如果有chain和residue_number，使用它们；否则只匹配residue_name
+                                for ligand in ligands:
+                                    res_name = ligand.get("residue_name", "").upper()
+                                    ligand_chain = ligand.get("chain", "")
+                                    ligand_res_num = ligand.get("residue_number", "")
+                                    
+                                    # 检查residue_name是否匹配
+                                    if res_name in search_names:
+                                        # 如果有chain和residue_number信息（非空），进行精确匹配（就像配体目录那样）
+                                        if chain and residue_number and chain.strip() and str(residue_number).strip():
+                                            # 转换residue_number为字符串进行比较（兼容不同格式）
+                                            try:
+                                                ligand_res_num_str = str(ligand_res_num) if ligand_res_num else ""
+                                                residue_number_str = str(residue_number) if residue_number else ""
+                                                if (ligand_chain == chain and 
+                                                    ligand_res_num_str == residue_number_str):
+                                                    matching_atoms.append(ligand)
+                                                    print(f"  [Metal Site] Found exact match: {res_name}, chain={ligand_chain}, residue_number={ligand_res_num}")
+                                            except Exception as e:
+                                                print(f"  [Metal Site] Error comparing residue_number: {e}")
+                                        else:
+                                            # 如果没有chain和residue_number信息，只匹配residue_name（向后兼容）
+                                            matching_atoms.append(ligand)
+                                            print(f"  [Metal Site] Found matching ligand (name only): {res_name}")
+                                
+                                # 如果还是没找到，列出所有可用的配体名称
+                                if not matching_atoms:
+                                    unique_res_names = sorted(set(ligand.get("residue_name", "").upper() for ligand in ligands))
+                                    print(f"  [Metal Site] No match found. Available residue names in PDB: {unique_res_names}")
+                                    if chain and residue_number:
+                                        print(f"  [Metal Site] Tried to match chain={chain}, residue_number={residue_number}")
+                                        # 列出所有匹配residue_name但chain/residue_number不匹配的配体
+                                        for ligand in ligands:
+                                            res_name = ligand.get("residue_name", "").upper()
+                                            if res_name in search_names:
+                                                print(f"  [Metal Site] Found {res_name} but chain={ligand.get('chain')}, residue_number={ligand.get('residue_number')} (not matching)")
+                                
+                                # 生成PDB格式字符串（只保留第一个出现的实例）
+                                if matching_atoms:
+                                    print(f"  [Metal Site] Found {len(matching_atoms)} matching atoms")
+                                    pdb_lines = []
+                                    atom_serial = 1
+                                    
+                                    # 找到第一个配体实例的chain和residue_number
+                                    first_atom = matching_atoms[0]
+                                    first_chain = first_atom.get("chain", "")
+                                    first_res_num_raw = first_atom.get("residue_number", "")
+                                    # 转换residue_number为整数（如果是字符串）
+                                    try:
+                                        first_res_num = int(first_res_num_raw) if first_res_num_raw else 1
+                                    except (ValueError, TypeError):
+                                        first_res_num = 1
+                                    
+                                    print(f"  [Metal Site] First instance: chain={first_chain}, residue_number={first_res_num}")
+                                    
+                                    # 只处理第一个配体实例的所有原子
+                                    atoms_processed = 0
+                                    atoms_skipped = 0
+                                    for atom in matching_atoms:
+                                        atom_chain = atom.get("chain", "")
+                                        res_num_raw = atom.get("residue_number", "")
+                                        
+                                        # 转换residue_number为整数（如果是字符串）
+                                        try:
+                                            res_num = int(res_num_raw) if res_num_raw else 1
+                                        except (ValueError, TypeError):
+                                            res_num = 1
+                                        
+                                        # 只保留第一个出现的配体实例（通过chain和residue_number匹配）
+                                        if atom_chain != first_chain or res_num != first_res_num:
+                                            atoms_skipped += 1
+                                            continue  # 跳过后续出现的实例
+                                        
+                                        atom_name = atom.get("atom_name", "")
+                                        element = atom.get("element", "")
+                                        coords = atom.get("coordinates", [0, 0, 0])
+                                        
+                                        if len(coords) < 3:
+                                            print(f"  [Metal Site] Warning: Atom {atom_name} has invalid coordinates: {coords}")
+                                            continue
+                                        
+                                        x, y, z = coords[0], coords[1], coords[2]
+                                        
+                                        # 格式化PDB HETATM行
+                                        # 使用实际的residue_name（从PDB文件中读取），而不是metal_name
+                                        actual_res_name = atom.get("residue_name", metal_name)
+                                        atom_name_padded = atom_name[:4].ljust(4)
+                                        res_name_padded = actual_res_name[:3].ljust(3)
+                                        element_padded = element[:2].rjust(2) if element else "  "
+                                        
+                                        pdb_line = (
+                                            f"HETATM{atom_serial:5d} {atom_name_padded:4s} {res_name_padded:3s} {atom_chain:1s}"
+                                            f"{res_num:4d}   {x:8.3f}{y:8.3f}{z:8.3f}  1.00  0.00          {element_padded:2s}  \n"
+                                        )
+                                        pdb_lines.append(pdb_line)
+                                        atom_serial += 1
+                                        atoms_processed += 1
+                                    
+                                    print(f"  [Metal Site] Processed {atoms_processed} atoms, skipped {atoms_skipped} atoms")
+                                    
+                                    if pdb_lines:
+                                        pdb_lines.append("END\n")
+                                        pdb_string = "".join(pdb_lines)
+                                        # 如果找到了配体，更新metal_name为实际找到的配体名称（例如HEM而不是FE）
+                                        if matching_atoms:
+                                            actual_ligand_name = matching_atoms[0].get("residue_name", metal_name)
+                                            if actual_ligand_name.upper() != metal_name.upper():
+                                                print(f"  [Metal Site] Updating metal_name from {metal_name} to {actual_ligand_name}")
+                                                metal_name = actual_ligand_name
+                                        print(f"  [Metal Site] Successfully extracted {len(pdb_lines)-1} atoms, PDB string length={len(pdb_string)}")
+                                    else:
+                                        print(f"  [Metal Site] ERROR: No atoms processed! matching_atoms={len(matching_atoms)}, atoms_processed={atoms_processed}, atoms_skipped={atoms_skipped}")
+                                else:
+                                    print(f"  [Metal Site] ERROR: No matching atoms found! metal_name={metal_name}, metal_type={metal_type}, chain={chain}, residue_number={residue_number}")
+                            except Exception as e:
+                                print(f"Warning: Failed to extract metal ligand structure from {first_pdb_path}: {e}")
+                                import traceback
+                                traceback.print_exc()
+                
+                # 返回响应
+                print(f"  [Metal Site] Returning response, pdb_string length={len(pdb_string) if pdb_string else 0}")
+                return jsonify({
+                    "status": "success",
+                    "motif": {
+                        'motif_id': motif_id,
+                        'metal_type': metal_type,
+                        'metal_name': metal_name,
+                        'ligand_name': metal_name,
+                        'category': 'metal_sites',
+                        'anchor_atoms': [],
+                        'anchor_atoms_count': 0,
+                        'geometry_constraints': [],
+                        'chemistry_tag': f'Metal site: {metal_type}',
+                        'extraction_method': 'metal_deduplication',
+                        'is_metal_site': True,
+                        'uniprot_id': metal_entry.get('uniprot_id', '') if metal_entry else '',
+                        'ec_number': metal_entry.get('ec_number', '') if metal_entry else '',
+                        'nanozyme_type': nanozyme_type if nanozyme_type else ''
+                    },
+                    "pdb_string": pdb_string,
+                    "source": "synthetic"
+                })
+            
             return jsonify({
                 "status": "error",
                 "error": f"Motif file not found: {motif_id}"
@@ -1158,9 +2062,21 @@ def get_motif_structure():
             'structure_2d_svg': motif_data.get('structure_2d_svg', '')
         }
         
+        # 生成PDB格式字符串用于3D可视化
+        pdb_string = ""
+        if formatted_motif.get('residue_structures'):
+            try:
+                pdb_string = generate_pdb_from_residues(
+                    formatted_motif['residue_structures'],
+                    formatted_motif['anchor_atoms']
+                )
+            except Exception as e:
+                print(f"Warning: Failed to generate PDB string: {e}")
+        
         return jsonify({
             "status": "success",
             "motif": formatted_motif,
+            "pdb_string": pdb_string,  # 添加PDB字符串
             "source": "database" if db and db.get_by_id(motif_id) else "filesystem"
         })
         

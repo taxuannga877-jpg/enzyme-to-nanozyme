@@ -20,6 +20,28 @@ from dataclasses import dataclass, field, asdict
 from enum import Enum
 
 
+def convert_numpy_types(obj: Any) -> Any:
+    """
+    Recursively convert numpy types to Python native types for JSON serialization.
+    
+    Args:
+        obj: Object that may contain numpy types
+        
+    Returns:
+        Object with numpy types converted to Python native types
+    """
+    if isinstance(obj, (np.integer, np.floating)):
+        return obj.item()  # Convert numpy scalar to Python native type
+    elif isinstance(obj, np.ndarray):
+        return obj.tolist()  # Convert numpy array to list
+    elif isinstance(obj, dict):
+        return {key: convert_numpy_types(value) for key, value in obj.items()}
+    elif isinstance(obj, (list, tuple)):
+        return [convert_numpy_types(item) for item in obj]
+    else:
+        return obj
+
+
 class AtomType(Enum):
     """Atom types for anchor atoms."""
     CARBON = "C"
@@ -123,6 +145,14 @@ class CatalyticMotif:
     # Enhanced fields
     residue_structures: Dict[Tuple[str, int], Dict] = field(default_factory=dict)
     structure_2d_svg: str = ""
+    
+    # Extended PDB information fields
+    metal_sites: List[Dict] = field(default_factory=list)
+    chemical_bonds: Dict[str, List[Dict]] = field(default_factory=dict)  # SSBOND, LINK, CONECT
+    ligands_and_cofactors: List[Dict] = field(default_factory=list)
+    site_annotations: List[Dict] = field(default_factory=list)
+    residue_environment: Dict[str, Dict] = field(default_factory=dict)  # Key: (res_name, res_num)
+    secondary_structure: Dict[str, List[Dict]] = field(default_factory=dict)  # helix, sheet
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary."""
@@ -132,7 +162,7 @@ class CatalyticMotif:
             key_str = f"{key[0]}_{key[1]}"
             residue_structures_dict[key_str] = value
         
-        return {
+        result = {
             "motif_id": self.motif_id,
             "source_uniprot_id": self.source_uniprot_id,
             "source_ec_number": self.source_ec_number,
@@ -146,8 +176,17 @@ class CatalyticMotif:
             "extraction_method": self.extraction_method,
             "notes": self.notes,
             "residue_structures": residue_structures_dict,
-            "structure_2d_svg": self.structure_2d_svg
+            "structure_2d_svg": self.structure_2d_svg,
+            "metal_sites": self.metal_sites,
+            "chemical_bonds": self.chemical_bonds,
+            "ligands_and_cofactors": self.ligands_and_cofactors,
+            "site_annotations": self.site_annotations,
+            "residue_environment": {f"{k[0]}_{k[1]}": v for k, v in self.residue_environment.items()},
+            "secondary_structure": self.secondary_structure
         }
+        
+        # Convert numpy types to Python native types for JSON serialization
+        return convert_numpy_types(result)
 
     def to_json(self, filepath: str) -> None:
         """Export to JSON file."""
@@ -182,6 +221,19 @@ class CatalyticMotif:
                 except ValueError:
                     pass
         
+        # Convert residue_environment back from string keys to tuple keys
+        residue_environment = {}
+        residue_environment_dict = data.get("residue_environment", {})
+        for key_str, value in residue_environment_dict.items():
+            parts = key_str.split("_")
+            if len(parts) >= 2:
+                res_name = parts[0]
+                try:
+                    res_num = int(parts[1])
+                    residue_environment[(res_name, res_num)] = value
+                except ValueError:
+                    pass
+        
         return cls(
             motif_id=data["motif_id"],
             source_uniprot_id=data["source_uniprot_id"],
@@ -196,5 +248,11 @@ class CatalyticMotif:
             extraction_method=data.get("extraction_method", ""),
             notes=data.get("notes", ""),
             residue_structures=residue_structures,
-            structure_2d_svg=data.get("structure_2d_svg", "")
+            structure_2d_svg=data.get("structure_2d_svg", ""),
+            metal_sites=data.get("metal_sites", []),
+            chemical_bonds=data.get("chemical_bonds", {}),
+            ligands_and_cofactors=data.get("ligands_and_cofactors", []),
+            site_annotations=data.get("site_annotations", []),
+            residue_environment=residue_environment,
+            secondary_structure=data.get("secondary_structure", {})
         )

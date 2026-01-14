@@ -62,17 +62,23 @@ def main():
         print("步骤1: 批量下载PDB文件")
         print("=" * 60)
         
+        # 使用pdb_library（新结构）
+        pdb_library_dir = project_root / 'pdb_library'
+        
+        # 向后兼容：如果pdb_library不存在，尝试旧路径
         json_cache_dir = project_root / 'cache' / 'json'
         pdb_cache_dir = project_root / 'cache' / 'pdb'
         
-        if not json_cache_dir.exists():
-            print(f"错误: JSON缓存目录不存在: {json_cache_dir}")
+        if not pdb_library_dir.exists() and not json_cache_dir.exists():
+            print(f"错误: 数据目录不存在")
+            print(f"  尝试查找: {pdb_library_dir}")
+            print(f"  或旧路径: {json_cache_dir}")
             print("请先运行EC号查询以生成JSON缓存文件")
             sys.exit(1)
         
         batch_download_pdb(
-            json_cache_dir=json_cache_dir,
-            pdb_cache_dir=pdb_cache_dir,
+            json_cache_dir=json_cache_dir if json_cache_dir.exists() else None,
+            pdb_cache_dir=pdb_cache_dir if pdb_cache_dir.exists() else None,
             max_entries=args.max_pdb,
             delay=args.pdb_delay
         )

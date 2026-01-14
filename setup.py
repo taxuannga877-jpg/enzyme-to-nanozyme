@@ -32,7 +32,13 @@ setup(
     python_requires=">=3.8",
     install_requires=[
         "numpy>=1.20.0",
-        "requests>=2.25.0",
+        "requests>=2.28.0",
+        "biopython>=1.79",
+        "matplotlib>=3.5.0",
+        "py3Dmol>=2.0.0",
+        "flask>=2.0.0",
+        "flask-cors>=3.0.0",
+        "pandas>=1.4.0",
     ],
     extras_require={
         "full": [
