@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "builder": "tools/public_repo/build_public_repo.py",
-  "built_at_utc": "2026-08-09T15:21:44.714996+00:00",
+  "built_at_utc": "2026-08-09T15:43:23.492370+00:00",
   "release_state": "PRE-RELEASE",
   "source_commit": "816990d13707aadeee9727dfc0695fe0a55e0ba9",
   "source_worktree_dirty": true,
@@ -55,8 +55,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 66191,
-      "sha256": "0115fd4e22f12e50e0a6aa41a5d931fefd4114fe6028eea689a0c22c7ab86769"
+      "bytes": 66247,
+      "sha256": "be2970e9bdef71b040559226f4bd573bf924be6f65191961d56d399c0680a555"
     },
     {
       "path": "RIGHTS_AND_LICENSING.md",

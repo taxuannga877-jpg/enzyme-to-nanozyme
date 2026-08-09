@@ -21,7 +21,8 @@ reproducibility layer.
 > microscopy, or universal topology superiority.
 
 The public repository is intentionally small: the verified export contains
-209 allowlisted files and approximately 6.7 MiB of logical file content.
+215 allowlisted payload files plus `BUILD_PROVENANCE.json` (216 files total),
+with approximately 6.7 MiB of logical file content.
 Large local PDB and motif libraries, raw calculations, model weights,
 runtime databases, caches, journal workspaces, and private intermediate
 records are described below but are **not uploaded**.
@@ -1148,4 +1149,3 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
 For questions, reproducibility problems, or proposed changes, open a GitHub
 issue with the exact commit, command, environment, input hashes, and observed
 output.
-
