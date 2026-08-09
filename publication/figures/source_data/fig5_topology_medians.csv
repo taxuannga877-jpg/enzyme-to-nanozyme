@@ -1,0 +1,23 @@
+activity,metric,topology,n,median_ev
+Catalase,adsorption,bridged,16,0.3224761956839757
+Catalase,adsorption,independent adjacent,36,0.21923631073934757
+Catalase,adsorption,independent separated,68,0.4850589992233835
+Glucose Oxidase,adsorption,independent adjacent,13,1.68590386210235
+Glucose Oxidase,adsorption,independent separated,69,0.0913114857257824
+Catalase,activation,bridged,16,2.404266573818859
+Catalase,activation,independent adjacent,36,3.515426425785563
+Catalase,activation,independent separated,68,2.525978420005231
+Oxidase,adsorption,bridged,18,-1.5004673584599004
+Oxidase,adsorption,independent adjacent,50,-0.8931355907302532
+Oxidase,adsorption,independent separated,106,-0.8480077996021009
+Peroxidase,adsorption,bridged,19,0.1174955040823988
+Peroxidase,adsorption,independent adjacent,51,0.5358657673104972
+Peroxidase,adsorption,independent separated,98,0.3946643772546849
+Oxidase,activation,bridged,18,0.0
+Oxidase,activation,independent adjacent,50,0.0
+Oxidase,activation,independent separated,106,0.0
+Peroxidase,activation,bridged,19,0.0
+Peroxidase,activation,independent adjacent,51,1.0970674749300997
+Peroxidase,activation,independent separated,98,1.1316645252536546
+Glutathione Peroxidase,adsorption,independent adjacent,48,1.7695081560452763
+Glutathione Peroxidase,adsorption,independent separated,106,1.9427099978711337

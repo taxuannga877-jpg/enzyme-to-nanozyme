@@ -1,0 +1,25 @@
+activity,selected_method,profile_count,activity_profile_count,within_activity_percent,total_profile_percent
+Catalase,First pass,52,120,43.33333333,7.43919886
+Catalase,GFN1 SCF fallback,52,120,43.33333333,7.43919886
+Catalase,GFN1 extended,2,120,1.66666667,0.28612303
+Catalase,GFN2 deep,14,120,11.66666667,2.00286123
+DNase,GFN2 deep,1,1,100.0,0.14306152
+Glucose Oxidase,First pass,16,82,19.51219512,2.28898426
+Glucose Oxidase,GFN1 SCF fallback,15,82,18.29268293,2.14592275
+Glucose Oxidase,GFN1 extended,5,82,6.09756098,0.71530758
+Glucose Oxidase,GFN2 deep,44,82,53.65853659,6.29470672
+Glucose Oxidase,GFN2 extended,2,82,2.43902439,0.28612303
+Glutathione Peroxidase,First pass,1,154,0.64935065,0.14306152
+Glutathione Peroxidase,GFN1 SCF fallback,12,154,7.79220779,1.7167382
+Glutathione Peroxidase,GFN1 extended,30,154,19.48051948,4.29184549
+Glutathione Peroxidase,GFN2 deep,103,154,66.88311688,14.73533619
+Glutathione Peroxidase,GFN2 extended,8,154,5.19480519,1.14449213
+Oxidase,First pass,119,174,68.3908046,17.02432046
+Oxidase,GFN1 SCF fallback,7,174,4.02298851,1.00143062
+Oxidase,GFN1 extended,1,174,0.57471264,0.14306152
+Oxidase,GFN2 deep,47,174,27.01149425,6.72389127
+Peroxidase,First pass,52,168,30.95238095,7.43919886
+Peroxidase,GFN1 SCF fallback,42,168,25.0,6.00858369
+Peroxidase,GFN1 extended,31,168,18.45238095,4.43490701
+Peroxidase,GFN2 deep,42,168,25.0,6.00858369
+Peroxidase,GFN2 extended,1,168,0.5952381,0.14306152

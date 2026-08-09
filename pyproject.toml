@@ -1,0 +1,73 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "enzyme-to-nanozyme"
+version = "0.2.0"
+description = "Auditable enzyme-informed nanozyme hypothesis design and paper-facing reproducibility tools"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+  "Topic :: Scientific/Engineering :: Chemistry",
+]
+dependencies = [
+  "biopython>=1.79,<2",
+  "numpy>=1.24,<3",
+  "requests>=2.28,<3",
+  "scipy>=1.10,<2",
+]
+
+[project.optional-dependencies]
+release = [
+  "matplotlib>=3.5,<4",
+  "pandas>=2.0,<3",
+  "Pillow>=10,<13",
+  "pypdfium2>=4,<6",
+]
+test = [
+  "pytest>=7,<10",
+]
+app = [
+  "Flask>=2.3,<4",
+  "Flask-Cors>=4,<7",
+  "pandas>=2.0,<3",
+  "py3Dmol>=2.0,<3",
+]
+atomistic = [
+  "ase>=3.22",
+  "rdkit>=2022.9",
+  "tblite>=0.6",
+]
+
+[project.urls]
+Repository = "https://github.com/taxuannga877-jpg/enzyme-to-nanozyme"
+
+[tool.setuptools.packages.find]
+include = ["enzyme_viewer*", "nanozyme_mining*"]
+exclude = ["tests*", "publication*", "scripts*"]
+
+[tool.setuptools.package-data]
+nanozyme_mining = ["design/data/*.json"]
+enzyme_viewer = [
+  "templates/*.html",
+  "static/css/*.css",
+  "static/js/*.js",
+  "static/js/*.txt",
+  "static/vendor/fontawesome/css/*.css",
+  "static/vendor/fontawesome/webfonts/*.ttf",
+  "static/vendor/fontawesome/webfonts/*.woff2",
+  "static/vendor/licenses/*.txt",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers --strict-config"

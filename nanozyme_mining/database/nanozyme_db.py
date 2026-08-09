@@ -26,7 +26,7 @@ class EnzymeEntry:
     nanozyme_type: str
     sequence: str
     sequence_length: int
-    alphafold_id: Optional[str] = None
+    pdb_id: Optional[str] = None
     pdb_path: Optional[str] = None
     active_sites: Optional[str] = None  # JSON string
     created_at: Optional[str] = None
@@ -74,7 +74,7 @@ class NanozymeDatabase:
                 nanozyme_type TEXT NOT NULL,
                 sequence TEXT,
                 sequence_length INTEGER,
-                alphafold_id TEXT,
+                pdb_id TEXT,
                 pdb_path TEXT,
                 active_sites TEXT,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP
@@ -145,7 +145,7 @@ class NanozymeDatabase:
             cursor.execute("""
                 INSERT OR REPLACE INTO enzymes
                 (uniprot_id, ec_number, nanozyme_type, sequence,
-                 sequence_length, alphafold_id, pdb_path, active_sites)
+                 sequence_length, pdb_id, pdb_path, active_sites)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 entry.uniprot_id,
@@ -153,7 +153,7 @@ class NanozymeDatabase:
                 entry.nanozyme_type,
                 entry.sequence,
                 entry.sequence_length,
-                entry.alphafold_id,
+                entry.pdb_id,
                 entry.pdb_path,
                 entry.active_sites
             ))
@@ -184,7 +184,7 @@ class NanozymeDatabase:
                 cursor.execute("""
                     INSERT OR REPLACE INTO enzymes
                     (uniprot_id, ec_number, nanozyme_type, sequence,
-                     sequence_length, alphafold_id, pdb_path, active_sites)
+                     sequence_length, pdb_id, pdb_path, active_sites)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """, (
                     entry.uniprot_id,
@@ -192,7 +192,7 @@ class NanozymeDatabase:
                     entry.nanozyme_type,
                     entry.sequence,
                     entry.sequence_length,
-                    entry.alphafold_id,
+                    entry.pdb_id,
                     entry.pdb_path,
                     entry.active_sites
                 ))
@@ -247,7 +247,7 @@ class NanozymeDatabase:
 
         cursor.execute("""
             SELECT uniprot_id, ec_number, nanozyme_type, sequence,
-                   sequence_length, alphafold_id, pdb_path, active_sites
+                   sequence_length, pdb_id, pdb_path, active_sites
             FROM enzymes WHERE ec_number = ?
         """, (ec_number,))
 
@@ -261,7 +261,7 @@ class NanozymeDatabase:
                 nanozyme_type=r[2],
                 sequence=r[3],
                 sequence_length=r[4],
-                alphafold_id=r[5],
+                pdb_id=r[5],
                 pdb_path=r[6],
                 active_sites=r[7]
             ) for r in results
@@ -284,7 +284,7 @@ class NanozymeDatabase:
 
         cursor.execute("""
             SELECT uniprot_id, ec_number, nanozyme_type, sequence,
-                   sequence_length, alphafold_id, pdb_path, active_sites
+                   sequence_length, pdb_id, pdb_path, active_sites
             FROM enzymes WHERE nanozyme_type = ?
         """, (nanozyme_type.value,))
 
@@ -298,7 +298,7 @@ class NanozymeDatabase:
                 nanozyme_type=r[2],
                 sequence=r[3],
                 sequence_length=r[4],
-                alphafold_id=r[5],
+                pdb_id=r[5],
                 pdb_path=r[6],
                 active_sites=r[7]
             ) for r in results

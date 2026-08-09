@@ -1,0 +1,17 @@
+figure,panel,claim,source_data,source_data_paths,asset_path
+Fig. 1,A,Representative retained candidate and its canonical metadata.,fig1_representative_candidate.csv,source_data/fig1_representative_candidate.csv,../data/x1_x100_dataset/representative_structure.png
+Fig. 1,B,Complete activity-profile trajectories for the representative candidate.,fig1_representative_scans.csv,source_data/fig1_representative_scans.csv,
+Fig. 1,C,Candidate occupancy and canonical retained-set totals across x1-x100.,fig1_design_topology.csv; fig1_canonical_summary.csv,source_data/fig1_design_topology.csv; source_data/fig1_canonical_summary.csv,
+Fig. 2,A,Retained candidate-record counts at each requested geometry coordinate.,fig2_geometry.csv,source_data/fig2_geometry.csv,
+Fig. 2,B,Design-index composition of the highlighted requested geometry.,fig2_highlighted_geometry.csv,source_data/fig2_highlighted_geometry.csv,
+Fig. 2,C,Individual requested candidate distances by topology.,fig2_distance_points.csv,source_data/fig2_distance_points.csv,
+Fig. 3,A,Retained candidate-record counts by declared activity pair.,fig3_activity_pair_counts.csv,source_data/fig3_activity_pair_counts.csv,
+Fig. 3,B,Absolute and within-pair topology composition of each activity pair.,fig3_activity_pair_topology.csv; fig3_activity_pair_topology_percent.csv,source_data/fig3_activity_pair_topology.csv; source_data/fig3_activity_pair_topology_percent.csv,
+Fig. 3,C,Declared activity-pair occupancy by design index.,fig3_activity_pair_design.csv,source_data/fig3_activity_pair_design.csv,
+Fig. 4,A,Complete-profile count by activity.,fig4_activity_counts.csv,source_data/fig4_activity_counts.csv,
+Fig. 4,B,Selected computational-route composition by activity.,fig4_method_activity.csv,source_data/fig4_method_activity.csv,
+Fig. 4,C,Individual adsorption descriptor values.,fig4_descriptor_points.csv,source_data/fig4_descriptor_points.csv,
+Fig. 4,D,Individual forward-scan peak descriptors and zero-valued boundary counts.,fig4_descriptor_points.csv; fig4_zero_activation.csv,source_data/fig4_descriptor_points.csv; source_data/fig4_zero_activation.csv,
+Fig. 5,A,Benjamini-Hochberg-adjusted q values for topology tests.,fig5_topology_tests.csv,source_data/fig5_topology_tests.csv,
+Fig. 5,B,Epsilon-squared effect sizes for topology tests.,fig5_topology_tests.csv,source_data/fig5_topology_tests.csv,
+Fig. 5,C,Topology medians for retained associations.,fig5_topology_medians.csv,source_data/fig5_topology_medians.csv,

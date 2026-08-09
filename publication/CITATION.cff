@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: >-
+  IMPORTANT: Citation metadata is incomplete. Complete the authors, release
+  version, archive DOI, release date, rights holder, and license before public
+  release or citation.
+title: "E2N: An Auditable Protein-to-Nanomaterial Translation Framework for Dual-Target Nanozyme Hypotheses"
+type: software
+authors:
+  - name: "REQUIRED BEFORE PUBLIC RELEASE: replace with the complete contribution-ordered author list"
+repository-code: "https://github.com/taxuannga877-jpg/enzyme-to-nanozyme"
+url: "https://github.com/taxuannga877-jpg/enzyme-to-nanozyme"
+abstract: >-
+  E2N is an auditable computational framework and paper-facing release for
+  translating selected metalloenzyme evidence into explicit, topology-aware
+  nanomaterial hypotheses. The canonical x1-x100 snapshot contains 355
+  retained canonical candidate records, 699 complete activity-specific
+  profiles, and 3515 converged frames within complete profiles. These records
+  support release-level figure, statistical, and report reproduction; they do
+  not constitute experimental catalyst validation or a full upstream campaign
+  rebuild.
+keywords:
+  - nanozyme
+  - metalloenzyme
+  - computational materials design
+  - scientific reproducibility
+  - evidence provenance
+version: "REQUIRED BEFORE PUBLIC RELEASE"
+
+# REQUIRED BEFORE PUBLIC RELEASE:
+# 1. Replace the placeholder entity above with every real author. Use
+#    given-names, family-names, ORCID, and affiliation where available.
+# 2. Add: date-released: YYYY-MM-DD
+# 3. Add: doi: 10.xxxx/zenodo.xxxxxxx (or the final archive DOI).
+# 4. Add the confirmed SPDX license only after LICENSE_SCOPE.md is resolved.
+# 5. Add a preferred-citation article entry after manuscript metadata is frozen.

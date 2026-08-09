@@ -1,0 +1,27 @@
+activity_pair,topology,candidate_count
+Catalase + DNase,bridged,1
+Catalase + Glucose Oxidase,independent adjacent,2
+Catalase + Glucose Oxidase,independent separated,9
+Catalase + Glutathione Peroxidase,independent adjacent,11
+Catalase + Glutathione Peroxidase,independent separated,23
+Catalase + Oxidase,bridged,7
+Catalase + Oxidase,independent adjacent,14
+Catalase + Oxidase,independent separated,19
+Catalase + Peroxidase,bridged,8
+Catalase + Peroxidase,independent adjacent,11
+Catalase + Peroxidase,independent separated,17
+DNase + Oxidase,bridged,1
+DNase + Peroxidase,bridged,1
+Glucose Oxidase + Glutathione Peroxidase,independent adjacent,5
+Glucose Oxidase + Glutathione Peroxidase,independent separated,22
+Glucose Oxidase + Oxidase,independent adjacent,4
+Glucose Oxidase + Oxidase,independent separated,21
+Glucose Oxidase + Peroxidase,independent adjacent,2
+Glucose Oxidase + Peroxidase,independent separated,17
+Glutathione Peroxidase + Oxidase,independent adjacent,14
+Glutathione Peroxidase + Oxidase,independent separated,34
+Glutathione Peroxidase + Peroxidase,independent adjacent,18
+Glutathione Peroxidase + Peroxidase,independent separated,32
+Oxidase + Peroxidase,bridged,10
+Oxidase + Peroxidase,independent adjacent,20
+Oxidase + Peroxidase,independent separated,32

@@ -54,6 +54,7 @@ DONOR_ATOMS = {
     "GLN": ["OE1", "NE2"],
     "SEC": ["SE"],
 }
+UNKNOWN_RESIDUES = {"", "UNK", "UNX", "XXX"}
 
 
 class MotifExtractor:
@@ -73,43 +74,35 @@ class MotifExtractor:
         """
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        
+
         # Initialize PDB parser if BioPython is available
         if BIOPYTHON_AVAILABLE:
             self.pdb_parser = PDBParser(QUIET=True)
-        
+
         # Initialize comprehensive PDB parser and analyzers
         self.comprehensive_parser = ComprehensivePDBParser()
         self.metal_extractor = PDBMetalExtractor()
         self.env_analyzer = EnvironmentAnalyzer()
 
     def parse_pdb(self, pdb_path: str) -> List[Dict]:
-        """
-        Parse PDB file and extract atom information.
-
-        Args:
-            pdb_path: Path to PDB file
-
-        Returns:
-            List of atom dictionaries
-        """
+        """Parse PDB file and extract atom information."""
         atoms = []
-
         with open(pdb_path, 'r') as f:
             for line in f:
                 if line.startswith("ATOM") or line.startswith("HETATM"):
-                    atom = {
-                        "atom_name": line[12:16].strip(),
-                        "residue_name": line[17:20].strip(),
-                        "chain_id": line[21].strip(),
-                        "residue_number": int(line[22:26].strip()),
-                        "x": float(line[30:38].strip()),
-                        "y": float(line[38:46].strip()),
-                        "z": float(line[46:54].strip()),
-                        "element": line[76:78].strip() if len(line) > 76 else ""
-                    }
-                    atoms.append(atom)
-
+                    try:
+                        atoms.append({
+                            "atom_name": line[12:16].strip(),
+                            "residue_name": line[17:20].strip(),
+                            "chain_id": line[21].strip(),
+                            "residue_number": int(line[22:26].strip()),
+                            "x": float(line[30:38].strip()),
+                            "y": float(line[38:46].strip()),
+                            "z": float(line[46:54].strip()),
+                            "element": line[76:78].strip() if len(line) > 76 else ""
+                        })
+                    except (ValueError, IndexError):
+                        continue
         return atoms
 
     def calculate_distance(self, coord1: List[float], coord2: List[float]) -> float:
@@ -148,12 +141,12 @@ class MotifExtractor:
         """
         # 1. Try PDB SITE records first (highest priority)
         site_residues = self._extract_site_residues(pdb_path)
-        
+
         # If no SITE records found, fall back to active_site_indices if provided
         has_explicit_active_sites = active_site_indices is not None and len(active_site_indices) > 0
         if not site_residues and has_explicit_active_sites:
             site_residues = {(None, idx) for idx in active_site_indices}
-        
+
         if site_residues:
             # Find atoms matching SITE residues
             catalytic_atoms = []
@@ -161,7 +154,10 @@ class MotifExtractor:
                 res_name = atom["residue_name"]
                 res_num = atom["residue_number"]
                 chain_id = atom["chain_id"]
-                
+
+                if res_name.upper() in UNKNOWN_RESIDUES:
+                    continue
+
                 # Check if this residue is in SITE records
                 is_catalytic = False
                 for site_chain, site_num in site_residues:
@@ -175,18 +171,17 @@ class MotifExtractor:
                         if chain_id == site_chain and res_num == site_num:
                             is_catalytic = True
                             break
-                
+
                 if not is_catalytic:
                     continue
-                
-                # Check if atom is a donor atom (catalytic atoms are usually donor/acceptor atoms)
+
                 if res_name in DONOR_ATOMS:
                     if atom["atom_name"] in DONOR_ATOMS[res_name]:
                         catalytic_atoms.append(atom)
                 else:
-                    # If residue type not in DONOR_ATOMS, still include key atoms
-                    catalytic_atoms.append(atom)
-            
+                    if atom["atom_name"] == "CA":
+                        catalytic_atoms.append(atom)
+
             # If we have explicit active_site information, try to extract atoms even if no match found
             if has_explicit_active_sites:
                 if catalytic_atoms:
@@ -198,6 +193,8 @@ class MotifExtractor:
                     for idx in active_site_indices:
                         for atom in atoms:
                             if atom["residue_number"] == idx:
+                                if atom["residue_name"].upper() in UNKNOWN_RESIDUES:
+                                    continue
                                 # Prefer key atoms (CA, or donor atoms)
                                 if atom["atom_name"] == "CA":
                                     fallback_atoms.append(atom)
@@ -206,44 +203,43 @@ class MotifExtractor:
                                     if atom["atom_name"] in DONOR_ATOMS[atom["residue_name"]]:
                                         fallback_atoms.append(atom)
                                         break
-                    
+
                     # If still no atoms found, at least include CA atoms
                     if not fallback_atoms:
                         for idx in active_site_indices:
                             for atom in atoms:
+                                if atom["residue_name"].upper() in UNKNOWN_RESIDUES:
+                                    continue
                                 if atom["residue_number"] == idx and atom["atom_name"] == "CA":
                                     fallback_atoms.append(atom)
                                     break
-                    
+
                     return fallback_atoms, "pdb_site" if fallback_atoms else "none"
-            
+
             # If we found atoms from PDB SITE records, return them
             if catalytic_atoms:
                 return catalytic_atoms, "pdb_site"
-        
+
         # No catalytic residues found
         return [], "none"
-    
+
     def _extract_site_residues(self, pdb_path: str) -> set:
         """
         Extract catalytic residues from PDB SITE records.
-        
+
         Args:
             pdb_path: Path to PDB file
-            
+
         Returns:
             Set of (chain_id, residue_number) tuples from SITE records
         """
         site_residues = set()
-        
+
         try:
             with open(pdb_path, 'r') as f:
                 for line in f:
                     if line.startswith("SITE"):
-                        # Parse SITE record
-                        # Format: SITE    1 AC1 4 HIS A 146  HIS A  57  HIS A  87  HIS A 119
                         try:
-                            # SITE can have up to 4 residues per line
                             for i in range(4):
                                 start = 18 + i * 11
                                 if len(line) > start + 10:
@@ -252,16 +248,14 @@ class MotifExtractor:
                                     res_num_str = line[start+5:start+10].strip()
                                     if res_name and res_num_str:
                                         try:
-                                            res_num = int(res_num_str)
-                                            chain_id = chain if chain else None
-                                            site_residues.add((chain_id, res_num))
+                                            site_residues.add((chain if chain else None, int(res_num_str)))
                                         except ValueError:
                                             pass
                         except (ValueError, IndexError):
                             continue
         except Exception as e:
             print(f"⚠️  Warning: Error reading SITE records from {pdb_path}: {e}")
-        
+
         return site_residues
 
 
@@ -271,6 +265,7 @@ class MotifExtractor:
         uniprot_id: str,
         ec_number: str,
         nanozyme_type: str,
+        pdb_id: Optional[str] = None,
         active_site_indices: Optional[List[int]] = None,
         functional_roles: Optional[Dict[Tuple[str, int], str]] = None
     ) -> Optional[CatalyticMotif]:
@@ -282,6 +277,7 @@ class MotifExtractor:
             uniprot_id: UniProt ID
             ec_number: EC number
             nanozyme_type: Nanozyme type
+            pdb_id: Experimental PDB ID. Used as the motif primary key.
             active_site_indices: Known active site residue indices
             functional_roles: Dict mapping (residue_name, residue_number) to functional role (optional)
 
@@ -308,12 +304,15 @@ class MotifExtractor:
         # Create anchor atoms with functional roles
         anchor_atoms = []
         for atom in catalytic_atoms:
+            if atom["residue_name"].upper() in UNKNOWN_RESIDUES:
+                continue
             # Get functional role
             role = ""
             if functional_roles:
-                key = (atom["residue_name"], atom["residue_number"])
-                role = functional_roles.get(key, "")
-            
+                res_num = atom["residue_number"]
+                res_name = atom["residue_name"]
+                role = functional_roles.get((res_name, res_num)) or functional_roles.get((None, res_num), "")
+
             # If no role from functional_roles, try to infer from residue type
             if not role:
                 role = self._infer_functional_role(atom["residue_name"], atom["atom_name"])
@@ -330,14 +329,23 @@ class MotifExtractor:
             )
             anchor_atoms.append(anchor)
 
+        if not anchor_atoms:
+            return None
+
+        if len(anchor_atoms) > 50:
+            return None
+
         # Calculate geometry constraints
         geometry = self._calculate_geometry(anchor_atoms)
 
-        motif_id = f"{uniprot_id}_{ec_number}_{nanozyme_type}"
+        source_pdb_id = (pdb_id or Path(pdb_path).stem).strip().upper()
+        motif_key = source_pdb_id or uniprot_id or "UNKNOWN"
+        motif_id = f"{motif_key}_{ec_number}_{nanozyme_type}"
 
         motif = CatalyticMotif(
             motif_id=motif_id,
             source_uniprot_id=uniprot_id,
+            source_pdb_id=source_pdb_id,
             source_ec_number=ec_number,
             nanozyme_type=nanozyme_type,
             anchor_atoms=anchor_atoms,
@@ -352,7 +360,7 @@ class MotifExtractor:
         # Generate 2D structure if RDKit is available
         if RDKIT_AVAILABLE:
             motif.structure_2d_svg = self._generate_2d_structure(motif, residue_structures)
-        
+
         # Extract extended PDB information
         try:
             self._extract_extended_pdb_info(motif, pdb_path, catalytic_atoms)
@@ -360,7 +368,7 @@ class MotifExtractor:
             print(f"⚠️  Warning: Error extracting extended PDB information: {e}")
 
         return motif
-    
+
     def _extract_extended_pdb_info(
         self,
         motif: CatalyticMotif,
@@ -369,24 +377,24 @@ class MotifExtractor:
     ) -> None:
         """
         Extract extended PDB information and add to motif.
-        
+
         Args:
             motif: CatalyticMotif object to update
             pdb_path: Path to PDB file
             catalytic_atoms: List of catalytic atom dictionaries
         """
         pdb_file = Path(pdb_path)
-        
+
         # 1. Parse comprehensive PDB information
         parsed_data = self.comprehensive_parser.parse_pdb_file(pdb_file)
-        
+
         # Check if any data was calculated (fallback) rather than parsed
         calculated_flags = []
         if parsed_data.get("_calculated_ssbonds"):
             calculated_flags.append("disulfide bonds")
         if parsed_data.get("_calculated_ligands"):
             calculated_flags.append("ligands/cofactors")
-        
+
         # 2. Extract metal sites first (needed for calculating metal coordination links)
         metal_sites = []
         try:
@@ -395,36 +403,36 @@ class MotifExtractor:
         except Exception as e:
             print(f"⚠️  Warning: Error extracting metal sites: {e}")
             motif.metal_sites = []
-        
+
         # 3. Extract chemical bonds (with fallback calculation support)
         motif.chemical_bonds = self.comprehensive_parser.extract_chemical_bonds(
             parsed_data, pdb_file=pdb_file, metal_sites=[site.to_dict() for site in metal_sites]
         )
-        
+
         # Check if links were calculated
         if motif.chemical_bonds.get("links") and any(
-            link.get("calculated_from_coords", False) 
+            link.get("calculated_from_coords", False)
             for link in motif.chemical_bonds.get("links", [])
         ):
             calculated_flags.append("metal coordination links")
-        
+
         # 4. Extract ligands and cofactors
         motif.ligands_and_cofactors = self.comprehensive_parser.extract_ligands_and_cofactors(
             parsed_data, parsed_data.get("het_info")
         )
-        
+
         # 5. Extract site annotations
         motif.site_annotations = parsed_data.get("sites", [])
-        
+
         # 6. Extract secondary structure
         motif.secondary_structure = self.comprehensive_parser.extract_secondary_structure(parsed_data)
-        
+
         # 7. Print warnings if data was calculated rather than parsed
         if calculated_flags:
             print(f"ℹ️  Note: The following information was calculated from coordinates "
                   f"(not parsed from PDB records): {', '.join(calculated_flags)}. "
-                  f"This is common for AlphaFold-predicted structures.")
-        
+                  f"This is common for structures that lack complete PDB annotation records.")
+
         # 8. Analyze residue environment for catalytic residues
         try:
             target_residues = [
@@ -433,7 +441,7 @@ class MotifExtractor:
             ]
             # Remove duplicates
             target_residues = list(set(target_residues))
-            
+
             residue_env = self.env_analyzer.analyze_residue_environment(
                 pdb_file, target_residues
             )
@@ -497,7 +505,7 @@ class MotifExtractor:
         if BIOPYTHON_AVAILABLE:
             try:
                 structure = self.pdb_parser.get_structure('motif', pdb_path)
-                
+
                 # Get unique residues from catalytic atoms
                 unique_residues = {}
                 for atom in catalytic_atoms:
@@ -512,7 +520,7 @@ class MotifExtractor:
                             res_name = residue.get_resname()
                             res_num = residue.get_id()[1]
                             chain_id = chain.get_id()
-                            
+
                             key = (res_name, res_num, chain_id)
                             if key in unique_residues:
                                 # Extract all atoms in this residue
@@ -525,7 +533,7 @@ class MotifExtractor:
                                         "occupancy": atom.get_occupancy(),
                                         "bfactor": atom.get_bfactor()
                                     })
-                                
+
                                 residue_key = (res_name, res_num)
                                 residue_structures[residue_key] = {
                                     "residue_name": res_name,
@@ -551,7 +559,7 @@ class MotifExtractor:
     ) -> Dict[Tuple[str, int], Dict]:
         """Simple residue structure extraction from PDB file without BioPython."""
         residue_structures = {}
-        
+
         # Get unique residues
         unique_residues = {}
         for atom in catalytic_atoms:
@@ -566,7 +574,7 @@ class MotifExtractor:
                     res_name = line[17:20].strip()
                     res_num = int(line[22:26].strip())
                     chain_id = line[21].strip()
-                    
+
                     key = (res_name, res_num)
                     if key in unique_residues:
                         if key not in residue_structures:
@@ -576,7 +584,7 @@ class MotifExtractor:
                                 "chain_id": chain_id,
                                 "atoms": []
                             }
-                        
+
                         atom_info = {
                             "atom_name": line[12:16].strip(),
                             "element": line[76:78].strip() if len(line) > 76 else "",
@@ -715,7 +723,7 @@ class MotifExtractor:
             # Generate SMILES for each residue side chain
             mols = []
             labels = []
-            
+
             for (res_name, res_num), anchor in unique_residues.items():
                 if res_name in AA_SMILES:
                     smiles = AA_SMILES[res_name]
@@ -739,7 +747,7 @@ class MotifExtractor:
                                 if atom.GetSymbol() == "S":
                                     highlight_atoms.append(atom.GetIdx())
                         # Add more patterns as needed...
-                        
+
                         mols.append(mol)
                         role = anchor.role if anchor.role else f"{res_name}{res_num}"
                         labels.append(f"{res_name}{res_num}\n({role})")
@@ -749,40 +757,40 @@ class MotifExtractor:
 
             # Generate combined SVG
             from rdkit.Chem import rdDepictor
-            
+
             # Calculate grid layout
             n_mols = len(mols)
             cols = min(3, n_mols)
             rows = (n_mols + cols - 1) // cols
-            
+
             width = 300 * cols
             height = 200 * rows
-            
+
             drawer = rdMolDraw2D.MolDraw2DSVG(width, height)
             opts = drawer.drawOptions()
             opts.backgroundColour = (1.0, 1.0, 1.0)  # White background (RGB 0-1 range, no alpha)
             opts.addStereoAnnotation = True
             opts.annotationFontScale = 0.8
-            
+
             # Draw each molecule in grid
             for idx, mol in enumerate(mols):
                 row = idx // cols
                 col = idx % cols
-                
+
                 # Compute 2D coordinates
                 rdDepictor.Compute2DCoords(mol)
-                
+
                 # Calculate position
                 x_offset = col * 300
                 y_offset = row * 200
-                
+
                 # Draw molecule
                 drawer.SetOffset(x_offset, y_offset)
                 drawer.DrawMolecule(mol)
 
             drawer.FinishDrawing()
             svg = drawer.GetDrawingText()
-            
+
             # Add labels directly to SVG (more compatible than DrawAnnotation)
             if labels:
                 import re
@@ -806,10 +814,10 @@ class MotifExtractor:
                             )
                     # Insert labels before closing </svg> tag
                     svg = svg[:svg_end] + '\n'.join(label_elements) + '\n' + svg[svg_end:]
-            
+
             # Clean up SVG
             svg = svg.replace('white', 'none')
-            
+
             return svg
 
         except Exception as e:

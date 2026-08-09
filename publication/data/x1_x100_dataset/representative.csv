@@ -1,0 +1,2 @@
+candidate_id,design_id,design_index,activity_pair,topology,distance_a,doping,angle_deg,variant_id,score,max_force_ev_per_a
+31967c28,x57,57,Glucose Oxidase + Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7676261857102435,0.0426801136596372

@@ -1,0 +1,14 @@
+activity_pair,candidate_count,represented_design_indices,represented_topologies,candidate_percent
+Oxidase + Peroxidase,62,32,3,17.46478873
+Glutathione Peroxidase + Peroxidase,50,27,2,14.08450704
+Glutathione Peroxidase + Oxidase,48,27,2,13.52112676
+Catalase + Oxidase,40,23,3,11.26760563
+Catalase + Peroxidase,36,22,3,10.14084507
+Catalase + Glutathione Peroxidase,34,21,2,9.57746479
+Glucose Oxidase + Glutathione Peroxidase,27,12,2,7.6056338
+Glucose Oxidase + Oxidase,25,12,2,7.04225352
+Glucose Oxidase + Peroxidase,19,6,2,5.35211268
+Catalase + Glucose Oxidase,11,5,2,3.09859155
+Catalase + DNase,1,1,1,0.28169014
+DNase + Oxidase,1,1,1,0.28169014
+DNase + Peroxidase,1,1,1,0.28169014

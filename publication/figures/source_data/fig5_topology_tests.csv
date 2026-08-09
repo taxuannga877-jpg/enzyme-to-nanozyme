@@ -1,0 +1,11 @@
+activity,metric,compared_topologies,group_sizes,statistic,p_value,epsilon_squared,q_value,retained_at_fdr_0_05
+Catalase,adsorption,bridged;independent adjacent;independent separated,16;36;68,24.05614041078578,5.974141183880864e-06,0.1885140206050066,5.974141183880864e-05,True
+Glucose Oxidase,adsorption,independent adjacent;independent separated,0;13;69,14.750086147503287,0.0001227419179988,0.171876076843791,0.000613709589994,True
+Catalase,activation,bridged;independent adjacent;independent separated,16;36;68,17.14917355371898,0.0001888444728089,0.1294801158437519,0.0006156560477232,True
+Oxidase,adsorption,bridged;independent adjacent;independent separated,18;50;106,16.61822569266751,0.0002462624190893,0.0854866999571199,0.0006156560477232,True
+Peroxidase,adsorption,bridged;independent adjacent;independent separated,19;51;98,10.660819602667749,0.0048420853125906,0.0524898157737439,0.0096841706251812,True
+Oxidase,activation,bridged;independent adjacent;independent separated,18;50;106,9.707764929515392,0.0077980430736511,0.0450746487106163,0.0129967384560851,True
+Peroxidase,activation,bridged;independent adjacent;independent separated,19;51;98,8.345302936458012,0.0154113432160367,0.0384563814330788,0.0220162045943381,True
+Glutathione Peroxidase,adsorption,independent adjacent;independent separated,0;48;106,5.216275551157203,0.022376426218682,0.0277386549418237,0.0279705327733525,True
+Glutathione Peroxidase,activation,independent adjacent;independent separated,0;48;106,0.7924763085334013,0.3733523929975715,0.0,0.4148359922195239,False
+Glucose Oxidase,activation,independent adjacent;independent separated,0;13;69,0.247436764917872,0.6188857410130282,0.0,0.6188857410130282,False

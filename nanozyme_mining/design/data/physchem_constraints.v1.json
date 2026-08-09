@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "reviewed_at": "2026-06-16",
+  "policy": {
+    "constraint_levels": ["hard", "literature_prior", "screening_proxy"],
+    "missing_evidence": "not_constructible",
+    "energy_comparison": "same_backend_same_head_same_composition_same_protocol_only",
+    "screening_proxy": {
+      "sabatier_adsorption_optimum_ev": -0.8,
+      "sabatier_adsorption_width_ev": 1.5,
+      "forward_scan_peak_max_ev": 1.5
+    }
+  },
+  "sources": {
+    "mace_mh_1_2025": {
+      "title": "Cross Learning between Electronic Structure Theories for Unifying Molecular, Surface, and Inorganic Crystal Foundation Force Fields",
+      "year": 2025,
+      "url": "https://arxiv.org/abs/2510.25380",
+      "evidence_level": "primary_model"
+    },
+    "fe_cu_3d_2024": {
+      "title": "Three-dimensional spatial regulation of Fe-Cu sites in single-atom nanozymes",
+      "year": 2024,
+      "doi": "10.1038/s41467-024-46528-w",
+      "url": "https://www.nature.com/articles/s41467-024-46528-w",
+      "evidence_level": "primary_experiment"
+    },
+    "second_sphere_2025": {
+      "title": "Engineering the second coordination sphere of a nanozyme",
+      "year": 2025,
+      "doi": "10.1038/s41467-025-58291-7",
+      "url": "https://www.nature.com/articles/s41467-025-58291-7",
+      "evidence_level": "primary_experiment"
+    },
+    "ph_microenvironment_2024": {
+      "title": "pH-responsive regulation of peroxidase-mimicking catalysis",
+      "year": 2024,
+      "doi": "10.1038/s41467-024-55163-4",
+      "url": "https://www.nature.com/articles/s41467-024-55163-4",
+      "evidence_level": "primary_experiment"
+    },
+    "gfn2_xtb": {
+      "title": "GFN2-xTB: An Accurate and Broadly Parametrized Self-Consistent Tight-Binding Quantum Chemical Method",
+      "year": 2019,
+      "doi": "10.1021/acs.jctc.8b01176",
+      "url": "https://doi.org/10.1021/acs.jctc.8b01176",
+      "evidence_level": "primary_method"
+    },
+    "curated_coordination_ranges": {
+      "title": "E2N curated transition-metal first-shell screening ranges",
+      "year": 2026,
+      "evidence_level": "curated_prior",
+      "note": "Broad screening windows compiled from the existing E2N coordination table; they are gates, not equilibrium bond predictions."
+    }
+  },
+  "metal_constraints": {
+    "FE:2": {"d_electrons": 6, "allowed_cn": [4, 5, 6], "allowed_spins": [1, 3, 5], "donor_ranges": {"N": [1.80, 2.30], "O": [1.70, 2.35], "S": [2.10, 2.50]}, "source_id": "curated_coordination_ranges"},
+    "FE:3": {"d_electrons": 5, "allowed_cn": [4, 5, 6], "allowed_spins": [2, 4, 6], "donor_ranges": {"N": [1.80, 2.30], "O": [1.70, 2.35], "S": [2.10, 2.50]}, "source_id": "curated_coordination_ranges"},
+    "CU:1": {"d_electrons": 10, "allowed_cn": [2, 3, 4], "allowed_spins": [1], "donor_ranges": {"N": [1.85, 2.25], "O": [1.85, 2.25], "S": [2.00, 2.45]}, "source_id": "curated_coordination_ranges"},
+    "CU:2": {"d_electrons": 9, "allowed_cn": [4, 5, 6], "allowed_spins": [2], "donor_ranges": {"N": [1.85, 2.25], "O": [1.85, 2.30], "S": [2.00, 2.45]}, "source_id": "curated_coordination_ranges"},
+    "ZN:2": {"d_electrons": 10, "allowed_cn": [4, 5, 6], "allowed_spins": [1], "donor_ranges": {"N": [1.90, 2.30], "O": [1.85, 2.25], "S": [2.10, 2.50]}, "source_id": "curated_coordination_ranges"},
+    "MN:2": {"d_electrons": 5, "allowed_cn": [4, 5, 6], "allowed_spins": [2, 4, 6], "donor_ranges": {"N": [1.95, 2.40], "O": [1.80, 2.35]}, "source_id": "curated_coordination_ranges"},
+    "MN:3": {"d_electrons": 4, "allowed_cn": [4, 5, 6], "allowed_spins": [3, 5], "donor_ranges": {"N": [1.90, 2.35], "O": [1.75, 2.30]}, "source_id": "curated_coordination_ranges"},
+    "NI:2": {"d_electrons": 8, "allowed_cn": [4, 5, 6], "allowed_spins": [1, 3], "donor_ranges": {"N": [1.90, 2.20], "O": [1.85, 2.20], "S": [2.05, 2.45]}, "source_id": "curated_coordination_ranges"},
+    "CO:2": {"d_electrons": 7, "allowed_cn": [4, 5, 6], "allowed_spins": [2, 4], "donor_ranges": {"N": [1.90, 2.25], "O": [1.85, 2.20]}, "source_id": "curated_coordination_ranges"}
+  },
+  "geometry_families": {
+    "linear": {"coordination_numbers": [2], "shape_rms_max_deg": 18.0, "planarity_rms_max_a": 0.20},
+    "trigonal_planar": {"coordination_numbers": [3], "shape_rms_max_deg": 22.0, "planarity_rms_max_a": 0.25},
+    "tetrahedral": {"coordination_numbers": [4], "shape_rms_max_deg": 28.0},
+    "square_planar": {"coordination_numbers": [4], "shape_rms_max_deg": 25.0, "planarity_rms_max_a": 0.35},
+    "square_pyramidal": {"coordination_numbers": [5], "shape_rms_max_deg": 30.0},
+    "trigonal_bipyramidal": {"coordination_numbers": [5], "shape_rms_max_deg": 30.0},
+    "octahedral": {"coordination_numbers": [6], "shape_rms_max_deg": 30.0}
+  },
+  "activity_prototypes": {
+    "Peroxidase": {"prototype_id": "pod_mnx_open_axial_v1", "allowed_metals": ["FE", "CU", "MN", "CO"], "allowed_modes": ["bridged", "cooperative_adjacent", "independent_adjacent", "independent_separated"], "proxy_label": "peroxidase_like", "condition_id": "pod_acidic", "ph_range": [3.5, 6.5], "microstates": ["aquo", "hydroxo"], "sources": ["second_sphere_2025", "ph_microenvironment_2024"]},
+    "Catalase": {"prototype_id": "cat_fe_mn_aquo_v1", "allowed_metals": ["FE", "MN"], "allowed_modes": ["bridged", "cooperative_adjacent", "independent_adjacent", "independent_separated"], "condition_id": "cat_neutral", "ph_range": [6.0, 8.0], "microstates": ["aquo", "hydroxo"], "sources": ["ph_microenvironment_2024"]},
+    "Oxidase": {"prototype_id": "oxd_open_o2_v1", "allowed_metals": ["CU", "FE", "MN", "CO"], "allowed_modes": ["bridged", "cooperative_adjacent", "independent_adjacent", "independent_separated"], "proxy_label": "oxidase_like", "condition_id": "oxd_neutral", "ph_range": [5.5, 8.0], "microstates": ["open", "aquo"], "sources": ["fe_cu_3d_2024"]},
+    "Glucose Oxidase": {"prototype_id": "gox_metal_proxy_v1", "allowed_metals": ["FE", "CU", "MN", "CO"], "allowed_modes": ["cooperative_adjacent", "independent_adjacent", "independent_separated"], "proxy_label": "enzyme_like_proxy", "condition_id": "gox_mild_acid", "ph_range": [4.5, 7.0], "microstates": ["aquo", "hydroxo"], "sources": ["ph_microenvironment_2024"]},
+    "Glutathione Peroxidase": {"prototype_id": "gpx_thiophilic_proxy_v1", "allowed_metals": ["CU", "FE", "CO", "NI"], "allowed_modes": ["cooperative_adjacent", "independent_adjacent", "independent_separated"], "proxy_label": "enzyme_like_proxy", "condition_id": "gpx_neutral", "ph_range": [6.0, 8.0], "microstates": ["aquo", "hydroxo"], "sources": ["second_sphere_2025"]},
+    "Laccase": {"prototype_id": "laccase_multicu_proxy_v1", "allowed_metals": ["CU"], "minimum_same_activity_centers": 2, "allowed_modes": ["bridged", "cooperative_adjacent", "independent_adjacent"], "proxy_label": "laccase_like_proxy", "condition_id": "lac_acidic", "ph_range": [3.5, 6.5], "microstates": ["open", "aquo"], "sources": ["fe_cu_3d_2024"]},
+    "Phosphatase": {"prototype_id": "pho_dinuclear_lewis_v1", "allowed_metals": ["ZN", "MN", "NI"], "minimum_cooperative_centers": 2, "allowed_modes": ["bridged", "cooperative_adjacent", "independent_adjacent"], "condition_id": "pho_neutral_basic", "ph_range": [6.5, 9.0], "microstates": ["bridging_hydroxo", "aquo"], "sources": ["second_sphere_2025"]},
+    "DNase": {"prototype_id": "dnase_dinuclear_hydrolysis_v1", "allowed_metals": ["MN", "ZN", "NI"], "minimum_cooperative_centers": 2, "allowed_modes": ["bridged", "cooperative_adjacent", "independent_adjacent"], "condition_id": "dnase_neutral", "ph_range": [6.5, 8.5], "microstates": ["bridging_hydroxo", "aquo"], "sources": ["second_sphere_2025"]},
+    "Superoxide Dismutase": {"prototype_id": "sod_cuzn_or_redox_single_v1", "allowed_metals": ["CU", "MN", "FE", "ZN"], "zinc_requires_copper_partner": true, "allowed_modes": ["bridged", "cooperative_adjacent", "independent_adjacent"], "condition_id": "sod_neutral", "ph_range": [6.5, 8.0], "microstates": ["aquo", "hydroxo"], "sources": ["fe_cu_3d_2024"]},
+    "Urease": {"prototype_id": "urease_dinickel_hydroxo_v1", "allowed_metals": ["NI"], "minimum_same_activity_centers": 2, "allowed_modes": ["bridged", "cooperative_adjacent", "independent_adjacent"], "condition_id": "urease_neutral_basic", "ph_range": [6.5, 9.0], "microstates": ["bridging_hydroxo", "aquo"], "sources": ["second_sphere_2025"]}
+  }
+}

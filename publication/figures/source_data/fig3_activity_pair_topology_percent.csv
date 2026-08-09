@@ -1,0 +1,27 @@
+activity_pair,topology,candidate_count,pair_candidate_count,topology_percent
+Catalase + DNase,bridged,1,1,100.0
+Catalase + Glucose Oxidase,independent adjacent,2,11,18.181818181818183
+Catalase + Glucose Oxidase,independent separated,9,11,81.81818181818181
+Catalase + Glutathione Peroxidase,independent adjacent,11,34,32.35294117647059
+Catalase + Glutathione Peroxidase,independent separated,23,34,67.6470588235294
+Catalase + Oxidase,bridged,7,40,17.5
+Catalase + Oxidase,independent adjacent,14,40,35.0
+Catalase + Oxidase,independent separated,19,40,47.5
+Catalase + Peroxidase,bridged,8,36,22.22222222222222
+Catalase + Peroxidase,independent adjacent,11,36,30.555555555555557
+Catalase + Peroxidase,independent separated,17,36,47.22222222222222
+DNase + Oxidase,bridged,1,1,100.0
+DNase + Peroxidase,bridged,1,1,100.0
+Glucose Oxidase + Glutathione Peroxidase,independent adjacent,5,27,18.51851851851852
+Glucose Oxidase + Glutathione Peroxidase,independent separated,22,27,81.48148148148148
+Glucose Oxidase + Oxidase,independent adjacent,4,25,16.0
+Glucose Oxidase + Oxidase,independent separated,21,25,84.0
+Glucose Oxidase + Peroxidase,independent adjacent,2,19,10.526315789473685
+Glucose Oxidase + Peroxidase,independent separated,17,19,89.47368421052632
+Glutathione Peroxidase + Oxidase,independent adjacent,14,48,29.166666666666668
+Glutathione Peroxidase + Oxidase,independent separated,34,48,70.83333333333333
+Glutathione Peroxidase + Peroxidase,independent adjacent,18,50,36.0
+Glutathione Peroxidase + Peroxidase,independent separated,32,50,64.0
+Oxidase + Peroxidase,bridged,10,62,16.129032258064516
+Oxidase + Peroxidase,independent adjacent,20,62,32.25806451612903
+Oxidase + Peroxidase,independent separated,32,62,51.61290322580645

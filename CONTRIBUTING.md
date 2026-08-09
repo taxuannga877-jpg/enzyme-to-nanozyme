@@ -1,146 +1,49 @@
-# Contributing to CatalyticTriadNet
+# Contributing to E2N
 
-Thank you for your interest in contributing to CatalyticTriadNet! This document provides guidelines and instructions for contributing.
+E2N combines scientific software with a paper-facing evidence release.
+Contributions must therefore preserve both software behavior and the stated
+evidence boundary.
 
-## Table of Contents
-
-- [Code of Conduct](#code-of-conduct)
-- [Getting Started](#getting-started)
-- [How to Contribute](#how-to-contribute)
-- [Development Setup](#development-setup)
-- [Pull Request Process](#pull-request-process)
-- [Style Guidelines](#style-guidelines)
-
-## Code of Conduct
-
-This project adheres to a Code of Conduct. By participating, you are expected to uphold this code. Please report unacceptable behavior to the project maintainers.
-
-## Getting Started
-
-1. Fork the repository on GitHub
-2. Clone your fork locally
-3. Set up the development environment
-4. Create a branch for your changes
-
-## How to Contribute
-
-### Reporting Bugs
-
-- Use the GitHub issue tracker
-- Check if the issue already exists
-- Include detailed steps to reproduce
-- Provide system information (OS, Python version, PyTorch version)
-
-### Suggesting Features
-
-- Open an issue with the "enhancement" label
-- Describe the feature and its use case
-- Discuss implementation approaches if possible
-
-### Code Contributions
-
-1. **Bug fixes**: Reference the issue number in your PR
-2. **New features**: Discuss in an issue first
-3. **Documentation**: Always welcome!
-4. **Tests**: Help improve coverage
-
-## Development Setup
+## Development setup
 
 ```bash
-# Clone your fork
-git clone https://github.com/YOUR_USERNAME/CatalyticTriadNet.git
-cd CatalyticTriadNet
-
-# Create development environment
-conda create -n catalytic-dev python=3.9
-conda activate catalytic-dev
-
-# Install in development mode
-pip install -e ".[dev]"
-
-# Install pre-commit hooks
-pre-commit install
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e ".[app,release,test]"
+python tools/verify_public_repo.py
+python -m pytest -q
 ```
 
-## Pull Request Process
+Install `.[atomistic]` only when a change actually exercises ASE, RDKit, or
+tblite. MACE, FairChem, GPU, and externally licensed model artifacts require a
+separate documented environment and are not part of the lightweight CI path.
 
-1. **Create a branch**
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
+## Change requirements
 
-2. **Make your changes**
-   - Write clear, documented code
-   - Add tests for new functionality
-   - Update documentation as needed
+- Keep each pull request focused and use a regression test for behavior fixes.
+- Use explicit input and output paths in analysis scripts.
+- Record backend, model/head, charge, spin, constraints, convergence criteria,
+  and failure states for calculation changes.
+- Distinguish requested geometry, relaxed geometry, screening descriptors,
+  predicted properties, and experimental measurements.
+- Update source data and hashes whenever a figure value changes.
+- Do not commit raw campaigns, PDB libraries, model weights, caches, databases,
+  credentials, journal templates, or private machine paths.
 
-3. **Test your changes**
-   ```bash
-   pytest tests/
-   ```
+## Commit style
 
-4. **Commit with clear messages**
-   ```bash
-   git commit -m "feat: add new triad detection algorithm"
-   ```
+Use Conventional Commit prefixes such as `fix:`, `feat:`, `docs:`, `test:`,
+`refactor:`, and `chore:`. Protect `main`; merge reviewed feature branches only
+after CI passes.
 
-5. **Push and create PR**
-   ```bash
-   git push origin feature/your-feature-name
-   ```
+## Pull request checklist
 
-6. **PR Review**
-   - Address reviewer feedback
-   - Keep the PR focused and reasonably sized
-
-## Style Guidelines
-
-### Python Code Style
-
-- Follow PEP 8
-- Use type hints where appropriate
-- Maximum line length: 100 characters
-- Use meaningful variable names
-
-```python
-# Good
-def detect_catalytic_triads(
-    residues: List[Dict],
-    coords: np.ndarray,
-    threshold: float = 0.5
-) -> List[Dict]:
-    """
-    Detect catalytic triads in protein structure.
-
-    Args:
-        residues: List of residue dictionaries
-        coords: CA coordinates array [N, 3]
-        threshold: Detection confidence threshold
-
-    Returns:
-        List of detected triads with confidence scores
-    """
-    pass
-```
-
-### Commit Messages
-
-Follow conventional commits:
-- `feat:` New feature
-- `fix:` Bug fix
-- `docs:` Documentation
-- `test:` Tests
-- `refactor:` Code refactoring
-- `style:` Formatting changes
-
-### Documentation
-
-- Use Google-style docstrings
-- Update README for user-facing changes
-- Add examples for new features
-
-## Questions?
-
-Feel free to open an issue or reach out to the maintainers.
-
-Thank you for contributing!
+- [ ] The change has a narrow scientific/software purpose.
+- [ ] New behavior has a regression test or a written reason why it cannot.
+- [ ] Public verification and relevant tests pass.
+- [ ] Claims remain within `docs/SCIENTIFIC_SCOPE.md`.
+- [ ] Data and figure changes include provenance and updated checksums.
+- [ ] No secret, private path, large artifact, or third-party restricted file
+      was added.
+- [ ] Any remaining limitation is stated in the pull request.

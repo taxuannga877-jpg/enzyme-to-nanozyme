@@ -1,0 +1,16 @@
+# Minimal Python environment for the E2N paper-facing release layer.
+# Python 3.10 or newer is recommended.
+
+# Canonical table loading, audit calculations, and report generation
+numpy>=1.24.0,<3
+pandas>=2.0.0,<3
+scipy>=1.15.0,<2
+
+# Main-figure regeneration and raster QA
+matplotlib>=3.5.0,<4
+Pillow>=10.0.0,<13
+pypdfium2>=4.0.0,<6
+
+# PDF readback QA falls back to the external `pdftoppm` executable when
+# pypdfium2 is unavailable. Poppler is platform-specific and is intentionally
+# not a pip dependency.

@@ -1,0 +1,6 @@
+figure,mode,width,height,nonwhite_pixels,nonwhite_fraction,unique_color_sample,nonblank,estimated_dpi_at_7in,meets_300dpi_at_7in,rgb,svg_nonempty,svg_text_editable,pdf_nonempty,pdf_readback,pdf_renderer,submission_ready
+Fig. 1,RGB,3150,2295,458311,0.06339675623335754,283,True,450.0,True,True,True,True,True,True,pypdfium2,True
+Fig. 2,RGB,3150,2137,435209,0.0646521232108504,259,True,450.0,True,True,True,True,True,True,pypdfium2,True
+Fig. 3,RGB,3150,2362,1297134,0.17433893794605057,211,True,450.0,True,True,True,True,True,True,pypdfium2,True
+Fig. 4,RGB,3150,2227,820520,0.1169656666737942,346,True,450.0,True,True,True,True,True,True,pypdfium2,True
+Fig. 5,RGB,3150,2182,1534968,0.22332329448736415,288,True,450.0,True,True,True,True,True,True,pypdfium2,True

@@ -1,0 +1,356 @@
+candidate_id,design_id,design_index,activity_pair,topology,distance_a,doping,angle_deg,variant_id,score,max_force_ev_per_a,complete_profile_count,retained_profile_activities
+1d195702,x1,1,Catalase + Peroxidase,bridged,5.6,NS,0,x1_bridged_d5.6_ns_a0,0.7155338255507466,0.0445820749116553,2,Catalase; Peroxidase
+8195ee9a,x1,1,Catalase + Peroxidase,bridged,5.6,NS,0,x1_bridged_d5.6_ns_a0,0.7155338255507466,0.0445820749116553,2,Catalase; Peroxidase
+46832d83,x1,1,Catalase + Glutathione Peroxidase,independent adjacent,6.8,N,0,x1_adjacent_d6.8_n_a0,0.743217847777703,0.0384898005062482,2,Catalase; Glutathione Peroxidase
+c026116f,x1,1,Catalase + Glutathione Peroxidase,independent adjacent,6.8,N,0,x1_adjacent_d6.8_n_a0,0.743217847777703,0.0384898005062482,2,Catalase; Glutathione Peroxidase
+9ec561f2,x1,1,Catalase + Oxidase,independent adjacent,6.8,N,0,x1_adjacent_d6.8_n_a0,0.743217847777703,0.0384898005062482,2,Catalase; Oxidase
+b36787b1,x1,1,Catalase + Oxidase,independent adjacent,6.8,N,0,x1_adjacent_d6.8_n_a0,0.743217847777703,0.0384898005062482,2,Catalase; Oxidase
+983be37c,x1,1,Catalase + Peroxidase,independent adjacent,6.8,N,0,x1_adjacent_d6.8_n_a0,0.7455198040700709,0.0481057056730953,2,Catalase; Peroxidase
+e7b2f3b3,x1,1,Catalase + Peroxidase,independent adjacent,6.8,N,0,x1_adjacent_d6.8_n_a0,0.7455198040700709,0.0481057056730953,2,Catalase; Peroxidase
+153f6b8a,x1,1,Glutathione Peroxidase + Oxidase,independent adjacent,6.8,N,0,x1_adjacent_d6.8_n_a0,0.7101343174363519,0.0357956017342312,2,Glutathione Peroxidase; Oxidase
+7a2c1624,x1,1,Glutathione Peroxidase + Peroxidase,independent adjacent,6.8,N,0,x1_adjacent_d6.8_n_a0,0.714129605505853,0.0444651705526565,2,Glutathione Peroxidase; Peroxidase
+7d6533e7,x1,1,Oxidase + Peroxidase,independent adjacent,6.8,N,0,x1_adjacent_d6.8_n_a0,0.714129605505853,0.0444651705526565,2,Oxidase; Peroxidase
+79bd3431,x3,3,Oxidase + Peroxidase,bridged,6.4,N,60,x3_bridged_d6.4_n_a60,0.7051231967071525,0.0349693092963347,2,Oxidase; Peroxidase
+dc3ed49f,x3,3,Glutathione Peroxidase + Oxidase,independent adjacent,8.4,S,60,x3_adjacent_d8.4_s_a60,0.7097484332249873,0.0486597961115704,2,Glutathione Peroxidase; Oxidase
+e2ca81a4,x3,3,Glutathione Peroxidase + Peroxidase,independent adjacent,8.4,S,60,x3_adjacent_d8.4_s_a60,0.6946835509203725,0.0389674254478558,2,Glutathione Peroxidase; Peroxidase
+621e0bc1,x3,3,Oxidase + Peroxidase,independent adjacent,8.4,S,60,x3_adjacent_d8.4_s_a60,0.6946835509203725,0.0389674254478558,2,Oxidase; Peroxidase
+74820a79,x3,3,Catalase + Glutathione Peroxidase,independent separated,12.4,S,60,x3_separated_d12.4_s_a60,0.7653463437789314,0.0430216253149462,2,Catalase; Glutathione Peroxidase
+bae713d7,x3,3,Catalase + Glutathione Peroxidase,independent separated,12.4,S,60,x3_separated_d12.4_s_a60,0.7653463437789314,0.0430216253149462,2,Catalase; Glutathione Peroxidase
+1b0b26e4,x3,3,Catalase + Oxidase,independent separated,12.4,S,60,x3_separated_d12.4_s_a60,0.7653463437789314,0.0430216253149462,2,Catalase; Oxidase
+92567ba7,x3,3,Catalase + Oxidase,independent separated,12.4,S,60,x3_separated_d12.4_s_a60,0.7653463437789314,0.0430216253149462,2,Catalase; Oxidase
+c8f96ba2,x3,3,Glutathione Peroxidase + Oxidase,independent separated,12.4,S,60,x3_separated_d12.4_s_a60,0.7556549762740412,0.048332979993451,2,Glutathione Peroxidase; Oxidase
+ad1d6912,x4,4,Catalase + Glutathione Peroxidase,independent separated,8.8,N,15,x4_separated_d8.8_n_a15,0.7546373938118777,0.0457322307151332,2,Catalase; Glutathione Peroxidase
+c5946ea0,x4,4,Catalase + Oxidase,independent separated,8.8,N,15,x4_separated_d8.8_n_a15,0.7546373938118777,0.0457322307151332,2,Catalase; Oxidase
+66070cb5,x4,4,Catalase + Peroxidase,independent separated,8.8,N,15,x4_separated_d8.8_n_a15,0.7923333133583658,0.0434656004551842,2,Catalase; Peroxidase
+82300d54,x4,4,Glutathione Peroxidase + Oxidase,independent separated,8.8,N,15,x4_separated_d8.8_n_a15,0.7442506202022177,0.0413788297752209,2,Glutathione Peroxidase; Oxidase
+976aa64b,x4,4,Glutathione Peroxidase + Peroxidase,independent separated,8.8,N,15,x4_separated_d8.8_n_a15,0.7816197195716977,0.0473287568348481,2,Glutathione Peroxidase; Peroxidase
+96ae2701,x4,4,Oxidase + Peroxidase,independent separated,8.8,N,15,x4_separated_d8.8_n_a15,0.7816197195716977,0.0473287568348481,2,Oxidase; Peroxidase
+827a743e,x5,5,Glucose Oxidase + Peroxidase,independent adjacent,7.0,S,45,x5_adjacent_d7.0_s_a45,0.7918777347216225,0.0426238215600781,2,Glucose Oxidase; Peroxidase
+644a5e9e,x6,6,Catalase + DNase,bridged,6.2,S,75,x6_bridged_d6.2_s_a75,0.79162884005849,0.0494446051586617,1,Catalase
+58cd660c,x6,6,Catalase + Oxidase,bridged,6.2,S,75,x6_bridged_d6.2_s_a75,0.7674535508442413,0.0499571861593251,2,Catalase; Oxidase
+8f21a96c,x6,6,Catalase + Peroxidase,bridged,6.2,S,75,x6_bridged_d6.2_s_a75,0.7135186588029985,0.0481473505631837,2,Catalase; Peroxidase
+ffb513b8,x6,6,DNase + Oxidase,bridged,6.2,S,75,x6_bridged_d6.2_s_a75,0.7679908398064379,0.0493897735642952,2,DNase; Oxidase
+9034c955,x6,6,DNase + Peroxidase,bridged,6.2,S,75,x6_bridged_d6.2_s_a75,0.7252559231095277,0.0492924478743026,1,Peroxidase
+dcdce03b,x6,6,Oxidase + Peroxidase,bridged,6.2,S,75,x6_bridged_d6.2_s_a75,0.6957815301412007,0.0497582693803342,2,Oxidase; Peroxidase
+9905dc81,x7,7,Glutathione Peroxidase + Oxidase,independent adjacent,8.0,N,105,x7_adjacent_d8.0_n_a105,0.7662855346312418,0.0373743284707951,2,Glutathione Peroxidase; Oxidase
+c1a8f5ff,x7,7,Glutathione Peroxidase + Peroxidase,independent adjacent,8.0,N,105,x7_adjacent_d8.0_n_a105,0.716533767189964,0.044571238578968,2,Glutathione Peroxidase; Peroxidase
+59355fe9,x7,7,Oxidase + Peroxidase,independent adjacent,8.0,N,105,x7_adjacent_d8.0_n_a105,0.716533767189964,0.044571238578968,2,Oxidase; Peroxidase
+e7823e90,x8,8,Catalase + Glutathione Peroxidase,independent adjacent,8.8,N,135,x8_adjacent_d8.8_n_a135,0.7705570951226042,0.0452776861062371,2,Catalase; Glutathione Peroxidase
+ce640407,x8,8,Catalase + Oxidase,independent adjacent,8.8,N,135,x8_adjacent_d8.8_n_a135,0.7705570951226042,0.0452776861062371,2,Catalase; Oxidase
+707ba750,x8,8,Catalase + Peroxidase,independent adjacent,8.8,N,135,x8_adjacent_d8.8_n_a135,0.7687956350875234,0.0401015337188674,2,Catalase; Peroxidase
+2fd59fe4,x8,8,Glucose Oxidase + Glutathione Peroxidase,independent adjacent,8.8,N,135,x8_adjacent_d8.8_n_a135,0.7618758550035506,0.0456651017354856,2,Glucose Oxidase; Glutathione Peroxidase
+546a5ac5,x8,8,Glucose Oxidase + Oxidase,independent adjacent,8.8,N,135,x8_adjacent_d8.8_n_a135,0.7618758550035506,0.0456651017354856,2,Glucose Oxidase; Oxidase
+743e7dc9,x8,8,Glutathione Peroxidase + Oxidase,independent adjacent,8.8,N,135,x8_adjacent_d8.8_n_a135,0.7442265740494882,0.0487866171239061,2,Glutathione Peroxidase; Oxidase
+62533915,x8,8,Glutathione Peroxidase + Peroxidase,independent adjacent,8.8,N,135,x8_adjacent_d8.8_n_a135,0.7425385990968407,0.0439318728532364,2,Glutathione Peroxidase; Peroxidase
+fdf94907,x8,8,Oxidase + Peroxidase,independent adjacent,8.8,N,135,x8_adjacent_d8.8_n_a135,0.7425385990968407,0.0439318728532364,2,Oxidase; Peroxidase
+41f9b430,x8,8,Catalase + Glutathione Peroxidase,independent separated,12.0,N,135,x8_separated_d12.0_n_a135,0.7442415550185244,0.0425786782323362,2,Catalase; Glutathione Peroxidase
+8384434b,x8,8,Catalase + Oxidase,independent separated,12.0,N,135,x8_separated_d12.0_n_a135,0.7442415550185244,0.0425786782323362,2,Catalase; Oxidase
+ec1fc219,x8,8,Glutathione Peroxidase + Oxidase,independent separated,12.0,N,135,x8_separated_d12.0_n_a135,0.6856936513620201,0.0445319554623031,2,Glutathione Peroxidase; Oxidase
+2f771f22,x8,8,Glutathione Peroxidase + Peroxidase,independent separated,12.0,N,135,x8_separated_d12.0_n_a135,0.6678353125968473,0.0481506288060205,2,Glutathione Peroxidase; Peroxidase
+50b2bb19,x8,8,Oxidase + Peroxidase,independent separated,12.0,N,135,x8_separated_d12.0_n_a135,0.6678353125968473,0.0481506288060205,2,Oxidase; Peroxidase
+042041a3,x9,9,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,15,x9_separated_d13.0_ns_a15,0.7246071187606817,0.0489499897212995,2,Glutathione Peroxidase; Oxidase
+0b54c61a,x9,9,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,15,x9_separated_d13.0_ns_a15,0.7581283354886068,0.045975618639446,2,Glutathione Peroxidase; Peroxidase
+956589f6,x9,9,Oxidase + Peroxidase,independent separated,13.0,NS,15,x9_separated_d13.0_ns_a15,0.7581283354886068,0.045975618639446,2,Oxidase; Peroxidase
+a9e31d5e,x12,12,Catalase + Glutathione Peroxidase,independent adjacent,6.2,N,105,x12_adjacent_d6.2_n_a105,0.7708651024442542,0.0474276851029011,2,Catalase; Glutathione Peroxidase
+2c7aacac,x12,12,Catalase + Oxidase,independent adjacent,6.2,N,105,x12_adjacent_d6.2_n_a105,0.7708651024442542,0.0474276851029011,2,Catalase; Oxidase
+f6a53996,x12,12,Catalase + Peroxidase,independent adjacent,6.2,N,105,x12_adjacent_d6.2_n_a105,0.7686061435418896,0.0493679385411829,2,Catalase; Peroxidase
+28e1d313,x12,12,Glutathione Peroxidase + Oxidase,independent adjacent,6.2,N,105,x12_adjacent_d6.2_n_a105,0.7330025036998372,0.0462584044829098,2,Glutathione Peroxidase; Oxidase
+93feb5ab,x12,12,Glutathione Peroxidase + Peroxidase,independent adjacent,6.2,N,105,x12_adjacent_d6.2_n_a105,0.7362679116430233,0.0456204633735634,2,Glutathione Peroxidase; Peroxidase
+36b1c272,x12,12,Oxidase + Peroxidase,independent adjacent,6.2,N,105,x12_adjacent_d6.2_n_a105,0.7362679116430233,0.0456204633735634,2,Oxidase; Peroxidase
+fe2778ad,x12,12,Glucose Oxidase + Glutathione Peroxidase,independent separated,8.8,N,105,x12_separated_d8.8_n_a105,0.7861101076701813,0.0390048386967315,2,Glucose Oxidase; Glutathione Peroxidase
+5e70a71e,x12,12,Glucose Oxidase + Oxidase,independent separated,8.8,N,105,x12_separated_d8.8_n_a105,0.7861101076701813,0.0390048386967315,2,Glucose Oxidase; Oxidase
+86c9b42d,x12,12,Glutathione Peroxidase + Oxidase,independent separated,8.8,N,105,x12_separated_d8.8_n_a105,0.7751991576771755,0.033960599508075,2,Glutathione Peroxidase; Oxidase
+70a3aabf,x12,12,Glutathione Peroxidase + Peroxidase,independent separated,8.8,N,105,x12_separated_d8.8_n_a105,0.7790965683142885,0.0483842280897297,2,Glutathione Peroxidase; Peroxidase
+af170bb7,x12,12,Oxidase + Peroxidase,independent separated,8.8,N,105,x12_separated_d8.8_n_a105,0.7790965683142885,0.0483842280897297,2,Oxidase; Peroxidase
+8296035a,x13,13,Glutathione Peroxidase + Peroxidase,independent adjacent,7.0,S,135,x13_adjacent_d7.0_s_a135,0.753472461229598,0.0430667671054679,2,Glutathione Peroxidase; Peroxidase
+3379bb89,x13,13,Oxidase + Peroxidase,independent adjacent,7.0,S,135,x13_adjacent_d7.0_s_a135,0.753472461229598,0.0430667671054679,2,Oxidase; Peroxidase
+87785d3e,x14,14,Glucose Oxidase + Glutathione Peroxidase,independent adjacent,7.4,NS,15,x14_adjacent_d7.4_ns_a15,0.7717382000676738,0.0491911062102813,2,Glucose Oxidase; Glutathione Peroxidase
+f070549b,x14,14,Glucose Oxidase + Oxidase,independent adjacent,7.4,NS,15,x14_adjacent_d7.4_ns_a15,0.7717382000676738,0.0491911062102813,2,Glucose Oxidase; Oxidase
+a465dd19,x14,14,Glutathione Peroxidase + Oxidase,independent adjacent,7.4,NS,15,x14_adjacent_d7.4_ns_a15,0.7542325842980877,0.0498908469440307,2,Glutathione Peroxidase; Oxidase
+469b639c,x14,14,Glutathione Peroxidase + Peroxidase,independent adjacent,7.4,NS,15,x14_adjacent_d7.4_ns_a15,0.7270300521489487,0.0466324648413226,2,Glutathione Peroxidase; Peroxidase
+84c6fc50,x14,14,Oxidase + Peroxidase,independent adjacent,7.4,NS,15,x14_adjacent_d7.4_ns_a15,0.7270300521489487,0.0466324648413226,2,Oxidase; Peroxidase
+60c3b8a7,x14,14,Glutathione Peroxidase + Oxidase,independent separated,10.4,S,15,x14_separated_d10.4_s_a15,0.7168413701931652,0.0482217424112602,2,Glutathione Peroxidase; Oxidase
+023f943c,x15,15,Catalase + Peroxidase,independent separated,11.4,N,45,x15_separated_d11.4_n_a45,0.7213681534018941,0.0496644291469345,2,Catalase; Peroxidase
+14a1b2af,x15,15,Glutathione Peroxidase + Oxidase,independent separated,11.4,N,45,x15_separated_d11.4_n_a45,0.6999556574880993,0.0452532368876737,2,Glutathione Peroxidase; Oxidase
+4a58a8b0,x15,15,Glutathione Peroxidase + Peroxidase,independent separated,11.4,N,45,x15_separated_d11.4_n_a45,0.6951393711521029,0.0498898590767119,2,Glutathione Peroxidase; Peroxidase
+c99c7536,x15,15,Oxidase + Peroxidase,independent separated,11.4,N,45,x15_separated_d11.4_n_a45,0.6951393711521029,0.0498898590767119,2,Oxidase; Peroxidase
+aad1192f,x16,16,Glucose Oxidase + Glutathione Peroxidase,independent adjacent,8.8,N,75,x16_adjacent_d8.8_n_a75,0.7820164393005788,0.0495856411773396,2,Glucose Oxidase; Glutathione Peroxidase
+ff87b8d1,x16,16,Glucose Oxidase + Oxidase,independent adjacent,8.8,N,75,x16_adjacent_d8.8_n_a75,0.7820164393005788,0.0495856411773396,2,Glucose Oxidase; Oxidase
+7c1572c8,x16,16,Glutathione Peroxidase + Oxidase,independent adjacent,8.8,N,75,x16_adjacent_d8.8_n_a75,0.7751575607639989,0.0472200086112643,2,Glutathione Peroxidase; Oxidase
+1147bd17,x16,16,Glutathione Peroxidase + Peroxidase,independent adjacent,8.8,N,75,x16_adjacent_d8.8_n_a75,0.779642814544885,0.0391047187442731,2,Glutathione Peroxidase; Peroxidase
+d0ee8b98,x16,16,Oxidase + Peroxidase,independent adjacent,8.8,N,75,x16_adjacent_d8.8_n_a75,0.779642814544885,0.0391047187442731,2,Oxidase; Peroxidase
+33a6ea13,x16,16,Catalase + Glutathione Peroxidase,independent separated,12.0,N,75,x16_separated_d12.0_n_a75,0.7563008113436678,0.0469176480076517,2,Catalase; Glutathione Peroxidase
+937196b3,x16,16,Catalase + Oxidase,independent separated,12.0,N,75,x16_separated_d12.0_n_a75,0.7563008113436678,0.0469176480076517,2,Catalase; Oxidase
+d3b8fed5,x16,16,Glutathione Peroxidase + Oxidase,independent separated,12.0,N,75,x16_separated_d12.0_n_a75,0.7117523110621027,0.0475780214882089,2,Glutathione Peroxidase; Oxidase
+4cce34b2,x17,17,Oxidase + Peroxidase,bridged,7.6,NS,105,x17_bridged_d7.6_ns_a105,0.6719887097721401,0.0486715223939532,2,Oxidase; Peroxidase
+e3fd0119,x17,17,Glutathione Peroxidase + Oxidase,independent adjacent,9.2,S,105,x17_adjacent_d9.2_s_a105,0.7589611527281492,0.0498992320306291,2,Glutathione Peroxidase; Oxidase
+e0cd31ae,x17,17,Glutathione Peroxidase + Peroxidase,independent adjacent,9.2,S,105,x17_adjacent_d9.2_s_a105,0.7657656944558495,0.0494346510256475,2,Glutathione Peroxidase; Peroxidase
+9557875a,x17,17,Oxidase + Peroxidase,independent adjacent,9.2,S,105,x17_adjacent_d9.2_s_a105,0.7657656944558495,0.0494346510256475,2,Oxidase; Peroxidase
+83ccba7e,x17,17,Catalase + Peroxidase,independent separated,13.0,NS,105,x17_separated_d13.0_ns_a105,0.7674268704995748,0.0499165562112098,2,Catalase; Peroxidase
+324f14f5,x17,17,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,105,x17_separated_d13.0_ns_a105,0.7610213236926583,0.0400481082038799,2,Glutathione Peroxidase; Peroxidase
+77a7b144,x17,17,Oxidase + Peroxidase,independent separated,13.0,NS,105,x17_separated_d13.0_ns_a105,0.7610213236926583,0.0400481082038799,2,Oxidase; Peroxidase
+a009cc05,x19,19,Glutathione Peroxidase + Oxidase,independent adjacent,10.4,N,15,x19_adjacent_d10.4_n_a15,0.7356466239051384,0.0499921761899505,2,Glutathione Peroxidase; Oxidase
+8de672d0,x19,19,Glutathione Peroxidase + Oxidase,independent separated,14.6,N,15,x19_separated_d14.6_n_a15,0.7028794989734736,0.0482526815281951,2,Glutathione Peroxidase; Oxidase
+ab534c30,x19,19,Glutathione Peroxidase + Peroxidase,independent separated,14.6,N,15,x19_separated_d14.6_n_a15,0.7050384689857184,0.0486279128311497,2,Glutathione Peroxidase; Peroxidase
+0f467492,x19,19,Oxidase + Peroxidase,independent separated,14.6,N,15,x19_separated_d14.6_n_a15,0.7050384689857184,0.0486279128311497,2,Oxidase; Peroxidase
+c134acbe,x20,20,Catalase + Glutathione Peroxidase,independent adjacent,6.2,N,45,x20_adjacent_d6.2_n_a45,0.7261656092063944,0.0389914028654469,2,Catalase; Glutathione Peroxidase
+ed63c308,x20,20,Catalase + Oxidase,independent adjacent,6.2,N,45,x20_adjacent_d6.2_n_a45,0.7261656092063944,0.0389914028654469,2,Catalase; Oxidase
+89743efe,x20,20,Catalase + Peroxidase,independent adjacent,6.2,N,45,x20_adjacent_d6.2_n_a45,0.7281605783901766,0.0376382113057904,2,Catalase; Peroxidase
+10881684,x20,20,Glutathione Peroxidase + Oxidase,independent adjacent,6.2,N,45,x20_adjacent_d6.2_n_a45,0.6990580851591767,0.045796298078177,2,Glutathione Peroxidase; Oxidase
+cb6a0baf,x20,20,Glutathione Peroxidase + Peroxidase,independent adjacent,6.2,N,45,x20_adjacent_d6.2_n_a45,0.7014018834997138,0.0498407819570961,2,Glutathione Peroxidase; Peroxidase
+a164ecde,x20,20,Oxidase + Peroxidase,independent adjacent,6.2,N,45,x20_adjacent_d6.2_n_a45,0.7014018834997138,0.0498407819570961,2,Oxidase; Peroxidase
+8828f789,x20,20,Catalase + Glutathione Peroxidase,independent separated,8.8,N,45,x20_separated_d8.8_n_a45,0.7702264809970791,0.0364550401651696,2,Catalase; Glutathione Peroxidase
+7dbb8378,x20,20,Catalase + Oxidase,independent separated,8.8,N,45,x20_separated_d8.8_n_a45,0.7702264809970791,0.0364550401651696,2,Catalase; Oxidase
+52e70cee,x20,20,Catalase + Peroxidase,independent separated,8.8,N,45,x20_separated_d8.8_n_a45,0.7688037411069062,0.0457597118710252,2,Catalase; Peroxidase
+445ecd99,x20,20,Glucose Oxidase + Glutathione Peroxidase,independent separated,8.8,N,45,x20_separated_d8.8_n_a45,0.7643492601885404,0.0430888824771564,2,Glucose Oxidase; Glutathione Peroxidase
+ac78230b,x20,20,Glucose Oxidase + Oxidase,independent separated,8.8,N,45,x20_separated_d8.8_n_a45,0.7643492601885404,0.0430888824771564,2,Glucose Oxidase; Oxidase
+97a889c9,x20,20,Glutathione Peroxidase + Oxidase,independent separated,8.8,N,45,x20_separated_d8.8_n_a45,0.7457705692235291,0.04079836591388,2,Glutathione Peroxidase; Oxidase
+40a34f3b,x20,20,Glutathione Peroxidase + Peroxidase,independent separated,8.8,N,45,x20_separated_d8.8_n_a45,0.7441726411084308,0.0485155991340531,2,Glutathione Peroxidase; Peroxidase
+f7a85d5f,x20,20,Oxidase + Peroxidase,independent separated,8.8,N,45,x20_separated_d8.8_n_a45,0.7441726411084308,0.0485155991340531,2,Oxidase; Peroxidase
+6b6d60b0,x21,21,Catalase + Oxidase,bridged,5.8,NS,75,x21_bridged_d5.8_ns_a75,0.7709690848808621,0.0496302428344888,2,Catalase; Oxidase
+babc42dd,x21,21,Oxidase + Peroxidase,bridged,5.8,NS,75,x21_bridged_d5.8_ns_a75,0.7046797261273935,0.046952550000309,2,Oxidase; Peroxidase
+383785f2,x21,21,Catalase + Glutathione Peroxidase,independent separated,9.8,NS,75,x21_separated_d9.8_ns_a75,0.7523595840883148,0.0487899422916002,2,Catalase; Glutathione Peroxidase
+1be9a0ce,x21,21,Catalase + Oxidase,independent separated,9.8,NS,75,x21_separated_d9.8_ns_a75,0.7523595840883148,0.0487899422916002,2,Catalase; Oxidase
+f7128d92,x21,21,Catalase + Peroxidase,independent separated,9.8,NS,75,x21_separated_d9.8_ns_a75,0.7867869847664679,0.0397976538119046,2,Catalase; Peroxidase
+242dc5ee,x21,21,Glutathione Peroxidase + Oxidase,independent separated,9.8,NS,75,x21_separated_d9.8_ns_a75,0.686118164765252,0.0440248346278759,2,Glutathione Peroxidase; Oxidase
+041d77dd,x21,21,Glutathione Peroxidase + Peroxidase,independent separated,9.8,NS,75,x21_separated_d9.8_ns_a75,0.7128336754291368,0.0440221198446846,2,Glutathione Peroxidase; Peroxidase
+e20f356a,x21,21,Oxidase + Peroxidase,independent separated,9.8,NS,75,x21_separated_d9.8_ns_a75,0.7128336754291368,0.0440221198446846,2,Oxidase; Peroxidase
+c3d7b2be,x23,23,Catalase + Glutathione Peroxidase,independent separated,11.4,N,135,x23_separated_d11.4_n_a135,0.7274134908585247,0.0463153847320424,2,Catalase; Glutathione Peroxidase
+3c24a739,x23,23,Catalase + Oxidase,independent separated,11.4,N,135,x23_separated_d11.4_n_a135,0.7274134908585247,0.0463153847320424,2,Catalase; Oxidase
+e05e0274,x23,23,Glucose Oxidase + Glutathione Peroxidase,independent separated,11.4,N,135,x23_separated_d11.4_n_a135,0.7244439484006586,0.046945396363707,2,Glucose Oxidase; Glutathione Peroxidase
+2eb65b9e,x23,23,Glucose Oxidase + Oxidase,independent separated,11.4,N,135,x23_separated_d11.4_n_a135,0.7244439484006586,0.046945396363707,2,Glucose Oxidase; Oxidase
+77b47a61,x23,23,Glutathione Peroxidase + Oxidase,independent separated,11.4,N,135,x23_separated_d11.4_n_a135,0.6978692634012092,0.0457559273028352,1,Oxidase
+9b19eaa6,x23,23,Glutathione Peroxidase + Peroxidase,independent separated,11.4,N,135,x23_separated_d11.4_n_a135,0.6929325984771351,0.0403223690585662,1,Peroxidase
+f35b0148,x23,23,Oxidase + Peroxidase,independent separated,11.4,N,135,x23_separated_d11.4_n_a135,0.6929325984771351,0.0403223690585662,2,Oxidase; Peroxidase
+a85ddc11,x24,24,Catalase + Glutathione Peroxidase,independent adjacent,8.8,N,15,x24_adjacent_d8.8_n_a15,0.7511612657312534,0.0457318593784649,2,Catalase; Glutathione Peroxidase
+df57707f,x24,24,Catalase + Oxidase,independent adjacent,8.8,N,15,x24_adjacent_d8.8_n_a15,0.7511612657312534,0.0457318593784649,2,Catalase; Oxidase
+d90a3cfc,x24,24,Catalase + Peroxidase,independent adjacent,8.8,N,15,x24_adjacent_d8.8_n_a15,0.791822499500259,0.0434643230900344,2,Catalase; Peroxidase
+1254576c,x24,24,Glutathione Peroxidase + Oxidase,independent adjacent,8.8,N,15,x24_adjacent_d8.8_n_a15,0.7410842145218415,0.0413801782365245,2,Glutathione Peroxidase; Oxidase
+d5e32805,x24,24,Glutathione Peroxidase + Peroxidase,independent adjacent,8.8,N,15,x24_adjacent_d8.8_n_a15,0.7812096909741286,0.0473086989042248,2,Glutathione Peroxidase; Peroxidase
+2683d752,x24,24,Oxidase + Peroxidase,independent adjacent,8.8,N,15,x24_adjacent_d8.8_n_a15,0.7812096909741286,0.0473086989042248,2,Oxidase; Peroxidase
+7092a769,x24,24,Glutathione Peroxidase + Peroxidase,independent separated,12.0,N,15,x24_separated_d12.0_n_a15,0.6724725945384546,0.0475514610694481,2,Glutathione Peroxidase; Peroxidase
+3e66ea84,x24,24,Oxidase + Peroxidase,independent separated,12.0,N,15,x24_separated_d12.0_n_a15,0.6724725945384546,0.0475514610694481,2,Oxidase; Peroxidase
+ee0eb0b5,x25,25,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,45,x25_separated_d13.0_ns_a45,0.7570233351841287,0.037652443875212,2,Glutathione Peroxidase; Oxidase
+71c3c53b,x25,25,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,45,x25_separated_d13.0_ns_a45,0.7435641033269726,0.0497534533709731,2,Glutathione Peroxidase; Peroxidase
+a74f064d,x25,25,Oxidase + Peroxidase,independent separated,13.0,NS,45,x25_separated_d13.0_ns_a45,0.7435641033269726,0.0497534533709731,2,Oxidase; Peroxidase
+fa9ef7ad,x26,26,Catalase + Oxidase,bridged,8.0,S,75,x26_bridged_d8.0_s_a75,0.7524928501066004,0.0477210657274509,2,Catalase; Oxidase
+d2bbcd7f,x26,26,Catalase + Peroxidase,bridged,8.0,S,75,x26_bridged_d8.0_s_a75,0.7753719626912299,0.0484055634069378,2,Catalase; Peroxidase
+59aeabf7,x26,26,Catalase + Glutathione Peroxidase,independent adjacent,9.8,NS,75,x26_adjacent_d9.8_ns_a75,0.7412085278110538,0.0487899422916002,2,Catalase; Glutathione Peroxidase
+e5e8e310,x26,26,Catalase + Oxidase,independent adjacent,9.8,NS,75,x26_adjacent_d9.8_ns_a75,0.7412085278110538,0.0487899422916002,2,Catalase; Oxidase
+61225ae4,x26,26,Catalase + Peroxidase,independent adjacent,9.8,NS,75,x26_adjacent_d9.8_ns_a75,0.7833346161882045,0.0397976538119046,2,Catalase; Peroxidase
+9fb993e8,x26,26,Glutathione Peroxidase + Oxidase,independent adjacent,9.8,NS,75,x26_adjacent_d9.8_ns_a75,0.6656792780000343,0.0440248346278759,2,Glutathione Peroxidase; Oxidase
+ee1f8cc5,x26,26,Glutathione Peroxidase + Peroxidase,independent adjacent,9.8,NS,75,x26_adjacent_d9.8_ns_a75,0.6941405313674515,0.0440221198446846,2,Glutathione Peroxidase; Peroxidase
+c6ac076d,x26,26,Oxidase + Peroxidase,independent adjacent,9.8,NS,75,x26_adjacent_d9.8_ns_a75,0.6941405313674515,0.0440221198446846,2,Oxidase; Peroxidase
+c7f76d94,x27,27,Oxidase + Peroxidase,bridged,8.4,N,105,x27_bridged_d8.4_n_a105,0.6811256034097285,0.0489506323398454,2,Oxidase; Peroxidase
+e717fb24,x28,28,Catalase + Glutathione Peroxidase,independent adjacent,6.2,N,135,x28_adjacent_d6.2_n_a135,0.7385765081047128,0.0332909161674527,2,Catalase; Glutathione Peroxidase
+18ccc8e9,x28,28,Catalase + Oxidase,independent adjacent,6.2,N,135,x28_adjacent_d6.2_n_a135,0.7385765081047128,0.0332909161674527,2,Catalase; Oxidase
+bdb12ce6,x28,28,Catalase + Peroxidase,independent adjacent,6.2,N,135,x28_adjacent_d6.2_n_a135,0.7426079971318559,0.0499195968952458,2,Catalase; Peroxidase
+988b93aa,x28,28,Glucose Oxidase + Glutathione Peroxidase,independent adjacent,6.2,N,135,x28_adjacent_d6.2_n_a135,0.7405103242104998,0.0452724004139536,2,Glucose Oxidase; Glutathione Peroxidase
+7a476de9,x28,28,Glucose Oxidase + Oxidase,independent adjacent,6.2,N,135,x28_adjacent_d6.2_n_a135,0.7405103242104998,0.0452724004139536,2,Glucose Oxidase; Oxidase
+f2c6aa9d,x28,28,Glutathione Peroxidase + Oxidase,independent adjacent,6.2,N,135,x28_adjacent_d6.2_n_a135,0.7124060545254851,0.0471249270641901,2,Glutathione Peroxidase; Oxidase
+b8a00c0a,x28,28,Glutathione Peroxidase + Peroxidase,independent adjacent,6.2,N,135,x28_adjacent_d6.2_n_a135,0.7125551497921899,0.0483332662305884,2,Glutathione Peroxidase; Peroxidase
+fae232f3,x28,28,Oxidase + Peroxidase,independent adjacent,6.2,N,135,x28_adjacent_d6.2_n_a135,0.7125551497921899,0.0483332662305884,2,Oxidase; Peroxidase
+b677be09,x28,28,Catalase + Glutathione Peroxidase,independent separated,8.8,N,135,x28_separated_d8.8_n_a135,0.7706272256571214,0.0452776861062371,2,Catalase; Glutathione Peroxidase
+b5550f00,x28,28,Catalase + Oxidase,independent separated,8.8,N,135,x28_separated_d8.8_n_a135,0.7706272256571214,0.0452776861062371,2,Catalase; Oxidase
+8ae50da4,x28,28,Catalase + Peroxidase,independent separated,8.8,N,135,x28_separated_d8.8_n_a135,0.7689043755337874,0.0401015337188674,2,Catalase; Peroxidase
+132e39e4,x28,28,Glucose Oxidase + Glutathione Peroxidase,independent separated,8.8,N,135,x28_separated_d8.8_n_a135,0.7649933010407961,0.0456651017354856,2,Glucose Oxidase; Glutathione Peroxidase
+4748ee82,x28,28,Glucose Oxidase + Oxidase,independent separated,8.8,N,135,x28_separated_d8.8_n_a135,0.7649933010407961,0.0456651017354856,2,Glucose Oxidase; Oxidase
+ebc51ce1,x28,28,Glutathione Peroxidase + Oxidase,independent separated,8.8,N,135,x28_separated_d8.8_n_a135,0.7453663345578551,0.0487866171239061,2,Glutathione Peroxidase; Oxidase
+532e640a,x28,28,Glutathione Peroxidase + Peroxidase,independent separated,8.8,N,135,x28_separated_d8.8_n_a135,0.7435252140757866,0.0439318728532364,2,Glutathione Peroxidase; Peroxidase
+c8fcefa5,x28,28,Oxidase + Peroxidase,independent separated,8.8,N,135,x28_separated_d8.8_n_a135,0.7435252140757866,0.0439318728532364,2,Oxidase; Peroxidase
+408e19b5,x29,29,Catalase + Oxidase,bridged,5.8,NS,15,x29_bridged_d5.8_ns_a15,0.6753025469151679,0.0374415220263801,2,Catalase; Oxidase
+bb757de5,x29,29,Catalase + Peroxidase,bridged,5.8,NS,15,x29_bridged_d5.8_ns_a15,0.7184831787416256,0.0490371772207585,2,Catalase; Peroxidase
+030c3780,x29,29,Oxidase + Peroxidase,bridged,5.8,NS,15,x29_bridged_d5.8_ns_a15,0.6669747445875274,0.0472132861697117,2,Oxidase; Peroxidase
+92db5883,x29,29,Glutathione Peroxidase + Oxidase,independent separated,9.8,NS,15,x29_separated_d9.8_ns_a15,0.7307835530238193,0.0439724248177501,2,Glutathione Peroxidase; Oxidase
+ba68d7b7,x30,30,Catalase + Glutathione Peroxidase,independent adjacent,7.4,NS,45,x30_adjacent_d7.4_ns_a45,0.7309378693994157,0.0388849189125755,2,Catalase; Glutathione Peroxidase
+5685d8a5,x30,30,Catalase + Oxidase,independent adjacent,7.4,NS,45,x30_adjacent_d7.4_ns_a45,0.7309378693994157,0.0388849189125755,2,Catalase; Oxidase
+9896e450,x30,30,Glutathione Peroxidase + Oxidase,independent adjacent,7.4,NS,45,x30_adjacent_d7.4_ns_a45,0.657685462878245,0.0398201484965231,2,Glutathione Peroxidase; Oxidase
+303a8d4e,x30,30,Glutathione Peroxidase + Peroxidase,independent adjacent,7.4,NS,45,x30_adjacent_d7.4_ns_a45,0.6809653039314163,0.0446211754151681,2,Glutathione Peroxidase; Peroxidase
+6f8d0650,x30,30,Oxidase + Peroxidase,independent adjacent,7.4,NS,45,x30_adjacent_d7.4_ns_a45,0.6809653039314163,0.0446211754151681,2,Oxidase; Peroxidase
+6b310cc8,x30,30,Catalase + Peroxidase,independent separated,10.4,S,45,x30_separated_d10.4_s_a45,0.7755359127138295,0.0448720241379468,2,Catalase; Peroxidase
+b876b6fa,x30,30,Glutathione Peroxidase + Oxidase,independent separated,10.4,S,45,x30_separated_d10.4_s_a45,0.7583719685189557,0.039843506385257,1,Oxidase
+e0e929e4,x30,30,Glutathione Peroxidase + Peroxidase,independent separated,10.4,S,45,x30_separated_d10.4_s_a45,0.7564669687445065,0.0397442283608387,2,Glutathione Peroxidase; Peroxidase
+b210dff4,x30,30,Oxidase + Peroxidase,independent separated,10.4,S,45,x30_separated_d10.4_s_a45,0.7564669687445065,0.0397442283608387,2,Oxidase; Peroxidase
+234243b6,x33,33,Catalase + Glucose Oxidase,independent separated,13.0,NS,135,x33_separated_d13.0_ns_a135,0.7934769385133338,0.0470376131005629,2,Catalase; Glucose Oxidase
+1598f4df,x33,33,Catalase + Glutathione Peroxidase,independent separated,13.0,NS,135,x33_separated_d13.0_ns_a135,0.7892656161072762,0.0435283120729684,2,Catalase; Glutathione Peroxidase
+f29e0fdd,x33,33,Catalase + Glutathione Peroxidase,independent separated,13.0,NS,135,x33_separated_d13.0_ns_a135,0.7895708925663723,0.0462163296219865,2,Catalase; Glutathione Peroxidase
+655701ab,x33,33,Catalase + Oxidase,independent separated,13.0,NS,135,x33_separated_d13.0_ns_a135,0.7892656161072762,0.0435283120729684,2,Catalase; Oxidase
+58cd208d,x33,33,Catalase + Peroxidase,independent separated,13.0,NS,135,x33_separated_d13.0_ns_a135,0.7892656161072762,0.0435283120729684,2,Catalase; Peroxidase
+54778a08,x33,33,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,135,x33_separated_d13.0_ns_a135,0.7325694922599312,0.0341464692057766,2,Glutathione Peroxidase; Oxidase
+2df232c8,x33,33,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,135,x33_separated_d13.0_ns_a135,0.7325694922599312,0.0341464692057766,2,Glutathione Peroxidase; Peroxidase
+76727a58,x37,37,Catalase + Glutathione Peroxidase,independent separated,9.8,NS,105,x37_separated_d9.8_ns_a105,0.7818906909588861,0.0470047496629781,2,Catalase; Glutathione Peroxidase
+d8167640,x37,37,Catalase + Glutathione Peroxidase,independent separated,9.8,NS,105,x37_separated_d9.8_ns_a105,0.7838231983044139,0.0445318983202203,2,Catalase; Glutathione Peroxidase
+21438f1d,x37,37,Catalase + Oxidase,independent separated,9.8,NS,105,x37_separated_d9.8_ns_a105,0.7818906909588861,0.0470047496629781,2,Catalase; Oxidase
+9502397a,x37,37,Catalase + Peroxidase,independent separated,9.8,NS,105,x37_separated_d9.8_ns_a105,0.7818906909588861,0.0470047496629781,2,Catalase; Peroxidase
+66a9e1fa,x39,39,Catalase + Glutathione Peroxidase,independent separated,11.4,N,15,x39_separated_d11.4_n_a15,0.7727197492034573,0.043256235698905,2,Catalase; Glutathione Peroxidase
+0c47f082,x41,41,Catalase + Glucose Oxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7710271028059617,0.0415788836841863,2,Catalase; Glucose Oxidase
+a23c7a6c,x41,41,Catalase + Glucose Oxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7805247311754001,0.0475140448968916,2,Catalase; Glucose Oxidase
+8b06e731,x41,41,Catalase + Glutathione Peroxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7739853810132499,0.0359927513618144,2,Catalase; Glutathione Peroxidase
+ebe06968,x41,41,Catalase + Glutathione Peroxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7743119086692003,0.0470246973007603,2,Catalase; Glutathione Peroxidase
+12d32dab,x41,41,Catalase + Oxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7721458607002749,0.0318107386225411,2,Catalase; Oxidase
+16e7f330,x41,41,Catalase + Oxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7721458607002749,0.0318107386225411,0,
+742aba40,x41,41,Catalase + Oxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7743119086692003,0.0470246973007603,2,Catalase; Oxidase
+b5aad8dd,x41,41,Catalase + Oxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7743119086692003,0.0470246973007603,0,
+730b9385,x41,41,Catalase + Peroxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7721458607002749,0.0318107386225411,2,Catalase; Peroxidase
+ea2c7ef2,x41,41,Catalase + Peroxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7743119086692003,0.0470246973007603,2,Catalase; Peroxidase
+18413b3e,x41,41,Glucose Oxidase + Glutathione Peroxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7792413328415921,0.0497388545612139,2,Glucose Oxidase; Glutathione Peroxidase
+16da8ca8,x41,41,Glucose Oxidase + Peroxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7792413328415921,0.0497388545612139,2,Glucose Oxidase; Peroxidase
+07be8be8,x41,41,Glutathione Peroxidase + Peroxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7422286078397209,0.0482322789270471,2,Glutathione Peroxidase; Peroxidase
+35496c33,x41,41,Glutathione Peroxidase + Peroxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7445802464514482,0.0490154239554888,2,Glutathione Peroxidase; Peroxidase
+53689eb8,x41,41,Glutathione Peroxidase + Peroxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7616128370863351,0.0281881493339726,2,Glutathione Peroxidase; Peroxidase
+d0e763c5,x41,41,Glutathione Peroxidase + Peroxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7599777551105995,0.0499766469419764,2,Glutathione Peroxidase; Peroxidase
+0d026db6,x41,41,Oxidase + Peroxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7599777551105995,0.0499766469419764,2,Oxidase; Peroxidase
+1ee7d713,x41,41,Oxidase + Peroxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7616128370863351,0.0281881493339726,2,Oxidase; Peroxidase
+64928548,x41,41,Oxidase + Peroxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7673528681860793,0.0445165760315157,2,Oxidase; Peroxidase
+e6496c02,x41,41,Oxidase + Peroxidase,independent adjacent,9.2,S,75,x41_adjacent_d9.2_s_a75,0.7657665859456679,0.0429944463632323,2,Oxidase; Peroxidase
+3fc90a7e,x41,41,Catalase + Glucose Oxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7915290462996825,0.0485304754869852,2,Catalase; Glucose Oxidase
+4536cfb5,x41,41,Catalase + Glucose Oxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7766638017287193,0.0498501218226645,2,Catalase; Glucose Oxidase
+c78f0cb3,x41,41,Catalase + Glutathione Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7690774546335157,0.049681428230567,2,Catalase; Glutathione Peroxidase
+e079d280,x41,41,Catalase + Glutathione Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7704636814974029,0.0481189856776892,1,Catalase
+0a4850cd,x41,41,Catalase + Oxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7690542116744179,0.0387148067836487,2,Catalase; Oxidase
+2cef1d32,x41,41,Catalase + Oxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7690774546335157,0.049681428230567,2,Catalase; Oxidase
+449c2453,x41,41,Catalase + Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7690542116744179,0.0387148067836487,2,Catalase; Peroxidase
+debc04c4,x41,41,Catalase + Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7690774546335157,0.049681428230567,2,Catalase; Peroxidase
+04e048d9,x41,41,Glucose Oxidase + Glutathione Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.769251122091527,0.0496986009767073,2,Glucose Oxidase; Glutathione Peroxidase
+6e25a9f2,x41,41,Glucose Oxidase + Glutathione Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7749127775495852,0.0403407219248824,2,Glucose Oxidase; Glutathione Peroxidase
+74c8179e,x41,41,Glucose Oxidase + Glutathione Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7759146309607963,0.0453180654648987,1,Glucose Oxidase
+f7e729b9,x41,41,Glucose Oxidase + Glutathione Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7702526600943473,0.0451732091218029,2,Glucose Oxidase; Glutathione Peroxidase
+1cbd79d8,x41,41,Glucose Oxidase + Oxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7749127775495852,0.0403407219248824,2,Glucose Oxidase; Oxidase
+278270c5,x41,41,Glucose Oxidase + Oxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.769251122091527,0.0496986009767073,2,Glucose Oxidase; Oxidase
+4a583596,x41,41,Glucose Oxidase + Oxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7689525428337999,0.0421565078069852,2,Glucose Oxidase; Oxidase
+b0d27180,x41,41,Glucose Oxidase + Oxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7749791981106524,0.0284339402505746,2,Glucose Oxidase; Oxidase
+0f96c07e,x41,41,Glucose Oxidase + Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.769251122091527,0.0496986009767073,2,Glucose Oxidase; Peroxidase
+2c11e785,x41,41,Glucose Oxidase + Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7689525428337999,0.0421565078069852,2,Glucose Oxidase; Peroxidase
+73dc09b5,x41,41,Glucose Oxidase + Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7749127775495852,0.0403407219248824,2,Glucose Oxidase; Peroxidase
+ecd634a6,x41,41,Glucose Oxidase + Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7749791981106524,0.0284339402505746,2,Glucose Oxidase; Peroxidase
+4442f5f8,x41,41,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7634359142388472,0.0497450287861546,2,Glutathione Peroxidase; Oxidase
+82135a5e,x41,41,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7641952426554254,0.0443565463594083,2,Glutathione Peroxidase; Oxidase
+ac79c6bc,x41,41,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7639120153632333,0.0392124027384671,2,Glutathione Peroxidase; Oxidase
+efb03ea5,x41,41,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7637667729725313,0.0486460535658956,2,Glutathione Peroxidase; Oxidase
+1205c5f3,x41,41,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7641952426554254,0.0443565463594083,2,Glutathione Peroxidase; Peroxidase
+4adfaf8a,x41,41,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7639120153632333,0.0392124027384671,2,Glutathione Peroxidase; Peroxidase
+78a36f04,x41,41,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7634359142388472,0.0497450287861546,2,Glutathione Peroxidase; Peroxidase
+830321f8,x41,41,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7637667729725313,0.0486460535658956,2,Glutathione Peroxidase; Peroxidase
+1dce8c74,x41,41,Oxidase + Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7637667729725313,0.0486460535658956,2,Oxidase; Peroxidase
+919ccd7b,x41,41,Oxidase + Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7643753592740308,0.0478102105622102,2,Oxidase; Peroxidase
+a4f1410e,x41,41,Oxidase + Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7634359142388472,0.0497450287861546,2,Oxidase; Peroxidase
+f596df19,x41,41,Oxidase + Peroxidase,independent separated,13.0,NS,75,x41_separated_d13.0_ns_a75,0.7650262739638519,0.0457985069050329,2,Oxidase; Peroxidase
+dadedca1,x42,42,Catalase + Oxidase,bridged,8.0,S,105,x42_bridged_d8.0_s_a105,0.7516357841298118,0.0495819472946746,2,Catalase; Oxidase
+d55d440b,x42,42,Catalase + Peroxidase,bridged,8.0,S,105,x42_bridged_d8.0_s_a105,0.7516357841298118,0.0495819472946746,2,Catalase; Peroxidase
+0d586dda,x42,42,Oxidase + Peroxidase,bridged,8.0,S,105,x42_bridged_d8.0_s_a105,0.6920198607720043,0.0398119889690761,2,Oxidase; Peroxidase
+33f5090f,x42,42,Oxidase + Peroxidase,bridged,8.0,S,105,x42_bridged_d8.0_s_a105,0.7045941570891534,0.0439805318631572,2,Oxidase; Peroxidase
+99c9e8a3,x42,42,Catalase + Oxidase,independent adjacent,9.8,NS,105,x42_adjacent_d9.8_ns_a105,0.7790927424633873,0.0470047496629781,2,Catalase; Oxidase
+65f1b705,x42,42,Catalase + Peroxidase,independent adjacent,9.8,NS,105,x42_adjacent_d9.8_ns_a105,0.7790927424633873,0.0470047496629781,2,Catalase; Peroxidase
+3861fc30,x45,45,Oxidase + Peroxidase,independent adjacent,7.0,S,45,x45_adjacent_d7.0_s_a45,0.7561832827557883,0.0403781848725311,2,Oxidase; Peroxidase
+83fb28e5,x45,45,Oxidase + Peroxidase,independent adjacent,7.0,S,45,x45_adjacent_d7.0_s_a45,0.7220162759491427,0.048711806983356,2,Oxidase; Peroxidase
+287b9237,x46,46,Catalase + Oxidase,bridged,6.2,S,75,x46_bridged_d6.2_s_a75,0.7603654832184418,0.0495877286054424,2,Catalase; Oxidase
+40f61d8b,x46,46,Catalase + Oxidase,bridged,6.2,S,75,x46_bridged_d6.2_s_a75,0.7673686233128572,0.0373336937494809,2,Catalase; Oxidase
+59ee06a3,x46,46,Catalase + Peroxidase,bridged,6.2,S,75,x46_bridged_d6.2_s_a75,0.7673686233128572,0.0373336937494809,2,Catalase; Peroxidase
+5bfbeee7,x46,46,Catalase + Peroxidase,bridged,6.2,S,75,x46_bridged_d6.2_s_a75,0.7603654832184418,0.0495877286054424,2,Catalase; Peroxidase
+820735e7,x46,46,Oxidase + Peroxidase,bridged,6.2,S,75,x46_bridged_d6.2_s_a75,0.7321054053549264,0.0403821900654531,2,Oxidase; Peroxidase
+c583be02,x46,46,Oxidase + Peroxidase,bridged,6.2,S,75,x46_bridged_d6.2_s_a75,0.7359768148366754,0.0255910626519686,2,Oxidase; Peroxidase
+47008e1f,x57,57,Catalase + Glucose Oxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7762577459457027,0.0498422704378364,2,Catalase; Glucose Oxidase
+4e3975dc,x57,57,Catalase + Glucose Oxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7899004553696476,0.0350959619043756,2,Catalase; Glucose Oxidase
+2270131c,x57,57,Catalase + Glutathione Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7659347915988732,0.0253217251348609,2,Catalase; Glutathione Peroxidase
+f7f45691,x57,57,Catalase + Glutathione Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7677898002515564,0.0479004479386816,2,Catalase; Glutathione Peroxidase
+43609ae6,x57,57,Catalase + Oxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7684131655527409,0.0387284543338939,2,Catalase; Oxidase
+8bd9eb2b,x57,57,Catalase + Oxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7659347915988732,0.0253217251348609,2,Catalase; Oxidase
+800a5ee6,x57,57,Catalase + Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7684131655527409,0.0387284543338939,2,Catalase; Peroxidase
+943889b8,x57,57,Catalase + Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7659347915988732,0.0253217251348609,2,Catalase; Peroxidase
+527978e9,x57,57,Glucose Oxidase + Glutathione Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7726876143155694,0.0310589261254689,2,Glucose Oxidase; Glutathione Peroxidase
+5efb93e0,x57,57,Glucose Oxidase + Glutathione Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7676261857102435,0.0426801136596372,2,Glucose Oxidase; Glutathione Peroxidase
+ccdababb,x57,57,Glucose Oxidase + Glutathione Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7690812304364244,0.0478204130729478,2,Glucose Oxidase; Glutathione Peroxidase
+f05535a0,x57,57,Glucose Oxidase + Glutathione Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7741380957515274,0.0484582316642808,2,Glucose Oxidase; Glutathione Peroxidase
+183f4719,x57,57,Glucose Oxidase + Oxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7755321343862964,0.0476588256651756,2,Glucose Oxidase; Oxidase
+6f57fdb3,x57,57,Glucose Oxidase + Oxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7695868560827741,0.0455144097210093,2,Glucose Oxidase; Oxidase
+bf72d0e8,x57,57,Glucose Oxidase + Oxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7676261857102435,0.0426801136596372,2,Glucose Oxidase; Oxidase
+fda8de88,x57,57,Glucose Oxidase + Oxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7726876143155694,0.0310589261254689,2,Glucose Oxidase; Oxidase
+31967c28,x57,57,Glucose Oxidase + Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7676261857102435,0.0426801136596372,2,Glucose Oxidase; Peroxidase
+5a342069,x57,57,Glucose Oxidase + Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7695868560827741,0.0455144097210093,2,Glucose Oxidase; Peroxidase
+6e8d7cbd,x57,57,Glucose Oxidase + Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7755321343862964,0.0476588256651756,2,Glucose Oxidase; Peroxidase
+c86619b2,x57,57,Glucose Oxidase + Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7726876143155694,0.0310589261254689,2,Glucose Oxidase; Peroxidase
+1faba8f9,x57,57,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7639553804448931,0.0418420560274848,2,Glutathione Peroxidase; Oxidase
+65580183,x57,57,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7608068068273703,0.0483567004558579,2,Glutathione Peroxidase; Oxidase
+b9ee7011,x57,57,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7632115099227603,0.0390234039331096,2,Glutathione Peroxidase; Oxidase
+c8e4178b,x57,57,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7618716387858977,0.0438336995485077,2,Glutathione Peroxidase; Oxidase
+69a0bda6,x57,57,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7639553804448931,0.0418420560274848,2,Glutathione Peroxidase; Peroxidase
+923d957d,x57,57,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7608068068273703,0.0483567004558579,2,Glutathione Peroxidase; Peroxidase
+a9f7bf53,x57,57,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7632115099227603,0.0390234039331096,2,Glutathione Peroxidase; Peroxidase
+dfc95401,x57,57,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7618716387858977,0.0438336995485077,2,Glutathione Peroxidase; Peroxidase
+49d8654f,x57,57,Oxidase + Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7641411237606842,0.0257603205875425,2,Oxidase; Peroxidase
+4af72a56,x57,57,Oxidase + Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7612147638713789,0.0444608452564283,2,Oxidase; Peroxidase
+a5876604,x57,57,Oxidase + Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7608068068273703,0.0483567004558579,2,Oxidase; Peroxidase
+fac043ca,x57,57,Oxidase + Peroxidase,independent separated,13.0,NS,105,x57_separated_d13.0_ns_a105,0.7632115099227603,0.0390234039331096,2,Oxidase; Peroxidase
+e2df0fd2,x65,65,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,45,x65_separated_d13.0_ns_a45,0.7266343337096387,0.0492664134402465,2,Glutathione Peroxidase; Oxidase
+41ea9b1a,x65,65,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,45,x65_separated_d13.0_ns_a45,0.7266343337096387,0.0492664134402465,2,Glutathione Peroxidase; Peroxidase
+14da43b0,x81,81,Catalase + Glucose Oxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7766638017287193,0.0498501218226645,2,Catalase; Glucose Oxidase
+90f59ed8,x81,81,Catalase + Glucose Oxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7915290462996825,0.0485304754869852,2,Catalase; Glucose Oxidase
+12f8e209,x81,81,Catalase + Glutathione Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7690774546335157,0.049681428230567,2,Catalase; Glutathione Peroxidase
+e6650af1,x81,81,Catalase + Glutathione Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7704636814974029,0.0481189856776892,2,Catalase; Glutathione Peroxidase
+bb8e562b,x81,81,Catalase + Oxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7690774546335157,0.049681428230567,2,Catalase; Oxidase
+fdfd6860,x81,81,Catalase + Oxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7690542116744179,0.0387148067836487,2,Catalase; Oxidase
+69363cfc,x81,81,Catalase + Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7690542116744179,0.0387148067836487,2,Catalase; Peroxidase
+c2e06ea5,x81,81,Catalase + Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7690774546335157,0.049681428230567,2,Catalase; Peroxidase
+0da00df8,x81,81,Glucose Oxidase + Glutathione Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7702526600943473,0.0451732091218029,2,Glucose Oxidase; Glutathione Peroxidase
+1627eeaf,x81,81,Glucose Oxidase + Glutathione Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7759146309607963,0.0453180654648987,2,Glucose Oxidase; Glutathione Peroxidase
+28418c62,x81,81,Glucose Oxidase + Glutathione Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7749127775495852,0.0403407219248824,2,Glucose Oxidase; Glutathione Peroxidase
+b747c30a,x81,81,Glucose Oxidase + Glutathione Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.769251122091527,0.0496986009767073,2,Glucose Oxidase; Glutathione Peroxidase
+16b9004c,x81,81,Glucose Oxidase + Oxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7749127775495852,0.0403407219248824,2,Glucose Oxidase; Oxidase
+89f6b696,x81,81,Glucose Oxidase + Oxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7749791981106524,0.0284339402505746,2,Glucose Oxidase; Oxidase
+c6a40341,x81,81,Glucose Oxidase + Oxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.769251122091527,0.0496986009767073,2,Glucose Oxidase; Oxidase
+e98a6f21,x81,81,Glucose Oxidase + Oxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7689525428337999,0.0421565078069852,2,Glucose Oxidase; Oxidase
+3a71ed17,x81,81,Glucose Oxidase + Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.769251122091527,0.0496986009767073,2,Glucose Oxidase; Peroxidase
+3d0842b0,x81,81,Glucose Oxidase + Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7749127775495852,0.0403407219248824,2,Glucose Oxidase; Peroxidase
+be9451f8,x81,81,Glucose Oxidase + Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7689525428337999,0.0421565078069852,2,Glucose Oxidase; Peroxidase
+e572916b,x81,81,Glucose Oxidase + Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7749791981106524,0.0284339402505746,2,Glucose Oxidase; Peroxidase
+500dcc9a,x81,81,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7634359142388472,0.0497450287861546,2,Glutathione Peroxidase; Oxidase
+9843432e,x81,81,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7639120153632333,0.0392124027384671,2,Glutathione Peroxidase; Oxidase
+c462dc2f,x81,81,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7637667729725313,0.0486460535658956,2,Glutathione Peroxidase; Oxidase
+d15b087a,x81,81,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7641952426554254,0.0443565463594083,2,Glutathione Peroxidase; Oxidase
+2b9a2411,x81,81,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7637667729725313,0.0486460535658956,2,Glutathione Peroxidase; Peroxidase
+3090753d,x81,81,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7639120153632333,0.0392124027384671,2,Glutathione Peroxidase; Peroxidase
+5c800c3f,x81,81,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7641952426554254,0.0443565463594083,2,Glutathione Peroxidase; Peroxidase
+f27c9bfe,x81,81,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7634359142388472,0.0497450287861546,2,Glutathione Peroxidase; Peroxidase
+6e9c3cb1,x81,81,Oxidase + Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7637667729725313,0.0486460535658956,2,Oxidase; Peroxidase
+7e2ac79d,x81,81,Oxidase + Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7634359142388472,0.0497450287861546,2,Oxidase; Peroxidase
+857368fa,x81,81,Oxidase + Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7650262739638519,0.0457985069050329,2,Oxidase; Peroxidase
+d81cfa42,x81,81,Oxidase + Peroxidase,independent separated,13.0,NS,75,x81_separated_d13.0_ns_a75,0.7643753592740308,0.0478102105622102,2,Oxidase; Peroxidase
+6351872b,x97,97,Catalase + Glucose Oxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7762577459457027,0.0498422704378364,2,Catalase; Glucose Oxidase
+80c2eafe,x97,97,Catalase + Glucose Oxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7899004553696476,0.0350959619043756,2,Catalase; Glucose Oxidase
+c62eca05,x97,97,Catalase + Glutathione Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7659347915988732,0.0253217251348609,2,Catalase; Glutathione Peroxidase
+f86e34d1,x97,97,Catalase + Glutathione Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7677898002515564,0.0479004479386816,2,Catalase; Glutathione Peroxidase
+483b02da,x97,97,Catalase + Oxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7684131655527409,0.0387284543338939,2,Catalase; Oxidase
+d57805d3,x97,97,Catalase + Oxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7659347915988732,0.0253217251348609,2,Catalase; Oxidase
+15554d92,x97,97,Catalase + Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7659347915988732,0.0253217251348609,2,Catalase; Peroxidase
+779659da,x97,97,Catalase + Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7684131655527409,0.0387284543338939,2,Catalase; Peroxidase
+022ccd24,x97,97,Glucose Oxidase + Glutathione Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7676261857102435,0.0426801136596372,2,Glucose Oxidase; Glutathione Peroxidase
+48587e0c,x97,97,Glucose Oxidase + Glutathione Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7726876143155694,0.0310589261254689,2,Glucose Oxidase; Glutathione Peroxidase
+5435c51d,x97,97,Glucose Oxidase + Glutathione Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7741380957515274,0.0484582316642808,2,Glucose Oxidase; Glutathione Peroxidase
+e9adae1b,x97,97,Glucose Oxidase + Glutathione Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7690812304364244,0.0478204130729478,2,Glucose Oxidase; Glutathione Peroxidase
+40f2a0e8,x97,97,Glucose Oxidase + Oxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7726876143155694,0.0310589261254689,2,Glucose Oxidase; Oxidase
+8116498d,x97,97,Glucose Oxidase + Oxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7695868560827741,0.0455144097210093,2,Glucose Oxidase; Oxidase
+94dcfd67,x97,97,Glucose Oxidase + Oxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7676261857102435,0.0426801136596372,2,Glucose Oxidase; Oxidase
+dfd552c6,x97,97,Glucose Oxidase + Oxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7755321343862964,0.0476588256651756,2,Glucose Oxidase; Oxidase
+00794632,x97,97,Glucose Oxidase + Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7676261857102435,0.0426801136596372,2,Glucose Oxidase; Peroxidase
+25b5188e,x97,97,Glucose Oxidase + Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7755321343862964,0.0476588256651756,2,Glucose Oxidase; Peroxidase
+b948358d,x97,97,Glucose Oxidase + Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7695868560827741,0.0455144097210093,2,Glucose Oxidase; Peroxidase
+ba41df18,x97,97,Glucose Oxidase + Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7726876143155694,0.0310589261254689,2,Glucose Oxidase; Peroxidase
+12abc2ab,x97,97,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7608068068273703,0.0483567004558579,2,Glutathione Peroxidase; Oxidase
+92bbfa96,x97,97,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7632115099227603,0.0390234039331096,2,Glutathione Peroxidase; Oxidase
+b3c635a6,x97,97,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7639553804448931,0.0418420560274848,2,Glutathione Peroxidase; Oxidase
+c17409f6,x97,97,Glutathione Peroxidase + Oxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7618716387858977,0.0438336995485077,2,Glutathione Peroxidase; Oxidase
+4b1e1178,x97,97,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7618716387858977,0.0438336995485077,2,Glutathione Peroxidase; Peroxidase
+923d23ca,x97,97,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7632115099227603,0.0390234039331096,2,Glutathione Peroxidase; Peroxidase
+a383b8e4,x97,97,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7608068068273703,0.0483567004558579,2,Glutathione Peroxidase; Peroxidase
+d71aff67,x97,97,Glutathione Peroxidase + Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7639553804448931,0.0418420560274848,2,Glutathione Peroxidase; Peroxidase
+b03e841e,x97,97,Oxidase + Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7608068068273703,0.0483567004558579,2,Oxidase; Peroxidase
+b86cb42a,x97,97,Oxidase + Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7641411237606842,0.0257603205875425,2,Oxidase; Peroxidase
+be3a4d93,x97,97,Oxidase + Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7632115099227603,0.0390234039331096,2,Oxidase; Peroxidase
+f5499cc5,x97,97,Oxidase + Peroxidase,independent separated,13.0,NS,105,x97_separated_d13.0_ns_a105,0.7612147638713789,0.0444608452564283,2,Oxidase; Peroxidase
+c5915db8,x99,99,Glucose Oxidase + Oxidase,independent separated,14.6,N,15,x99_separated_d14.6_n_a15,0.7285493542188114,0.0492197712766929,2,Glucose Oxidase; Oxidase
+4154006c,x99,99,Glucose Oxidase + Peroxidase,independent separated,14.6,N,15,x99_separated_d14.6_n_a15,0.7285493542188114,0.0492197712766929,2,Glucose Oxidase; Peroxidase
+0210dc0e,x99,99,Oxidase + Peroxidase,independent separated,14.6,N,15,x99_separated_d14.6_n_a15,0.6971544740595931,0.0272247472824738,2,Oxidase; Peroxidase
+f2c68f59,x99,99,Oxidase + Peroxidase,independent separated,14.6,N,15,x99_separated_d14.6_n_a15,0.6952934751012633,0.0353083248357375,2,Oxidase; Peroxidase
+79c287f3,x100,100,Catalase + Glutathione Peroxidase,independent separated,8.8,N,45,x100_separated_d8.8_n_a45,0.7528525906725304,0.0359821362270423,2,Catalase; Glutathione Peroxidase
+692acd53,x100,100,Glucose Oxidase + Glutathione Peroxidase,independent separated,8.8,N,45,x100_separated_d8.8_n_a45,0.765165427847013,0.0493369008679787,2,Glucose Oxidase; Glutathione Peroxidase
+f3835a85,x100,100,Glucose Oxidase + Glutathione Peroxidase,independent separated,8.8,N,45,x100_separated_d8.8_n_a45,0.7392822918587806,0.0499464966996556,2,Glucose Oxidase; Glutathione Peroxidase

@@ -1,1374 +1,173 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motif库浏览器 - Motif Library Browser</title>
+    <meta name="e2n-csp-nonce" content="{{ csp_nonce }}">
+    <title>Motif Library</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}?v=journal-plate-20260709">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/e2n-theme.css') }}?v=journal-plate-20260709">
     <style>
-        .motif-category {
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid #007bff;
+        body { background: #f4f6f9; }
+        #layout { display: flex; height: calc(100vh - 72px - 48px); margin-top: 72px; overflow: hidden; }
+
+        /* Left column */
+        #leftCol {
+            width: 240px; min-width: 200px; max-width: 300px;
+            background: #fff; border-right: 1px solid #dee2e6;
+            display: flex; flex-direction: column; overflow: hidden;
         }
-        .motif-category h4 {
-            color: #007bff;
-            margin-bottom: 15px;
+        #leftCol .col-header {
+            padding: 14px 16px 10px; font-weight: 600; font-size: 13px;
+            color: #495057; border-bottom: 1px solid #dee2e6; background: #f8f9fa;
+            text-transform: uppercase; letter-spacing: .5px;
         }
-        .motif-item {
-            padding: 10px;
-            margin: 5px 0;
-            background-color: white;
-            border-radius: 5px;
-            border: 1px solid #dee2e6;
-            cursor: pointer;
-            transition: all 0.3s;
+        #typeList { overflow-y: auto; flex: 1; padding: 8px 0; }
+        .type-item {
+            padding: 10px 16px; cursor: pointer; font-size: 14px;
+            border-left: 3px solid transparent; transition: all .15s;
+            display: flex; align-items: center; gap: 8px;
         }
-        .motif-item:hover {
-            background-color: #e7f3ff;
-            border-color: #007bff;
-            transform: translateX(5px);
+        .type-item:hover { background: #f0f4ff; border-left-color: #6c8ebf; }
+        .type-item.active { background: #e8f0fe; border-left-color: #1a73e8; color: #1a73e8; font-weight: 600; }
+        .type-badge { margin-left: auto; font-size: 11px; background: #e9ecef; color: #6c757d; padding: 1px 7px; border-radius: 10px; }
+        .type-item.active .type-badge { background: #c2d7fb; color: #1a73e8; }
+
+        /* Right column */
+        #rightCol { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        #rightPlaceholder {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            color: #adb5bd; flex-direction: column; gap: 12px;
         }
-        .motif-item.active {
-            background-color: #007bff;
-            color: white;
-            border-color: #0056b3;
+        #rightPlaceholder i { font-size: 48px; }
+
+        /* Tab bar */
+        #tabBar {
+            display: none; border-bottom: 1px solid #dee2e6;
+            background: #fff; padding: 0 20px;
         }
-        .motif-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .tab-btn {
+            padding: 12px 20px; border: none; background: none; cursor: pointer;
+            font-size: 14px; font-weight: 500; color: #6c757d;
+            border-bottom: 3px solid transparent; margin-bottom: -1px;
+            transition: all .15s;
         }
-        .motif-id {
-            font-weight: bold;
+        .tab-btn:hover { color: #1a73e8; }
+        .tab-btn.active { color: #1a73e8; border-bottom-color: #1a73e8; }
+        .tab-btn i { margin-right: 6px; }
+
+        /* Tab content */
+        #tabContent { flex: 1; overflow-y: auto; padding: 20px; }
+
+        /* Metal sites */
+        .metal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+        .metal-card {
+            background: #fff; border-radius: 8px; border: 1px solid #dee2e6;
+            padding: 16px; transition: box-shadow .15s;
         }
-        .motif-stats {
-            font-size: 0.9em;
-            color: #6c757d;
+        .metal-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+        .metal-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .metal-symbol {
+            width: 44px; height: 44px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 16px; color: #fff;
         }
-        .motif-item.active .motif-stats {
-            color: #e0e0e0;
+        .metal-title { flex: 1; }
+        .metal-title strong { font-size: 15px; display: block; }
+        .metal-title small { color: #6c757d; font-size: 12px; }
+        .role-badge {
+            font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 500;
         }
-        .structure-viewer-container {
-            min-height: 500px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
+        .role-catalytic { background: #fde8e8; color: #c0392b; }
+        .role-structural { background: #e8f4fd; color: #2980b9; }
+        .role-substrate_binding { background: #e8fdf0; color: #27ae60; }
+        .role-unknown { background: #f0f0f0; color: #7f8c8d; }
+        .coord-table { width: 100%; font-size: 12px; border-collapse: collapse; margin-top: 8px; }
+        .coord-table th { background: #f8f9fa; padding: 4px 8px; text-align: left; font-weight: 600; color: #495057; border-bottom: 1px solid #dee2e6; }
+        .coord-table td { padding: 4px 8px; border-bottom: 1px solid #f0f0f0; }
+        .coord-table tr:last-child td { border-bottom: none; }
+        .metal-meta { font-size: 12px; color: #6c757d; margin-top: 8px; }
+        .metal-meta span { margin-right: 12px; }
+
+        /* Active sites */
+        .active-sites-list { display: flex; flex-direction: column; gap: 12px; }
+        .anchor-card {
+            background: #fff; border-radius: 8px; border: 1px solid #dee2e6;
+            padding: 14px 16px;
         }
-        .motif-details {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: white;
-            border-radius: 8px;
+        .anchor-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .residue-chip {
+            background: #e8f0fe; color: #1a73e8; font-weight: 700;
+            padding: 4px 10px; border-radius: 6px; font-size: 13px; font-family: monospace;
         }
-        .back-btn {
-            margin-bottom: 20px;
+        .role-tag {
+            font-size: 12px; padding: 3px 10px; border-radius: 12px;
+            background: #fff3cd; color: #856404; font-weight: 500;
         }
-        .role-category {
-            margin-bottom: 15px;
-            padding: 10px;
-            background-color: #f0f0f0;
-            border-radius: 5px;
-            border-left: 3px solid #28a745;
-        }
-        .role-category h6 {
-            color: #28a745;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-        .residue-item {
-            padding: 8px;
-            margin: 5px 0;
-            background-color: white;
-            border-radius: 4px;
-            border: 1px solid #dee2e6;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .residue-item:hover {
-            background-color: #e7f3ff;
-            border-color: #007bff;
-        }
-        .residue-item.active {
-            background-color: #007bff;
-            color: white;
-        }
-        .residue-structure-viewer {
-            width: 100%;
-            height: 400px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-top: 15px;
-        }
+        .anchor-detail { font-size: 12px; color: #6c757d; }
+        .anchor-detail span { margin-right: 14px; }
+
+        /* Loading / empty */
+        .loading-box { text-align: center; padding: 40px; color: #6c757d; }
+        .empty-box { text-align: center; padding: 40px; color: #adb5bd; }
+        .empty-box i { font-size: 36px; margin-bottom: 10px; display: block; }
+
+        /* Section header */
+        .section-header { font-size: 13px; font-weight: 600; color: #6c757d; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 14px; }
+
+        .navbar { background: var(--e2n-charcoal) !important; }
+        .footer { text-align: center; padding: 12px; font-size: 12px; color: #6b7280; background: rgba(255,255,255,.85); border-top: 1px solid var(--e2n-line); }
     </style>
 </head>
-<body>
+<body class="e2n-app">
     <nav class="navbar navbar-expand-lg navbar-dark navbar-shadow">
-        <div class="container">
-            <a class="navbar-brand" href="/">Enzyme Structure Viewer</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <div class="container-fluid px-3">
+            <a class="navbar-brand" href="/">E2N Structure Browser</a>
+            <a class="btn btn-sm btn-outline-light ml-auto mr-2" href="/nanozyme_design">Rational Design</a>
+            <a class="btn btn-sm btn-outline-light" href="/motif_library">Motif Library</a>
         </div>
     </nav>
 
-    <div id="content">
-        <div class="container-fluid" style="padding: 20px;">
-            <button class="btn btn-secondary back-btn" onclick="window.location.href='/'">
-                <i class="fas fa-arrow-left"></i> 返回第一页
-            </button>
-            
-            <div id="outerContainer">
-                <!-- 左侧：纳米酶类型和Motif分类列表 -->
-                <div id="leftColumn">
-                    <div class="control-panel">
-                        <h3><i class="fas fa-list"></i> 可用纳米酶类型列表</h3>
-                        <div id="loadingNanozymeIndicator" class="loading-indicator">
-                            <i class="fas fa-spinner fa-spin"></i> 正在加载纳米酶类型列表...
-                        </div>
-                        <div id="nanozymeList" class="ec-list">
-                            <!-- 纳米酶类型列表将在这里动态生成 -->
-                        </div>
-                    </div>
+    <div id="layout">
+        <!-- Left: nanozyme type list -->
+        <div id="leftCol">
+            <div class="col-header"><i class="fas fa-flask"></i> Nanozyme Types</div>
+            <div id="typeList">
+                <div class="loading-box"><i class="fas fa-spinner fa-spin"></i></div>
+            </div>
+        </div>
 
-                    <div class="pdb-list-panel" id="motifListPanel" style="display: none;">
-                        <h4><i class="fas fa-puzzle-piece"></i> Motif分类 (<span id="motifCount">0</span>)</h4>
-                        <div id="loadingMotifIndicator" class="loading-indicator" style="display: none;">
-                            <i class="fas fa-spinner fa-spin"></i> 正在加载Motif列表...
-                        </div>
-                        <div id="motifCategories" class="motif-categories">
-                            <!-- Motif分类列表将在这里动态生成 -->
-                        </div>
-                    </div>
-                </div>
+        <!-- Right: detail area -->
+        <div id="rightCol">
+            <div id="rightPlaceholder">
+                <i class="fas fa-atom"></i>
+                <span>Select a nanozyme type to explore its sites</span>
+            </div>
 
-                <!-- 右侧：Motif结构展示和详细信息 -->
-                <div id="rightColumn">
-                    <div id="motifInfo" class="structure-info">
-                        <div class="placeholder-text">
-                            <i class="fas fa-puzzle-piece fa-3x"></i>
-                            <p>请从左侧选择纳米酶类型和Motif查看结构</p>
-                        </div>
-                    </div>
-                </div>
+            <div id="tabBar">
+                <button class="tab-btn active" id="tabMetalBtn" type="button">
+                    <i class="fas fa-atom"></i> Metal Sites <span id="metalCount" class="badge badge-secondary ml-1">0</span>
+                </button>
+                <button class="tab-btn" id="tabActiveBtn" type="button">
+                    <i class="fas fa-flask"></i> Active Sites <span id="activeCount" class="badge badge-secondary ml-1">0</span>
+                </button>
+            </div>
+
+            <div id="tabContent" style="display:none;">
+                <div id="metalPanel"></div>
+                <div id="activePanel" style="display:none;"></div>
             </div>
         </div>
     </div>
 
-    <div class="footer">
-        &copy; 2024 Enzyme Structure Viewer. All rights reserved.
-    </div>
+    <div class="footer">&copy; 2024 Enzyme Structure Viewer. All rights reserved.</div>
 
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper-1.14.7.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    <script src="https://3Dmol.org/build/3Dmol-min.js"></script>
-    
-    <script>
-        let currentNanozymeType = null;
-        let currentMotif = null;
-
-        // 页面加载时获取纳米酶类型列表
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('页面DOM加载完成，准备加载纳米酶类型列表');
-            loadNanozymeTypes();
-        });
-        
-        // 如果DOM已经加载完成，立即执行
-        if (document.readyState === 'loading') {
-            console.log('DOM正在加载，等待DOMContentLoaded事件');
-        } else {
-            console.log('DOM已经加载完成，立即执行loadNanozymeTypes');
-            loadNanozymeTypes();
-        }
-
-        // 加载纳米酶类型列表
-        function loadNanozymeTypes() {
-            console.log('开始加载纳米酶类型列表...');
-            const loadingIndicator = document.getElementById('loadingNanozymeIndicator');
-            const nanozymeList = document.getElementById('nanozymeList');
-            
-            if (!loadingIndicator) {
-                console.error('找不到 loadingNanozymeIndicator 元素');
-                return;
-            }
-            if (!nanozymeList) {
-                console.error('找不到 nanozymeList 元素');
-                return;
-            }
-            
-            loadingIndicator.style.display = 'block';
-            nanozymeList.innerHTML = '';
-            console.log('发送API请求到 /api/list_nanozyme_types');
-
-            fetch('/api/list_nanozyme_types', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                console.log('收到响应，状态码:', response.status);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('API Response:', data);
-                loadingIndicator.style.display = 'none';
-                
-                // 检查是否有错误状态
-                if (data.status === 'error' || data.error) {
-                    console.error('API返回错误:', data.error || '未知错误');
-                    nanozymeList.innerHTML = '<div class="error-text">加载失败: ' + (data.error || '未知错误') + '</div>';
-                    return;
-                }
-
-                // 检查是否有纳米酶类型数据
-                if (data.nanozyme_types && Array.isArray(data.nanozyme_types) && data.nanozyme_types.length > 0) {
-                    console.log('找到', data.nanozyme_types.length, '种纳米酶类型:', data.nanozyme_types);
-                    displayNanozymeTypes(data.nanozyme_types);
-                } else {
-                    console.warn('未找到可用的纳米酶类型，响应数据:', data);
-                    nanozymeList.innerHTML = '<div class="error-text">未找到可用的纳米酶类型</div>';
-                }
-            })
-            .catch(error => {
-                loadingIndicator.style.display = 'none';
-                console.error('Error loading nanozyme types:', error);
-                nanozymeList.innerHTML = '<div class="error-text">加载失败: ' + error.message + '</div>';
-            });
-        }
-
-        // 显示纳米酶类型列表
-        function displayNanozymeTypes(nanozymeTypes) {
-            console.log('开始显示纳米酶类型列表，数量:', nanozymeTypes.length);
-            const nanozymeListDiv = document.getElementById('nanozymeList');
-            if (!nanozymeListDiv) {
-                console.error('找不到 nanozymeList 元素，无法显示列表');
-                return;
-            }
-            nanozymeListDiv.innerHTML = '';
-
-            nanozymeTypes.forEach((nanozymeType, index) => {
-                console.log(`添加纳米酶类型 ${index + 1}/${nanozymeTypes.length}: ${nanozymeType}`);
-                const typeItem = document.createElement('div');
-                typeItem.className = 'ec-item';
-                typeItem.innerHTML = `
-                    <button class="btn btn-outline-primary btn-block ec-btn" 
-                            data-nanozyme-type="${nanozymeType}">
-                        <i class="fas fa-flask"></i> ${nanozymeType}
-                    </button>
-                `;
-                
-                // 添加点击事件
-                const typeBtn = typeItem.querySelector('.ec-btn');
-                typeBtn.addEventListener('click', function() {
-                    // 移除其他按钮的active状态
-                    document.querySelectorAll('.ec-btn').forEach(btn => {
-                        btn.classList.remove('active');
-                    });
-                    // 添加当前按钮的active状态
-                    this.classList.add('active');
-                    loadMotifsForNanozymeType(nanozymeType);
-                });
-                
-                nanozymeListDiv.appendChild(typeItem);
-            });
-            console.log('完成显示纳米酶类型列表，共添加', nanozymeTypes.length, '个元素');
-            console.log('nanozymeListDiv的子元素数量:', nanozymeListDiv.children.length);
-        }
-
-        // 加载指定纳米酶类型的Motif列表
-        function loadMotifsForNanozymeType(nanozymeType) {
-            currentNanozymeType = nanozymeType;
-            const loadingIndicator = document.getElementById('loadingMotifIndicator');
-            const motifListPanel = document.getElementById('motifListPanel');
-            const motifCategories = document.getElementById('motifCategories');
-            
-            loadingIndicator.style.display = 'block';
-            motifListPanel.style.display = 'block';
-            motifCategories.innerHTML = '';
-
-            fetch('/api/list_motifs', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    nanozyme_type: nanozymeType
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                loadingIndicator.style.display = 'none';
-                
-                if (data.error) {
-                    motifCategories.innerHTML = '<div class="error-text">加载失败: ' + data.error + '</div>';
-                    return;
-                }
-
-                if (data.motifs && Object.keys(data.motifs).length > 0) {
-                    displayMotifCategories(data.motifs, data.total_count);
-                } else {
-                    motifCategories.innerHTML = '<div class="error-text">该纳米酶类型暂无Motif数据</div>';
-                }
-            })
-            .catch(error => {
-                loadingIndicator.style.display = 'none';
-                console.error('Error:', error);
-                motifCategories.innerHTML = '<div class="error-text">加载失败: ' + error + '</div>';
-            });
-        }
-
-        // 显示Motif分类
-        function displayMotifCategories(motifsByCategory, totalCount) {
-            const motifCategories = document.getElementById('motifCategories');
-            const motifCount = document.getElementById('motifCount');
-            motifCount.textContent = totalCount;
-            
-            motifCategories.innerHTML = '';
-
-            // 定义分类顺序和显示名称
-            const categoryOrder = ['metal_sites', 'catalytic_sites', 'binding_sites', 'ligands_cofactors', 'other'];
-            const categoryNames = {
-                'metal_sites': '金属位点 (Metal Sites)',
-                'catalytic_sites': '催化活性位点 (Catalytic Active Sites)',
-                'binding_sites': '结合位点 (Binding Sites)',
-                'ligands_cofactors': '配体或辅因子 (Ligands/Cofactors)',
-                'other': '其他 (Other)'
-            };
-
-            categoryOrder.forEach(category => {
-                if (motifsByCategory[category] && motifsByCategory[category].length > 0) {
-                    const categoryDiv = document.createElement('div');
-                    categoryDiv.className = 'motif-category';
-                    categoryDiv.innerHTML = `<h4>${categoryNames[category]} (${motifsByCategory[category].length})</h4>`;
-                    
-                    const motifList = document.createElement('div');
-                    motifList.className = 'motif-list';
-                    
-                    motifsByCategory[category].forEach(motif => {
-                        const motifItem = document.createElement('div');
-                        motifItem.className = 'motif-item';
-                        
-                        // 检查是否为M-CSA来源或配体/辅因子
-                        const isMcsa = motif.source === 'M-CSA' || (motif.motif_id && motif.motif_id.toLowerCase().includes('_mcsa_'));
-                        const isLigand = category === 'ligands_cofactors';
-                        const isMetalSite = category === 'metal_sites';
-                        
-                        // 构建显示名称 - 金属位点和配体使用相同的显示方式
-                        let displayName = 'Unknown';
-                        if (isMetalSite || isLigand) {
-                            // 金属位点和配体：使用ligand_name或ligand_id
-                            displayName = motif.ligand_name || motif.ligand_id || motif.metal_name || motif.motif_id || 'Unknown';
-                            // 金属位点和配体都显示出现次数（如果有）
-                            if ((isMetalSite || isLigand) && motif.occurrence_count && motif.occurrence_count > 1) {
-                                displayName += ` (${motif.occurrence_count}次出现)`;
-                            }
-                        } else {
-                            displayName = motif.motif_id || 'Unknown';
-                        }
-                        if (isMcsa) {
-                            displayName += ' <span style="color: #856404; font-size: 0.9em;">（来自M-CSA）</span>';
-                        }
-                        
-                        // 构建统计信息 - 金属位点和配体使用相同的显示方式
-                        let statsHtml = '';
-                        if (isLigand) {
-                            statsHtml = `${motif.atom_count || 0} 个原子 | ${motif.pdb_id || 'N/A'} | ${motif.uniprot_id || 'N/A'}`;
-                        } else if (isMetalSite) {
-                            // 金属位点：显示原子数、PDB ID列表（多个用逗号分隔）和UniProt ID
-                            const pdbIds = motif.pdb_ids && motif.pdb_ids.length > 0 
-                                ? (motif.pdb_ids.length <= 3 
-                                    ? motif.pdb_ids.join(', ') 
-                                    : `${motif.pdb_ids.slice(0, 3).join(', ')}... (共${motif.pdb_ids.length}个)`)
-                                : 'N/A';
-                            statsHtml = `${motif.atom_count || 0} 个原子 | ${pdbIds} | ${motif.uniprot_id || 'N/A'}`;
-                        } else {
-                            statsHtml = `${motif.anchor_atoms_count || 0} 个锚点原子 | ${motif.uniprot_id || 'N/A'}`;
-                        }
-                        
-                        motifItem.innerHTML = `
-                            <div class="motif-info">
-                                <div>
-                                    <div class="motif-id">${displayName}</div>
-                                    <div class="motif-stats">
-                                        ${statsHtml}
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                        
-                        motifItem.addEventListener('click', function() {
-                            // 移除其他项的active状态
-                            document.querySelectorAll('.motif-item').forEach(item => {
-                                item.classList.remove('active');
-                            });
-                            // 添加当前项的active状态
-                            this.classList.add('active');
-                            
-                            if (isLigand) {
-                                loadLigandStructure(motif);
-                            } else {
-                                loadMotifStructure(motif);
-                            }
-                        });
-                        
-                        motifList.appendChild(motifItem);
-                    });
-                    
-                    categoryDiv.appendChild(motifList);
-                    motifCategories.appendChild(categoryDiv);
-                }
-            });
-        }
-
-        // 加载配体结构
-        function loadLigandStructure(ligand) {
-            const motifInfo = document.getElementById('motifInfo');
-            motifInfo.innerHTML = '<div class="loading-text"><i class="fas fa-spinner fa-spin"></i> 正在加载配体结构...</div>';
-
-            fetch('/api/get_ligand_structure', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    ligand_id: ligand.ligand_id,
-                    pdb_path: ligand.file_path,
-                    ligand_name: ligand.ligand_name,
-                    chain: ligand.chain,
-                    residue_number: ligand.residue_number
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    displayLigandStructure(data, ligand);
-                } else {
-                    motifInfo.innerHTML = `<div class="error-text">加载失败: ${data.error}</div>`;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                motifInfo.innerHTML = `<div class="error-text">加载失败: ${error}</div>`;
-            });
-        }
-
-        // 显示配体结构
-        function displayLigandStructure(data, ligand) {
-            const motifInfo = document.getElementById('motifInfo');
-            const pdbString = data.pdb_string || '';
-            
-            let html = `
-                <div class="structure-info">
-                    <div class="structure-header" style="margin-bottom: 20px;">
-                        <h3>
-                            <i class="fas fa-atom"></i> 配体: ${ligand.ligand_name}
-                        </h3>
-                        <div style="margin-top: 10px;">
-                            <span class="badge badge-primary">EC: ${ligand.ec_number}</span>
-                            <span class="badge badge-info">PDB: ${ligand.pdb_id}</span>
-                            <span class="badge badge-success">UniProt: ${ligand.uniprot_id}</span>
-                            <span class="badge badge-secondary">原子数: ${data.atom_count}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="structure-viewer-container">
-                        <h5><i class="fas fa-cube"></i> 3D结构视图</h5>
-                        <div id="ligandViewer" style="width: 100%; height: 500px; position: relative; border: 1px solid #ddd; border-radius: 5px;"></div>
-                    </div>
-                </div>
-            `;
-            
-            motifInfo.innerHTML = html;
-            
-            // 等待DOM更新后初始化3Dmol
-            setTimeout(() => {
-                const viewerDiv = document.getElementById('ligandViewer');
-                if (!viewerDiv) {
-                    console.error('Ligand viewer div not found');
-                    return;
-                }
-                
-                try {
-                    const viewer = $3Dmol.createViewer(viewerDiv, {
-                        defaultcolors: $3Dmol.rasmolElementColors
-                    });
-                    
-                    if (pdbString && pdbString.trim().length > 0) {
-                        viewer.addModel(pdbString, "pdb");
-                        
-                        // 设置stick模式，使用元素颜色
-                        viewer.setStyle({}, {
-                            stick: {
-                                radius: 0.2,
-                                colorscheme: $3Dmol.rasmolElementColors
-                            },
-                            sphere: {
-                                radius: 0.6,
-                                colorscheme: $3Dmol.rasmolElementColors
-                            }
-                        });
-                        
-                        viewer.zoomTo();
-                        viewer.render();
-                    } else {
-                        viewerDiv.innerHTML = '<div class="error-text" style="text-align: center; padding: 50px; color: red;">无法渲染配体结构：PDB数据为空</div>';
-                    }
-                } catch (error) {
-                    console.error('Error rendering ligand structure:', error);
-                    viewerDiv.innerHTML = '<div class="error-text" style="text-align: center; padding: 50px; color: red;">无法渲染配体结构：' + error.message + '</div>';
-                }
-            }, 100);
-        }
-
-        // 加载Motif结构
-        function loadMotifStructure(motif) {
-            currentMotif = motif;
-            const motifInfo = document.getElementById('motifInfo');
-            motifInfo.innerHTML = '<div class="loading-text"><i class="fas fa-spinner fa-spin"></i> 正在加载Motif结构...</div>';
-
-            fetch('/api/get_motif_structure', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    motif_id: motif.motif_id,
-                    nanozyme_type: currentNanozymeType,
-                    file_paths: motif.file_paths || [],
-                    ligand_name: motif.ligand_name || motif.metal_name || null,
-                    metal_type: motif.metal_type || null,
-                    chain: motif.chain || null,
-                    residue_number: motif.residue_number || null
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Motif structure response:', data);
-                if (data.status === 'success') {
-                    console.log('PDB string length:', data.pdb_string ? data.pdb_string.length : 0);
-                    displayMotifStructure(data);
-                } else {
-                    console.error('Error loading motif structure:', data.error);
-                    motifInfo.innerHTML = `<div class="error-text">加载失败: ${data.error}</div>`;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                motifInfo.innerHTML = `<div class="error-text">加载失败: ${error}</div>`;
-            });
-        }
-
-        // 显示Motif结构
-        function displayMotifStructure(data) {
-            const motifInfo = document.getElementById('motifInfo');
-            const motif = data.motif;
-            const pdbString = data.pdb_string || '';  // 保存PDB字符串供后续使用
-            const residueStructures = motif.residue_structures || {};  // 保存残基结构数据
-            
-            // 保存到全局变量供其他函数使用
-            window.currentMotifData = {
-                motif: motif,
-                pdbString: pdbString,
-                residueStructures: residueStructures,
-                anchorAtoms: motif.anchor_atoms || []
-            };
-            
-            // 按角色分组锚点原子
-            const atomsByRole = {};
-            (motif.anchor_atoms || []).forEach(atom => {
-                const role = atom.role || '未分类';
-                if (!atomsByRole[role]) {
-                    atomsByRole[role] = [];
-                }
-                atomsByRole[role].push(atom);
-            });
-            
-            // 显示颜色图例和功能原子信息
-            displayColorLegend();
-            displayFunctionalAtoms(motif.anchor_atoms || []);
-            
-            let html = `
-                <div class="structure-info">
-                    <div class="structure-header" style="margin-bottom: 20px;">
-                        <h3>
-                            <i class="fas fa-puzzle-piece"></i> Motif: ${motif.motif_id}
-                        </h3>
-                        <div style="margin-top: 10px;">
-                            <span class="badge badge-primary">EC: ${motif.ec_number}</span>
-                            <span class="badge badge-info">UniProt: ${motif.uniprot_id}</span>
-                            <span class="badge badge-success">类型: ${motif.nanozyme_type}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="structure-viewer-container">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <h5><i class="fas fa-cube"></i> 3D结构视图</h5>
-                                <div id="motifViewer" style="width: 100%; height: 500px; position: relative; border: 1px solid #ddd; border-radius: 5px;"></div>
-                            </div>
-                            <div class="col-md-4">
-                                <div id="structureInfoPanel" style="padding: 15px; background-color: #f8f9fa; border-radius: 5px; height: 500px; overflow-y: auto;">
-                                    <h5><i class="fas fa-info-circle"></i> 结构信息</h5>
-                                    <div id="colorLegend" style="margin-top: 15px;">
-                                        <h6><i class="fas fa-palette"></i> 颜色图例</h6>
-                                        <div id="colorLegendContent"></div>
-                                </div>
-                                    <div id="functionalAtoms" style="margin-top: 20px;">
-                                        <h6><i class="fas fa-star"></i> 功能原子（锚点原子）</h6>
-                                        <div id="functionalAtomsContent"></div>
-                            </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="motif-details">
-                        <h4><i class="fas fa-info-circle"></i> 按角色分组的残基检索目录</h4>
-                        <div style="margin-top: 15px;">
-            `;
-            
-            // 按角色分组显示残基
-            Object.keys(atomsByRole).sort().forEach(role => {
-                const atoms = atomsByRole[role];
-                // 获取该角色下的唯一残基
-                const uniqueResidues = {};
-                atoms.forEach(atom => {
-                    const resKey = `${atom.residue_name}_${atom.residue_number}_${atom.chain_id}`;
-                    if (!uniqueResidues[resKey]) {
-                        uniqueResidues[resKey] = {
-                            residue_name: atom.residue_name,
-                            residue_number: atom.residue_number,
-                            chain_id: atom.chain_id,
-                            atoms: []
-                        };
-                    }
-                    uniqueResidues[resKey].atoms.push(atom);
-            });
-            
-            html += `
-                    <div class="role-category">
-                        <h6><i class="fas fa-tag"></i> ${role} (${Object.keys(uniqueResidues).length} 个残基)</h6>
-                `;
-                
-                Object.keys(uniqueResidues).sort().forEach(resKey => {
-                    const residue = uniqueResidues[resKey];
-                    const residueKey = `${residue.residue_name}_${residue.residue_number}`;
-                    const hasStructure = residueStructures[residueKey] !== undefined;
-                    
-                html += `
-                        <div class="residue-item" data-residue-key="${residueKey}" 
-                             data-residue-name="${residue.residue_name}" 
-                             data-residue-number="${residue.residue_number}" 
-                             data-chain-id="${residue.chain_id}">
-                            <strong>${residue.residue_name}${residue.residue_number}</strong> (链 ${residue.chain_id})
-                            <span class="badge badge-secondary" style="margin-left: 10px;">${residue.atoms.length} 个锚点原子</span>
-                            ${hasStructure ? '<button class="btn btn-sm btn-success view-residue-btn" style="margin-left: 10px;" data-residue-key="' + residueKey + '" data-residue-name="' + residue.residue_name + '" data-residue-number="' + residue.residue_number + '" data-chain-id="' + residue.chain_id + '">可查看结构</button>' : ''}
-                        </div>
-                `;
-                });
-                
-                html += `</div>`;
-            });
-            
-            html += `
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            motifInfo.innerHTML = html;
-            
-            // 保存数据供后续使用
-            // 保持锚点原子数据，避免后续步骤丢失
-            const anchorAtoms = motif.anchor_atoms && motif.anchor_atoms.length > 0
-                ? motif.anchor_atoms
-                : (window.currentMotifData && window.currentMotifData.anchorAtoms) || [];
-            window.currentMotifData = {
-                motif: motif,
-                pdbString: pdbString,
-                residueStructures: residueStructures,
-                anchorAtoms: anchorAtoms
-            };
-            
-            // 添加残基点击事件（用于高亮）
-            document.querySelectorAll('.residue-item').forEach(item => {
-                item.addEventListener('click', function(e) {
-                    // 如果点击的是按钮，不触发这个事件
-                    if (e.target.classList.contains('view-residue-btn')) {
-                        return;
-                    }
-                    // 移除其他项的active状态
-                    document.querySelectorAll('.residue-item').forEach(i => {
-                        i.classList.remove('active');
-                    });
-                    // 添加当前项的active状态
-                    this.classList.add('active');
-                });
-            });
-            
-            // 添加"可查看结构"按钮点击事件
-            document.querySelectorAll('.view-residue-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.stopPropagation(); // 阻止事件冒泡
-                    
-                    // 移除其他项的active状态
-                    document.querySelectorAll('.residue-item').forEach(i => {
-                        i.classList.remove('active');
-                    });
-                    // 添加父项的active状态
-                    this.closest('.residue-item').classList.add('active');
-                    
-                    const residueKey = this.getAttribute('data-residue-key');
-                    const residueName = this.getAttribute('data-residue-name');
-                    const residueNumber = this.getAttribute('data-residue-number');
-                    const chainId = this.getAttribute('data-chain-id');
-                    
-                    displayResidueStructure(residueKey, residueName, residueNumber, chainId);
-                });
-            });
-            
-            // 等待DOM更新后再初始化3Dmol
-            // 使用闭包传递pdbString和motif
-            (function(pdbStr, motifData) {
-                setTimeout(() => {
-                    console.log('Initializing 3Dmol viewer...');
-                    const viewerDiv = document.getElementById('motifViewer');
-                    if (!viewerDiv) {
-                        console.error('Motif viewer div not found');
-                        return;
-                    }
-                    console.log('Viewer div found, creating 3Dmol viewer...');
-                    
-                    // 检查3Dmol是否已加载
-                    if (typeof $3Dmol === 'undefined') {
-                        console.error('3Dmol.js is not loaded!');
-                        viewerDiv.innerHTML = '<div class="error-text" style="text-align: center; padding: 50px; color: red;">3Dmol.js 库未加载，请刷新页面重试</div>';
-                        return;
-                    }
-                    
-                    // 使用3Dmol.js显示结构
-                    const viewer = $3Dmol.createViewer(viewerDiv, {
-                        defaultcolors: $3Dmol.rasmolElementColors
-                    });
-                    console.log('3Dmol viewer created successfully');
-                    
-                    // 检查是否有PDB字符串（完整的分子结构）
-                    const atoms = motifData.anchor_atoms || [];
-                
-                    console.log('Rendering PDB structure, length:', pdbStr ? pdbStr.length : 0);
-                    console.log('PDB string preview:', pdbStr ? pdbStr.substring(0, 200) : 'null');
-                    
-                    // 检查PDB字符串是否包含实际的原子数据（至少有一个HETATM或ATOM行）
-                    const hasAtomData = pdbStr && pdbStr.trim().length > 0 && 
-                                        (pdbStr.includes('HETATM') || pdbStr.includes('ATOM'));
-                    
-                    console.log('Has atom data:', hasAtomData);
-                    
-                    if (hasAtomData) {
-                        // 使用完整的分子结构
-                        try {
-                            console.log('Adding PDB model to viewer...');
-                            // 添加PDB模型
-                            viewer.addModel(pdbStr, "pdb");
-                            console.log('PDB model added successfully');
-                            
-                            // 设置默认样式：显示完整的分子结构（stick模式）
-                            viewer.setStyle({}, {
-                                stick: {
-                                    radius: 0.15,
-                                    colorscheme: $3Dmol.rasmolElementColors
-                                },
-                                sphere: {
-                                    radius: 0.5,
-                                    colorscheme: $3Dmol.rasmolElementColors
-                                }
-                            });
-                            console.log('Style set successfully');
-                            
-                            // 如果有锚定原子，则高亮它们
-                            if (atoms && atoms.length > 0) {
-                                console.log('Highlighting', atoms.length, 'anchor atoms');
-                                // 创建锚定原子的选择器集合
-                                const anchorSelectors = [];
-                                atoms.forEach((atom) => {
-                                    // 构建选择器：选择特定残基的特定原子
-                                    const selector = {
-                                        resn: atom.residue_name,
-                                        resi: atom.residue_number,
-                                        atom: atom.atom_name.trim()
-                                    };
-                                    anchorSelectors.push(selector);
-                                });
-                                
-                                // 高亮锚定原子：使用不同的颜色（金色/黄色）
-                                anchorSelectors.forEach((selector) => {
-                                    viewer.setStyle(selector, {
-                                        stick: {
-                                            radius: 0.25,
-                                            color: 'gold'
-                                        },
-                                        sphere: {
-                                            radius: 0.8,
-                                            color: 'gold'
-                                        }
-                                    });
-                                    
-                                    // 添加标签
-                                    const anchorAtom = atoms.find(a => 
-                                        a.residue_name === selector.resn &&
-                                        a.residue_number === selector.resi &&
-                                        a.atom_name.trim() === selector.atom
-                                    );
-                                    if (anchorAtom && anchorAtom.coordinates && anchorAtom.coordinates.length >= 3) {
-                                        viewer.addLabel(
-                                            `${anchorAtom.residue_name}${anchorAtom.residue_number}:${anchorAtom.atom_name}`,
-                                            {
-                                                position: {
-                                                    x: anchorAtom.coordinates[0],
-                                                    y: anchorAtom.coordinates[1],
-                                                    z: anchorAtom.coordinates[2]
-                                                },
-                                                backgroundColor: 'gold',
-                                                backgroundOpacity: 0.8,
-                                                font: 'Arial',
-                                                fontSize: 12,
-                                                fontColor: 'black'
-                                            }
-                                        );
-                                    }
-                                });
-                                console.log('Anchor atoms highlighted');
-                            }
-                            
-                            // 渲染
-                            console.log('Rendering viewer...');
-                            viewer.zoomTo();
-                            viewer.render();
-                            console.log('Viewer rendered successfully');
-                        } catch (error) {
-                            console.error('Error rendering PDB structure:', error);
-                            console.error('Error stack:', error.stack);
-                            viewerDiv.innerHTML = '<div class="error-text" style="text-align: center; padding: 50px; color: red;">无法渲染结构：' + error.message + '<br/>详细信息请查看控制台</div>';
-                        }
-                    } else {
-                        // 如果没有PDB字符串或PDB字符串无效，显示错误信息
-                        console.error('No valid PDB string available for rendering. Length:', pdbStr ? pdbStr.length : 0);
-                        viewerDiv.innerHTML = '<div class="error-text" style="text-align: center; padding: 50px; color: red;">无法加载结构数据：PDB数据为空或格式无效<br/>请检查后端日志以获取更多信息</div>';
-                        if (atoms && atoms.length > 0) {
-                            console.log('Rendering as spheres using anchor atoms');
-                            renderAsSpheres(viewer, atoms, motifData);
-                        } else {
-                            console.error('No PDB string and no anchor atoms available');
-                            viewerDiv.innerHTML = '<div class="error-text" style="text-align: center; padding: 50px; color: red;">无法渲染结构：PDB数据为空且没有锚点原子数据<br/>请检查后端日志以获取更多信息</div>';
-                        }
-                    }
-                }, 100);
-            })(pdbString, motif);  // 传递pdbString和motif到闭包
-        }
-
-        // 显示颜色图例
-        function displayColorLegend() {
-            const legendContent = document.getElementById('colorLegendContent');
-            if (!legendContent) return;
-            
-            // 3Dmol.js使用的RasMol元素颜色映射
-            const elementColors = {
-                'H': { name: '氢 (H)', color: '#FFFFFF' },
-                'C': { name: '碳 (C)', color: '#909090' },
-                'N': { name: '氮 (N)', color: '#3050F8' },
-                'O': { name: '氧 (O)', color: '#FF0D0D' },
-                'P': { name: '磷 (P)', color: '#FF8000' },
-                'S': { name: '硫 (S)', color: '#FFFF30' },
-                'F': { name: '氟 (F)', color: '#90E050' },
-                'Cl': { name: '氯 (Cl)', color: '#1FF01F' },
-                'Br': { name: '溴 (Br)', color: '#A62929' },
-                'I': { name: '碘 (I)', color: '#940094' },
-                'Fe': { name: '铁 (Fe)', color: '#E06633' },
-                'Zn': { name: '锌 (Zn)', color: '#7D80B0' },
-                'Cu': { name: '铜 (Cu)', color: '#C88033' },
-                'Mg': { name: '镁 (Mg)', color: '#8AFF00' },
-                'Ca': { name: '钙 (Ca)', color: '#3DFF00' },
-                'Mn': { name: '锰 (Mn)', color: '#9C7AC7' },
-                'Na': { name: '钠 (Na)', color: '#AB5CF2' },
-                'K': { name: '钾 (K)', color: '#8F40D4' }
-            };
-            
-            let html = '<div style="font-size: 0.9em;">';
-            Object.keys(elementColors).forEach(element => {
-                const info = elementColors[element];
-                html += `
-                    <div style="display: flex; align-items: center; margin-bottom: 5px;">
-                        <div style="width: 20px; height: 20px; background-color: ${info.color}; border: 1px solid #ccc; border-radius: 3px; margin-right: 8px;"></div>
-                        <span>${info.name}</span>
-                    </div>
-                `;
-            });
-            // 说明功能原子高亮的标签颜色
-            html += `
-                <div style="display: flex; align-items: center; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #dee2e6;">
-                    <div style="width: 20px; height: 20px; background-color: #fff3cd; border: 2px solid #ffc107; border-radius: 3px; margin-right: 8px;"></div>
-                    <span>功能原子高亮（锚点原子标签）</span>
-                </div>
-            `;
-            html += '</div>';
-            legendContent.innerHTML = html;
-        }
-        
-        // 显示功能原子列表
-        function displayFunctionalAtoms(anchorAtoms) {
-            const atomsContent = document.getElementById('functionalAtomsContent');
-            if (!atomsContent) return;
-            
-            if (!anchorAtoms || anchorAtoms.length === 0) {
-                atomsContent.innerHTML = '<div style="color: #6c757d; font-size: 0.9em;">暂无功能原子数据</div>';
-                return;
-            }
-            
-            // 按残基分组
-            const atomsByResidue = {};
-            anchorAtoms.forEach(atom => {
-                const resKey = `${atom.residue_name}_${atom.residue_number}_${atom.chain_id}`;
-                if (!atomsByResidue[resKey]) {
-                    atomsByResidue[resKey] = {
-                        residue_name: atom.residue_name,
-                        residue_number: atom.residue_number,
-                        chain_id: atom.chain_id,
-                        role: atom.role || '未分类',
-                        atoms: []
-                    };
-                }
-                atomsByResidue[resKey].atoms.push(atom);
-            });
-            
-            let html = '<div style="font-size: 0.85em;">';
-            Object.keys(atomsByResidue).forEach(resKey => {
-                const residue = atomsByResidue[resKey];
-                html += `
-                    <div style="margin-bottom: 10px; padding: 8px; background-color: white; border-radius: 4px; border-left: 3px solid #007bff;">
-                        <div style="font-weight: bold; color: #007bff;">
-                            ${residue.residue_name}${residue.residue_number} (链 ${residue.chain_id})
-                        </div>
-                        <div style="color: #6c757d; font-size: 0.9em; margin-top: 3px;">
-                            角色: ${residue.role}
-                        </div>
-                        <div style="margin-top: 5px;">
-                `;
-                residue.atoms.forEach(atom => {
-                    // 确保元素符号存在且统一格式
-                    const element = (atom.element || '').trim() ||
-                        (atom.atom_name ? atom.atom_name.replace(/[^A-Za-z]/g, '').slice(0, 2).toUpperCase() : '?');
-                    html += `
-                        <span style="display: inline-block; margin: 2px; padding: 3px 6px; background-color: #e7f3ff; border-radius: 3px; font-size: 0.85em;">
-                            ${atom.atom_name || '?'} (${element})
-                        </span>
-                    `;
-                });
-                html += `
-                        </div>
-                    </div>
-                `;
-            });
-            html += '</div>';
-            atomsContent.innerHTML = html;
-        }
-        
-        // 更新当前残基的功能原子显示
-        function updateFunctionalAtomsForResidue(functionalAtoms, residueName, residueNumber, chainId) {
-            const atomsContent = document.getElementById('functionalAtomsContent');
-            if (!atomsContent) return;
-            
-            if (!functionalAtoms || functionalAtoms.length === 0) {
-                atomsContent.innerHTML = `
-                    <div style="color: #6c757d; font-size: 0.9em;">
-                        <div style="margin-bottom: 10px; padding: 8px; background-color: #fff3cd; border-radius: 4px; border-left: 3px solid #ffc107;">
-                            <strong>${residueName}${residueNumber} (链 ${chainId})</strong>
-                            <div style="margin-top: 5px;">该残基没有功能原子（锚点原子）</div>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-            
-            // 按角色分组
-            const atomsByRole = {};
-            functionalAtoms.forEach(atom => {
-                const role = atom.role || '未分类';
-                if (!atomsByRole[role]) {
-                    atomsByRole[role] = [];
-                }
-                atomsByRole[role].push(atom);
-            });
-            
-            let html = '<div style="font-size: 0.85em;">';
-            html += `
-                <div style="margin-bottom: 10px; padding: 8px; background-color: #fff3cd; border-radius: 4px; border-left: 3px solid #ffc107;">
-                    <div style="font-weight: bold; color: #856404;">
-                        <i class="fas fa-star"></i> ${residueName}${residueNumber} (链 ${chainId})
-                    </div>
-                    <div style="color: #856404; font-size: 0.9em; margin-top: 5px;">
-                        功能原子（黄色高亮显示）：
-                    </div>
-            `;
-            
-            Object.keys(atomsByRole).forEach(role => {
-                html += `
-                    <div style="margin-top: 8px; padding: 5px; background-color: white; border-radius: 3px;">
-                        <div style="color: #6c757d; font-size: 0.85em; margin-bottom: 3px;">
-                            <i class="fas fa-tag"></i> ${role}
-                        </div>
-                        <div>
-                `;
-                atomsByRole[role].forEach(atom => {
-                    const element = (atom.element || '').trim() ||
-                        (atom.atom_name ? atom.atom_name.replace(/[^A-Za-z]/g, '').slice(0, 2).toUpperCase() : '?');
-                    // 获取元素颜色
-                    const elementColors = {
-                        'H': '#FFFFFF', 'C': '#909090', 'N': '#3050F8', 'O': '#FF0D0D',
-                        'P': '#FF8000', 'S': '#FFFF30', 'Fe': '#E06633', 'Zn': '#7D80B0',
-                        'Cu': '#C88033', 'Mg': '#8AFF00', 'Ca': '#3DFF00'
-                    };
-                    const color = elementColors[element] || '#909090';
-                    html += `
-                        <span style="display: inline-block; margin: 2px; padding: 4px 8px; background-color: #fff3cd; border: 2px solid #ffc107; border-radius: 3px; font-size: 0.85em; font-weight: bold;">
-                            <span style="display: inline-block; width: 12px; height: 12px; background-color: ${color}; border: 1px solid #ccc; border-radius: 2px; margin-right: 4px; vertical-align: middle;"></span>
-                            ${atom.atom_name || '?'} (${element})
-                        </span>
-                    `;
-                });
-                html += `
-                        </div>
-                    </div>
-                `;
-            });
-            
-            html += `
-                    </div>
-                </div>
-            `;
-            html += '</div>';
-            atomsContent.innerHTML = html;
-        }
-        
-        // 显示残基结构（在3D结构视图中显示）
-        function displayResidueStructure(residueKey, residueName, residueNumber, chainId) {
-            const viewerDiv = document.getElementById('motifViewer');
-            
-            if (!viewerDiv) {
-                console.error('Motif viewer div not found');
-                return;
-            }
-            
-            if (!window.currentMotifData) {
-                console.error('Motif data not available');
-                viewerDiv.innerHTML = '<div class="error-text" style="text-align: center; padding: 50px; color: red;">无法渲染残基结构：Motif数据不可用</div>';
-                return;
-            }
-            
-            const residueStructures = window.currentMotifData.residueStructures;
-            console.log('Residue structures:', residueStructures);
-            console.log('Looking for residueKey:', residueKey);
-            
-            if (!residueStructures || Object.keys(residueStructures).length === 0) {
-                console.error('Residue structures is empty');
-                viewerDiv.innerHTML = '<div class="error-text" style="text-align: center; padding: 50px; color: red;">无法渲染残基结构：残基结构数据为空</div>';
-                return;
-            }
-            
-            const residue = residueStructures[residueKey];
-            console.log('Found residue:', residue);
-            
-            if (!residue) {
-                console.error('Residue not found for key:', residueKey);
-                console.log('Available keys:', Object.keys(residueStructures));
-                viewerDiv.innerHTML = '<div class="error-text" style="text-align: center; padding: 50px; color: red;">无法渲染残基结构：未找到残基 ' + residueKey + '</div>';
-                return;
-            }
-            
-            if (!residue.atoms || residue.atoms.length === 0) {
-                console.error('Residue has no atoms:', residue);
-                viewerDiv.innerHTML = '<div class="error-text" style="text-align: center; padding: 50px; color: red;">无法渲染残基结构：残基没有原子数据</div>';
-                return;
-            }
-            
-            console.log('Residue atoms:', residue.atoms);
-            
-            // 生成单残基PDB字符串
-            const residuePdb = generateResiduePDB(residue, residueName, residueNumber, chainId);
-            console.log('Generated PDB string (first 500 chars):', residuePdb.substring(0, 500));
-            
-            if (!residuePdb || residuePdb.trim().length === 0) {
-                console.error('Generated PDB string is empty');
-                viewerDiv.innerHTML = '<div class="error-text" style="text-align: center; padding: 50px; color: red;">无法渲染残基结构：PDB字符串生成失败</div>';
-                return;
-            }
-            
-            // 获取当前残基的功能原子（锚点原子）
-            const functionalAtoms = [];
-            if (window.currentMotifData && window.currentMotifData.anchorAtoms) {
-                const targetResidueName = String(residueName).trim();
-                const targetResidueNumber = String(residueNumber).trim();
-                const targetChainId = String(chainId || '').trim();
-                window.currentMotifData.anchorAtoms.forEach(atom => {
-                    const atomResidueName = String(atom.residue_name || '').trim();
-                    const atomResidueNumber = String(atom.residue_number || '').trim();
-                    const atomChainId = String(atom.chain_id || '').trim();
-                    if (atomResidueName === targetResidueName &&
-                        atomResidueNumber === targetResidueNumber &&
-                        atomChainId === targetChainId) {
-                        functionalAtoms.push(atom);
-                    }
-                });
-            }
-            
-            // 更新功能原子列表显示
-            updateFunctionalAtomsForResidue(functionalAtoms, residueName, residueNumber, chainId);
-            
-            // 等待DOM更新后初始化3Dmol
-            setTimeout(() => {
-                // 清除之前的viewer
-                viewerDiv.innerHTML = '';
-                
-                // 创建新的viewer
-                const viewer = $3Dmol.createViewer(viewerDiv, {
-                    defaultcolors: $3Dmol.rasmolElementColors
-                });
-                
-                try {
-                    // 添加PDB模型
-                    viewer.addModel(residuePdb, "pdb");
-                    
-                    // 检查模型是否成功添加
-                    const numModels = viewer.getModel();
-                    if (!numModels || numModels.length === 0) {
-                        throw new Error('Failed to add PDB model - no models in viewer');
-                    }
-                    
-                    // 设置默认样式：stick模式
-                    viewer.setStyle({}, {
-                        stick: {
-                            radius: 0.2,
-                            colorscheme: $3Dmol.rasmolElementColors
-                        },
-                        sphere: {
-                            radius: 0.6,
-                            colorscheme: $3Dmol.rasmolElementColors
-                        }
-                    });
-                    
-                    // 高亮功能原子（锚点原子）
-                    if (functionalAtoms.length > 0) {
-                        functionalAtoms.forEach(atom => {
-                            const atomName = atom.atom_name || '';
-                            // 使用原子名称和残基编号来匹配
-                            viewer.setStyle({
-                                and: [
-                                    { resi: residueNumber },
-                                    { chain: chainId },
-                                    { atom: atomName }
-                                ]
-                            }, {
-                                stick: {
-                                    radius: 0.3,
-                                    color: 'yellow'
-                                },
-                                sphere: {
-                                    radius: 1.0,
-                                    color: 'yellow',
-                                    opacity: 0.8
-                                }
-                            });
-                        });
-                    }
-                    
-                    // 渲染
-                    viewer.zoomTo();
-                    viewer.render();
-                    console.log('Residue structure rendered successfully with', functionalAtoms.length, 'functional atoms highlighted');
-                } catch (error) {
-                    console.error('Error rendering residue structure:', error);
-                    console.error('Error stack:', error.stack);
-                    viewerDiv.innerHTML = '<div class="error-text" style="text-align: center; padding: 50px; color: red;">无法渲染残基结构：' + error.message + '</div>';
-                }
-            }, 100);
-        }
-
-        // 生成单残基PDB字符串
-        function generateResiduePDB(residue, residueName, residueNumber, chainId) {
-            let pdbLines = [];
-            let atomSerial = 1;
-            
-            // 添加HEADER行（可选，3Dmol可以没有）
-            // pdbLines.push('HEADER    RESIDUE STRUCTURE');
-            
-            // 添加ATOM记录
-            residue.atoms.forEach(atom => {
-                // 确保原子名称格式正确（PDB格式要求）
-                let atomName = (atom.atom_name || '').trim();
-                // 如果原子名称长度超过4，截断
-                if (atomName.length > 4) {
-                    atomName = atomName.substring(0, 4);
-                }
-                // 如果原子名称是1-2个字符，需要右对齐；如果是3-4个字符，左对齐
-                if (atomName.length <= 2) {
-                    atomName = atomName.padStart(2);
-                }
-                atomName = atomName.padEnd(4);
-                
-                // 残基名称（3个字符）
-                const resName = (residueName || 'UNK').substring(0, 3).padEnd(3);
-                
-                // 链ID（1个字符）
-                const chain = (chainId || 'A').substring(0, 1);
-                
-                // 残基编号（4位数字，右对齐）
-                const resNum = String(residueNumber || 0).padStart(4);
-                
-                // 原子序号（5位数字，右对齐）
-                const serial = String(atomSerial).padStart(5);
-                
-                // 坐标（8位，包含小数点）
-                let x = '0.000';
-                let y = '0.000';
-                let z = '0.000';
-                
-                if (atom.coordinates && Array.isArray(atom.coordinates)) {
-                    x = parseFloat(atom.coordinates[0] || 0).toFixed(3);
-                    y = parseFloat(atom.coordinates[1] || 0).toFixed(3);
-                    z = parseFloat(atom.coordinates[2] || 0).toFixed(3);
-                } else if (atom.coordinates && typeof atom.coordinates === 'object') {
-                    x = parseFloat(atom.coordinates.x || atom.coordinates[0] || 0).toFixed(3);
-                    y = parseFloat(atom.coordinates.y || atom.coordinates[1] || 0).toFixed(3);
-                    z = parseFloat(atom.coordinates.z || atom.coordinates[2] || 0).toFixed(3);
-                }
-                
-                x = x.padStart(8);
-                y = y.padStart(8);
-                z = z.padStart(8);
-                
-                // 占据率（6位，包含小数点）
-                const occupancy = (atom.occupancy !== undefined ? parseFloat(atom.occupancy).toFixed(2) : '1.00').padStart(6);
-                
-                // 温度因子（6位，包含小数点）
-                const tempFactor = (atom.bfactor !== undefined || atom.tempFactor !== undefined 
-                    ? parseFloat(atom.bfactor || atom.tempFactor || 0).toFixed(2) 
-                    : '0.00').padStart(6);
-                
-                // 元素符号（从原子名称或element字段获取）
-                let element = '';
-                if (atom.element) {
-                    element = String(atom.element).trim().substring(0, 2);
-                } else if (atomName.trim().length > 0) {
-                    // 从原子名称推断元素（通常是第一个字符）
-                    element = atomName.trim()[0];
-                } else {
-                    element = 'C'; // 默认碳
-                }
-                element = element.padStart(2);
-                
-                // 构建ATOM记录行（标准PDB格式）
-                // 格式: ATOM  serial name resName chain resNum    x    y    z occupancy tempFactor          element
-                // 位置:  1-6   7-11  13-16 18-20   22    23-26  31-38 39-46 47-54 55-60    61-66             77-78
-                const atomLine = `ATOM  ${serial} ${atomName} ${resName} ${chain}${resNum}    ${x}${y}${z}${occupancy}${tempFactor}          ${element}`;
-                pdbLines.push(atomLine);
-                
-                atomSerial++;
-            });
-            
-            // 添加END行
-            pdbLines.push('END');
-            
-            return pdbLines.join('\n');
-        }
-            
-            // 辅助函数：使用球体显示（回退方案）
-            function renderAsSpheres(viewer, atoms, motif) {
-                atoms.forEach((atom, index) => {
-                    viewer.addSphere({
-                        center: {
-                            x: atom.coordinates[0],
-                            y: atom.coordinates[1],
-                            z: atom.coordinates[2]
-                        },
-                        radius: 1.0,
-                        color: getElementColor(atom.element)
-                    });
-                    
-                    // 添加标签
-                    viewer.addLabel(
-                        `${atom.residue_name}${atom.residue_number}:${atom.atom_name}`,
-                        {
-                            position: {
-                                x: atom.coordinates[0],
-                                y: atom.coordinates[1],
-                                z: atom.coordinates[2]
-                            },
-                            backgroundColor: 'white',
-                            backgroundOpacity: 0.8,
-                            font: 'Arial',
-                            fontSize: 12
-                        }
-                    );
-                });
-                
-                // 添加连接线（基于距离约束）
-                motif.geometry_constraints.forEach(constraint => {
-                    if (constraint.constraint_type === 'distance' && constraint.atom_indices.length === 2) {
-                        const i1 = constraint.atom_indices[0];
-                        const i2 = constraint.atom_indices[1];
-                        if (i1 < atoms.length && i2 < atoms.length) {
-                            const atom1 = atoms[i1];
-                            const atom2 = atoms[i2];
-                            viewer.addLine({
-                                start: {
-                                    x: atom1.coordinates[0],
-                                    y: atom1.coordinates[1],
-                                    z: atom1.coordinates[2]
-                                },
-                                end: {
-                                    x: atom2.coordinates[0],
-                                    y: atom2.coordinates[1],
-                                    z: atom2.coordinates[2]
-                                },
-                                color: 'gray',
-                                radius: 0.1
-                            });
-                        }
-                    }
-                });
-                
-                viewer.zoomTo();
-                viewer.render();
-        }
-
-        // 获取元素颜色
-        function getElementColor(element) {
-            const colors = {
-                'C': 'gray',
-                'N': 'blue',
-                'O': 'red',
-                'S': 'yellow',
-                'P': 'orange',
-                'FE': 'brown',
-                'CU': 'brown',
-                'ZN': 'gray',
-                'MG': 'green',
-                'CA': 'gray',
-                'MN': 'purple'
-            };
-            return colors[element.toUpperCase()] || 'gray';
-        }
-    </script>
+    <script src="{{ url_for('static', filename='js/e2n-common.js') }}?v=journal-plate-20260709"></script>
+    <script src="{{ url_for('static', filename='js/motif_library.js') }}?v=journal-plate-20260709"></script>
 </body>
 </html>
-

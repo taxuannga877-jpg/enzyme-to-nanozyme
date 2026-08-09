@@ -1,0 +1,15 @@
+activity,topology,profile_count
+Catalase,bridged,16
+Catalase,independent adjacent,36
+Catalase,independent separated,68
+DNase,bridged,1
+Glucose Oxidase,independent adjacent,13
+Glucose Oxidase,independent separated,69
+Glutathione Peroxidase,independent adjacent,48
+Glutathione Peroxidase,independent separated,106
+Oxidase,bridged,18
+Oxidase,independent adjacent,50
+Oxidase,independent separated,106
+Peroxidase,bridged,19
+Peroxidase,independent adjacent,51
+Peroxidase,independent separated,98

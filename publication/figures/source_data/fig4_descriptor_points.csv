@@ -1,0 +1,700 @@
+profile_id,activity,topology,adsorption_energy_ev,activation_metric_ev
+153f6b8a_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,0.8974036926078952,2.9269983685808256
+153f6b8a_oxidase,Oxidase,independent adjacent,-1.3103122103391345,0.0858404440991762
+1d195702_catalase,Catalase,bridged,0.3003257497221057,2.845646928104543
+1d195702_peroxidase,Peroxidase,bridged,0.3187377558851949,2.1252858670122805
+46832d83_catalase,Catalase,independent adjacent,-0.0525087447158512,3.8393147243868953
+46832d83_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.6425055856302606,6.883357615666682
+7a2c1624_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.416409390832996,4.551912017238465
+7a2c1624_peroxidase,Peroxidase,independent adjacent,-0.5392103145077272,2.5743355534336843
+7d6533e7_oxidase,Oxidase,independent adjacent,-0.6792103027935354,0.0
+7d6533e7_peroxidase,Peroxidase,independent adjacent,-0.5392103145095462,1.826561811009924
+8195ee9a_catalase,Catalase,bridged,0.3003257497248341,2.847685966510653
+8195ee9a_peroxidase,Peroxidase,bridged,0.3187377558861044,0.7386973383881923
+983be37c_catalase,Catalase,independent adjacent,-0.0542835600090256,3.915161658143006
+983be37c_peroxidase,Peroxidase,independent adjacent,-0.0075450582739904,2.3815879208777915
+9ec561f2_catalase,Catalase,independent adjacent,-0.0525087447158512,3.838158073052455
+9ec561f2_oxidase,Oxidase,independent adjacent,-1.1055393862559413,0.0
+b36787b1_catalase,Catalase,independent adjacent,-0.0525087447158512,3.845479150040319
+b36787b1_oxidase,Oxidase,independent adjacent,-1.105539386256396,0.0
+c026116f_catalase,Catalase,independent adjacent,-0.0525087447135774,3.837709708110197
+c026116f_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.6771986583480611,1.2626081634407456
+e7b2f3b3_catalase,Catalase,independent adjacent,-0.0542835600085709,3.9188440283332966
+e7b2f3b3_peroxidase,Peroxidase,independent adjacent,-0.0075450582721714,2.381427209766116
+1b0b26e4_catalase,Catalase,independent separated,0.0641762686259426,3.5981280776495623
+1b0b26e4_oxidase,Oxidase,independent separated,-0.5170424473351432,0.0
+621e0bc1_oxidase,Oxidase,independent adjacent,-0.4152582246758811,0.0
+621e0bc1_peroxidase,Peroxidase,independent adjacent,0.8353534764082724,0.8705069272564288
+74820a79_catalase,Catalase,independent separated,0.0641762686273068,3.597111682209743
+74820a79_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.7021059180124212,2.5352444308937265
+79bd3431_oxidase,Oxidase,bridged,-1.5824995537716404,0.0
+79bd3431_peroxidase,Peroxidase,bridged,0.1686219355324283,0.0
+92567ba7_catalase,Catalase,independent separated,0.0641762686273068,3.5971665718088843
+92567ba7_oxidase,Oxidase,independent separated,-0.5170424473351432,0.0
+bae713d7_catalase,Catalase,independent separated,0.0641762686259426,3.597159113939597
+bae713d7_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.638263682701563,0.0
+c8f96ba2_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.0249515569657888,3.2465360303895068
+c8f96ba2_oxidase,Oxidase,independent separated,-0.5165097604788116,0.0
+dc3ed49f_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,0.6021671871271792,2.1416902279961505
+dc3ed49f_oxidase,Oxidase,independent adjacent,-0.6739032795887852,0.0
+e2ca81a4_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,0.6049678938652505,2.1169293883467617
+e2ca81a4_peroxidase,Peroxidase,independent adjacent,0.8353534764078177,0.8704580349894968
+66070cb5_catalase,Catalase,independent separated,0.1172009822580548,3.969692633048908
+66070cb5_peroxidase,Peroxidase,independent separated,0.4044216645916094,1.2816162318263196
+82300d54_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.942907159405422,5.557792600347057
+82300d54_oxidase,Oxidase,independent separated,-0.9025704032681006,0.0
+96ae2701_oxidase,Oxidase,independent separated,-0.704653219212787,0.4181503559398152
+96ae2701_peroxidase,Peroxidase,independent separated,0.4035075858200798,1.257362397986526
+976aa64b_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.9425128363368456,3.853862800237948
+976aa64b_peroxidase,Peroxidase,independent separated,0.4035075858173513,1.2573472735689393
+ad1d6912_catalase,Catalase,independent separated,0.1259521667939225,4.084498057720793
+ad1d6912_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.671374167644899,1.728710257802959
+c5946ea0_catalase,Catalase,independent separated,0.1259521667939225,4.078539454685142
+c5946ea0_oxidase,Oxidase,independent separated,-0.9033381468368588,0.0
+827a743e_glucose_oxidase,Glucose Oxidase,independent adjacent,2.470525747809233,2.2851754383236766
+827a743e_peroxidase,Peroxidase,independent adjacent,0.2935033450069113,0.491919863030489
+58cd660c_catalase,Catalase,bridged,0.2299073830054112,2.907849035110303
+58cd660c_oxidase,Oxidase,bridged,-1.6481497498302815,0.0
+644a5e9e_catalase,Catalase,bridged,0.2006642295000347,2.358709265824473
+8f21a96c_catalase,Catalase,bridged,0.2221059582884663,1.8557801706601824
+8f21a96c_peroxidase,Peroxidase,bridged,-0.7253429690658777,0.0
+9034c955_peroxidase,Peroxidase,bridged,0.1174955040823988,0.0
+dcdce03b_oxidase,Oxidase,bridged,-0.9606806175656856,0.0
+dcdce03b_peroxidase,Peroxidase,bridged,0.4942671198932657,0.0
+ffb513b8_dnase,DNase,bridged,1.82354957660948,2.8916888151552484
+ffb513b8_oxidase,Oxidase,bridged,-1.058308091304525,0.0
+59355fe9_oxidase,Oxidase,independent adjacent,0.4671428943113369,0.0
+59355fe9_peroxidase,Peroxidase,independent adjacent,0.1726301729559054,1.0969313623040762
+9905dc81_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.83569339725409,2.513656454185366
+9905dc81_oxidase,Oxidase,independent adjacent,0.9196337041207698,0.0
+c1a8f5ff_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.8379241290217576,2.309906975739977
+c1a8f5ff_peroxidase,Peroxidase,independent adjacent,0.1726301729559054,1.0970674749300997
+2f771f22_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.664118172068356,3.3958343917838647
+2f771f22_peroxidase,Peroxidase,independent separated,-0.552563124550943,2.052385889443485
+2fd59fe4_glucose_oxidase,Glucose Oxidase,independent adjacent,0.0913114857228265,1.9217936049508355
+2fd59fe4_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,0.6928743561074953,1.2722504969569854
+41f9b430_catalase,Catalase,independent separated,0.3598293565378299,3.45607063919806
+41f9b430_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.193456976323887,3.865855958657448
+50b2bb19_oxidase,Oxidase,independent separated,-0.7222164338836592,0.0
+50b2bb19_peroxidase,Peroxidase,independent separated,-0.5525631245513978,2.052244913079903
+546a5ac5_glucose_oxidase,Glucose Oxidase,independent adjacent,0.0913114857232813,1.920176182999057
+546a5ac5_oxidase,Oxidase,independent adjacent,-0.9419710230372402,0.1532668788504452
+62533915_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.6215631453769674,1.4710165198075629
+62533915_peroxidase,Peroxidase,independent adjacent,0.0975097160367113,1.3941411838986824
+707ba750_catalase,Catalase,independent adjacent,0.2074747693336576,3.7559083450587423
+707ba750_peroxidase,Peroxidase,independent adjacent,0.0966924826284412,1.393902903223534
+743e7dc9_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.7183195057632474,2.4245307873707134
+743e7dc9_oxidase,Oxidase,independent adjacent,-0.9423244291670017,0.3542351978394435
+8384434b_catalase,Catalase,independent separated,0.3598293565360109,3.454696494541168
+8384434b_oxidase,Oxidase,independent separated,-1.107530415603151,0.0
+ce640407_catalase,Catalase,independent adjacent,0.2053890445918114,3.7589163330517295
+ce640407_oxidase,Oxidase,independent adjacent,-0.9422271234934668,0.3852190489001259
+e7823e90_catalase,Catalase,independent adjacent,0.2053890445904471,3.754351382450295
+e7823e90_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,0.6927616264561038,3.753744898532205
+ec1fc219_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.39785332722613,0.4276444413089848
+ec1fc219_oxidase,Oxidase,independent separated,-1.1073984784268305,0.0
+fdf94907_oxidase,Oxidase,independent adjacent,-0.7533694419430503,0.0
+fdf94907_peroxidase,Peroxidase,independent adjacent,0.097509716037166,1.3897396085994842
+042041a3_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.374652698776572,0.4617258458229116
+042041a3_oxidase,Oxidase,independent separated,-1.1254915695958516,0.0
+0b54c61a_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.56338587421169,3.4545529574015745
+0b54c61a_peroxidase,Peroxidase,independent separated,0.6176658711324308,0.7968330306885036
+956589f6_oxidase,Oxidase,independent separated,-0.8699029039041761,0.0
+956589f6_peroxidase,Peroxidase,independent separated,0.6176658711306118,0.7968425016897527
+28e1d313_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.7898026145680888,2.4953701544063733
+28e1d313_oxidase,Oxidase,independent adjacent,-0.8958769257301356,0.0
+2c7aacac_catalase,Catalase,independent adjacent,0.1150612210512918,3.679167100859104
+2c7aacac_oxidase,Oxidase,independent adjacent,-0.8903942557303708,0.0
+36b1c272_oxidase,Oxidase,independent adjacent,-0.6465579294194868,0.0783535708428644
+36b1c272_peroxidase,Peroxidase,independent adjacent,0.2673663185751138,2.277542730377263
+5e70a71e_glucose_oxidase,Glucose Oxidase,independent separated,3.030881722872892,0.0
+5e70a71e_oxidase,Oxidase,independent separated,-1.0755716238168134,0.0
+70a3aabf_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.645444967822641,3.804713492409064
+70a3aabf_peroxidase,Peroxidase,independent separated,-0.3900168931277221,1.2425627244247153
+86c9b42d_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.8428687993841777,2.944670619650424
+86c9b42d_oxidase,Oxidase,independent separated,-1.074897120645346,0.0
+93feb5ab_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.795295473194983,2.6854148484981124
+93feb5ab_peroxidase,Peroxidase,independent adjacent,0.2673663185751138,2.277525634268386
+a9e31d5e_catalase,Catalase,independent adjacent,0.1150612210494728,3.6899835348085617
+a9e31d5e_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,0.8034872533289672,4.487289315538874
+af170bb7_oxidase,Oxidase,independent separated,0.0170584053862512,0.0
+af170bb7_peroxidase,Peroxidase,independent separated,-0.3900168931286316,1.2422433455940336
+f6a53996_catalase,Catalase,independent adjacent,0.1125164875115842,3.9573959432918855
+f6a53996_peroxidase,Peroxidase,independent adjacent,0.1257477360477423,2.0436817613940548
+fe2778ad_glucose_oxidase,Glucose Oxidase,independent separated,3.0308817228719818,0.0
+fe2778ad_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.5805035854186826,4.822635595593965
+3379bb89_oxidase,Oxidase,independent adjacent,-1.1983138732875886,0.0
+3379bb89_peroxidase,Peroxidase,independent adjacent,1.2334747172762943,0.0
+8296035a_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.626717130375255,3.002416089027065
+8296035a_peroxidase,Peroxidase,independent adjacent,1.2334747172762943,0.0
+469b639c_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.6195273010698656,1.5243063403086126
+469b639c_peroxidase,Peroxidase,independent adjacent,1.2132472436383068,0.0
+60c3b8a7_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.4915113629526786,0.0
+60c3b8a7_oxidase,Oxidase,independent separated,-0.8529700708913879,0.0
+84c6fc50_oxidase,Oxidase,independent adjacent,-0.9666619024756072,0.0
+84c6fc50_peroxidase,Peroxidase,independent adjacent,1.2132472436369426,0.0
+87785d3e_glucose_oxidase,Glucose Oxidase,independent adjacent,3.0620220245423297,2.253892839637956
+87785d3e_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.2839851514668226,0.0
+a465dd19_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.6179433340616924,0.6665178071070841
+a465dd19_oxidase,Oxidase,independent adjacent,-0.707951266559121,0.0
+f070549b_glucose_oxidase,Glucose Oxidase,independent adjacent,3.0620220245427845,2.253882156185682
+f070549b_oxidase,Oxidase,independent adjacent,-0.7043344871394766,0.0
+023f943c_catalase,Catalase,independent separated,0.1326502233105202,3.387598799112311
+023f943c_peroxidase,Peroxidase,independent separated,0.3858211686920185,1.321820766484052
+14a1b2af_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.4843638756892688,2.455499345589488
+14a1b2af_oxidase,Oxidase,independent separated,-0.650657579304152,0.3443760923651098
+4a58a8b0_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.4843533543107696,2.4592597296514214
+4a58a8b0_peroxidase,Peroxidase,independent separated,0.3849576959210026,1.318875297586601
+c99c7536_oxidase,Oxidase,independent separated,1.016873740095889,0.0
+c99c7536_peroxidase,Peroxidase,independent separated,0.3849576959260048,1.3187897387324483
+1147bd17_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.7125840104267809,2.435178818717759
+1147bd17_peroxidase,Peroxidase,independent adjacent,0.5358657673104972,0.9888885952327656
+33a6ea13_catalase,Catalase,independent separated,0.291500777100282,2.787662551532776
+33a6ea13_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.011248765023538,4.724167986478278
+7c1572c8_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.7063884363124089,2.6498022622354256
+7c1572c8_oxidase,Oxidase,independent adjacent,-0.0282158636441636,0.0
+937196b3_catalase,Catalase,independent separated,0.2915007770998272,2.787195141749635
+937196b3_oxidase,Oxidase,independent separated,-0.8218743579573129,0.2271723763669797
+aad1192f_glucose_oxidase,Glucose Oxidase,independent adjacent,0.8144940125821449,0.0
+aad1192f_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.8133323726738129,3.391605473533673
+d0ee8b98_oxidase,Oxidase,independent adjacent,-1.0484193904576389,0.0
+d0ee8b98_peroxidase,Peroxidase,independent adjacent,0.5358657673077687,0.9888918521942288
+d3b8fed5_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.972427246791085,0.0
+d3b8fed5_oxidase,Oxidase,independent separated,-0.8221742484970491,0.115967207045287
+ff87b8d1_glucose_oxidase,Glucose Oxidase,independent adjacent,0.8144940125830544,0.0
+ff87b8d1_oxidase,Oxidase,independent adjacent,-0.0269748151445128,0.0
+324f14f5_glutathione_peroxidase,Glutathione Peroxidase,independent separated,3.1430475070219472,3.4298555222812865
+324f14f5_peroxidase,Peroxidase,independent separated,0.2986652412923831,0.9232560366917824
+4cce34b2_oxidase,Oxidase,bridged,2.0933103522172587,0.0
+4cce34b2_peroxidase,Peroxidase,bridged,0.705354803946193,0.0
+77a7b144_oxidase,Oxidase,independent separated,-0.4860226020227856,0.0
+77a7b144_peroxidase,Peroxidase,independent separated,0.2986652412942021,0.9297739444227772
+83ccba7e_catalase,Catalase,independent separated,0.4937792694956897,1.9059681422372703
+83ccba7e_peroxidase,Peroxidase,independent separated,0.2988215830250738,0.9351918672673492
+9557875a_oxidase,Oxidase,independent adjacent,0.4100158393853235,0.0
+9557875a_peroxidase,Peroxidase,independent adjacent,0.1970411905581386,1.4357575064605044
+e0cd31ae_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.021433287232867,4.747513166549652
+e0cd31ae_peroxidase,Peroxidase,independent adjacent,0.1970411905599576,1.459296044528401
+e3fd0119_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.09464275843402,3.963377461774144
+e3fd0119_oxidase,Oxidase,independent adjacent,-0.9821648776210168,0.128571987030682
+0f467492_oxidase,Oxidase,independent separated,-0.8593883250055114,0.0
+0f467492_peroxidase,Peroxidase,independent separated,0.0367540750426087,2.201389142656353
+8de672d0_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.4615478079203967,1.4614499888139107
+8de672d0_oxidase,Oxidase,independent separated,-1.057807176305232,0.0
+a009cc05_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.3236532180389986,0.0
+a009cc05_oxidase,Oxidase,independent adjacent,-0.8607717794034215,0.0
+ab534c30_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.461310153119939,1.4730505681982322
+ab534c30_peroxidase,Peroxidase,independent separated,0.0367540750416992,2.2016058055100984
+10881684_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.4527677174046403,2.8764346131174534
+10881684_oxidase,Oxidase,independent adjacent,-1.591585359669125,0.1827675248764535
+40a34f3b_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.4759487829610407,1.582893079731548
+40a34f3b_peroxidase,Peroxidase,independent separated,0.4426060710934507,1.4336467265052306
+445ecd99_glucose_oxidase,Glucose Oxidase,independent separated,3.7471577359333423,2.164755028205036
+445ecd99_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.1698748947169406,3.444447808035875
+52e70cee_catalase,Catalase,independent separated,0.2946487101353341,2.177164214219829
+52e70cee_peroxidase,Peroxidase,independent separated,0.4405703885236107,1.3779428134957925
+7dbb8378_catalase,Catalase,independent separated,0.2962190068151358,2.182899374007775
+7dbb8378_oxidase,Oxidase,independent separated,-0.7040873422806726,0.1672538838211039
+8828f789_catalase,Catalase,independent separated,0.2962190068160453,2.197837906537643
+8828f789_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.169942837115741,3.426325796900528
+89743efe_catalase,Catalase,independent adjacent,-0.1269677459908962,3.97319491997996
+89743efe_peroxidase,Peroxidase,independent adjacent,-0.5973358851376815,2.551429153429126
+97a889c9_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.4763466846638948,1.571684258775349
+97a889c9_oxidase,Oxidase,independent separated,-0.7035606017593636,0.0987232516486074
+a164ecde_oxidase,Oxidase,independent adjacent,-0.6353147885438375,0.0
+a164ecde_peroxidase,Peroxidase,independent adjacent,-0.8623392049696577,2.829185911010427
+ac78230b_glucose_oxidase,Glucose Oxidase,independent separated,3.7471577359333423,0.1152894494844076
+ac78230b_oxidase,Oxidase,independent separated,-0.7042276951397071,0.1727986155210601
+c134acbe_catalase,Catalase,independent adjacent,-0.1293214338643338,4.020395173050474
+c134acbe_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,0.4604557580496475,1.2565229888155045
+cb6a0baf_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.450712533704973,2.6551567305168646
+cb6a0baf_peroxidase,Peroxidase,independent adjacent,-0.8623392049685208,2.8291781795683164
+ed63c308_catalase,Catalase,independent adjacent,-0.1293214338625148,4.021393762693606
+ed63c308_oxidase,Oxidase,independent adjacent,-1.5243079133347237,0.0760144773826141
+f7a85d5f_oxidase,Oxidase,independent separated,-0.8920055213857268,0.0
+f7a85d5f_peroxidase,Peroxidase,independent separated,0.4426060710907222,1.433637414142595
+041d77dd_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.131605725771351,5.227478460407838
+041d77dd_peroxidase,Peroxidase,independent separated,1.86659163855984,0.0
+1be9a0ce_catalase,Catalase,independent separated,0.3009452717101339,3.345313628031363
+1be9a0ce_oxidase,Oxidase,independent separated,-1.036808796565765,0.0
+242dc5ee_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.566462598171711,0.8967607401173154
+242dc5ee_oxidase,Oxidase,independent separated,0.6029597622609799,0.0
+383785f2_catalase,Catalase,independent separated,0.300945271708315,3.345313441602684
+383785f2_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.3776189586128567,4.246435384472534
+6b6d60b0_catalase,Catalase,bridged,0.0624313736489057,3.0108726610933445
+6b6d60b0_oxidase,Oxidase,bridged,-0.371944550703347,0.0
+babc42dd_oxidase,Oxidase,bridged,-1.5013961344927793,0.0
+babc42dd_peroxidase,Peroxidase,bridged,-0.352264883483258,0.0
+e20f356a_oxidase,Oxidase,independent separated,0.2573494840294188,0.0
+e20f356a_peroxidase,Peroxidase,independent separated,1.8665916385616583,0.0
+f7128d92_catalase,Catalase,independent separated,0.3014792834287618,3.351685750868455
+f7128d92_peroxidase,Peroxidase,independent separated,1.902606555592229,0.479547884875501
+2eb65b9e_glucose_oxidase,Glucose Oxidase,independent separated,1.808515528487988,0.0
+2eb65b9e_oxidase,Oxidase,independent separated,-1.2075493181332604,0.2486413988426647
+3c24a739_catalase,Catalase,independent separated,0.3738316912804293,1.318407891631523
+3c24a739_oxidase,Oxidase,independent separated,-1.2076458876008471,0.2615335414429864
+77b47a61_oxidase,Oxidase,independent separated,-1.207523722011956,0.0
+9b19eaa6_peroxidase,Peroxidase,independent separated,-0.0088606526460353,2.187269531106722
+c3d7b2be_catalase,Catalase,independent separated,0.3738316912813388,1.2707237191925742
+c3d7b2be_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.333967202489021,3.0086854556811886
+e05e0274_glucose_oxidase,Glucose Oxidase,independent separated,1.808515528490716,0.0
+e05e0274_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.334450595290946,2.994822626417772
+f35b0148_oxidase,Oxidase,independent separated,-0.8853108129242173,0.7977705107714428
+f35b0148_peroxidase,Peroxidase,independent separated,-0.0088606526473995,1.3673485210920262
+1254576c_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.9429071199901955,3.843532058005621
+1254576c_oxidase,Oxidase,independent adjacent,-0.9025703450397486,0.0
+2683d752_oxidase,Oxidase,independent adjacent,-0.7046531784476429,0.4180951409716726
+2683d752_peroxidase,Peroxidase,independent adjacent,0.4035071331563813,1.257391535912575
+3e66ea84_oxidase,Oxidase,independent separated,-0.5206742179520916,0.6199008970042996
+3e66ea84_peroxidase,Peroxidase,independent separated,0.5070403089562205,1.269129134090235
+7092a769_glutathione_peroxidase,Glutathione Peroxidase,independent separated,0.506559405662756,0.0
+7092a769_peroxidase,Peroxidase,independent separated,0.5070403089548563,1.2691279016594308
+a85ddc11_catalase,Catalase,independent adjacent,0.1259523829207864,4.089769661487935
+a85ddc11_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.6713741524413308,1.7212760941465604
+d5e32805_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.0789377851651807,3.777411894456236
+d5e32805_peroxidase,Peroxidase,independent adjacent,0.4035071331554718,1.257372206369837
+d90a3cfc_catalase,Catalase,independent adjacent,0.1171889327247299,3.966899848522189
+d90a3cfc_peroxidase,Peroxidase,independent adjacent,0.4044202327440871,1.28163479551813
+df57707f_catalase,Catalase,independent adjacent,0.1259523829207864,4.077093039633382
+df57707f_oxidase,Oxidase,independent adjacent,-0.903338130877728,0.0
+71c3c53b_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.1498278598241995,3.160491544486831
+71c3c53b_peroxidase,Peroxidase,independent separated,0.20837752190846,0.6555998396684117
+a74f064d_oxidase,Oxidase,independent separated,-1.0794497881129246,0.0
+a74f064d_peroxidase,Peroxidase,independent separated,0.2083775219093695,0.6578266522906233
+ee0eb0b5_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.7446858026232803,3.32078282524526
+ee0eb0b5_oxidase,Oxidase,independent separated,-0.6780021616832528,0.0
+59aeabf7_catalase,Catalase,independent adjacent,0.3009452717101339,3.3453135480549463
+59aeabf7_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.3776189586128567,4.246403432975967
+61225ae4_catalase,Catalase,independent adjacent,0.3014792834301261,3.351685750712022
+61225ae4_peroxidase,Peroxidase,independent adjacent,1.9026065555904097,0.4728074305203336
+9fb993e8_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.5664625981708014,0.8923839405642866
+9fb993e8_oxidase,Oxidase,independent adjacent,0.6029597622587062,0.0
+c6ac076d_oxidase,Oxidase,independent adjacent,0.2573494840294188,0.0
+c6ac076d_peroxidase,Peroxidase,independent adjacent,1.866591638558475,0.0
+d2bbcd7f_catalase,Catalase,bridged,0.3446266416431172,2.4756865710305647
+d2bbcd7f_peroxidase,Peroxidase,bridged,-0.715566629760815,0.8811594172184414
+e5e8e310_catalase,Catalase,independent adjacent,0.3009452717096792,3.345313505270952
+e5e8e310_oxidase,Oxidase,independent adjacent,-1.0368087965666746,0.0
+ee1f8cc5_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.131605725769532,5.22528575719025
+ee1f8cc5_peroxidase,Peroxidase,independent adjacent,1.8665916385607488,0.0
+fa9ef7ad_catalase,Catalase,bridged,0.3499286963433405,2.367725184257324
+fa9ef7ad_oxidase,Oxidase,bridged,-1.1782716332593282,0.0
+c7f76d94_oxidase,Oxidase,bridged,-0.9900069105453896,0.0
+c7f76d94_peroxidase,Peroxidase,bridged,1.7097819257865012,1.9066156734006647
+132e39e4_glucose_oxidase,Glucose Oxidase,independent separated,0.0913114857257824,1.939697899029852
+132e39e4_glutathione_peroxidase,Glutathione Peroxidase,independent separated,0.6928743561111332,1.2722507935004614
+18ccc8e9_catalase,Catalase,independent adjacent,0.2361250457231563,2.829591932614221
+18ccc8e9_oxidase,Oxidase,independent adjacent,1.3601496948888323,0.2089004620693231
+4748ee82_glucose_oxidase,Glucose Oxidase,independent separated,0.0913114857225991,1.9330591293091857
+4748ee82_oxidase,Oxidase,independent separated,-0.9419710230399688,0.1532668714889951
+532e640a_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.6215631453774222,1.43492573896674
+532e640a_peroxidase,Peroxidase,independent separated,0.0975097160367113,1.3942588469726616
+7a476de9_glucose_oxidase,Glucose Oxidase,independent adjacent,1.6859038621037143,0.0
+7a476de9_oxidase,Oxidase,independent adjacent,-0.726894030241283,0.0
+8ae50da4_catalase,Catalase,independent separated,0.2074747693359313,3.75600123470349
+8ae50da4_peroxidase,Peroxidase,independent separated,0.0966924826320791,1.4435209960038264
+988b93aa_glucose_oxidase,Glucose Oxidase,independent adjacent,1.68590386210235,0.0
+988b93aa_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,0.9392211333743036,1.660292735544317
+b5550f00_catalase,Catalase,independent separated,0.2053890445909019,3.756204510857515
+b5550f00_oxidase,Oxidase,independent separated,-0.9422271234939216,0.3852190471930043
+b677be09_catalase,Catalase,independent separated,0.2053890445913566,3.756840548426681
+b677be09_glutathione_peroxidase,Glutathione Peroxidase,independent separated,0.6927616264579228,5.612077982653318
+b8a00c0a_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.3930208850929375,2.8011473040542114
+b8a00c0a_peroxidase,Peroxidase,independent adjacent,1.215788109046798,1.446920931146451
+bdb12ce6_catalase,Catalase,independent adjacent,0.2309978521450375,2.92990958880182
+bdb12ce6_peroxidase,Peroxidase,independent adjacent,1.181920616106254,1.4800232390025485
+c8fcefa5_oxidase,Oxidase,independent separated,-0.7533694419412313,0.0
+c8fcefa5_peroxidase,Peroxidase,independent separated,0.0975097160339828,1.39071486575358
+e717fb24_catalase,Catalase,independent adjacent,0.236125045721792,2.8295920105333607
+e717fb24_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,0.9532873859438952,6.497036139145166
+ebc51ce1_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.718319505764157,2.4857865723097348
+ebc51ce1_oxidase,Oxidase,independent separated,-0.9423244291665468,0.3541490889570013
+f2c6aa9d_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.3995214517540262,2.8012935415144966
+f2c6aa9d_oxidase,Oxidase,independent adjacent,-0.7336419630132696,0.0
+fae232f3_oxidase,Oxidase,independent adjacent,-1.215486281188987,0.0
+fae232f3_peroxidase,Peroxidase,independent adjacent,1.2157881090486171,1.447058861167534
+030c3780_oxidase,Oxidase,bridged,-0.856242615760948,0.0
+030c3780_peroxidase,Peroxidase,bridged,0.0633222502228818,0.0276755471004435
+408e19b5_catalase,Catalase,bridged,0.1767111118324464,0.6713015622281091
+408e19b5_oxidase,Oxidase,bridged,-1.4995385824270215,0.0
+92db5883_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.803619107944087,0.0
+92db5883_oxidase,Oxidase,independent separated,-0.7075758027181109,0.3645500116240328
+bb757de5_catalase,Catalase,bridged,0.1818202877411749,2.407859576029296
+bb757de5_peroxidase,Peroxidase,bridged,-0.6262877494468739,0.0
+303a8d4e_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.3656621227228245,1.123372115013808
+303a8d4e_peroxidase,Peroxidase,independent adjacent,0.3152173232847417,2.24556944397591
+5685d8a5_catalase,Catalase,independent adjacent,0.3023823100359095,2.361291207938393
+5685d8a5_oxidase,Oxidase,independent adjacent,-0.9432526999535183,0.0
+6b310cc8_catalase,Catalase,independent separated,0.0398285335734271,1.268698234664953
+6b310cc8_peroxidase,Peroxidase,independent separated,0.526965276604642,1.2283962465398872
+6f8d0650_oxidase,Oxidase,independent adjacent,-0.1947769413445712,0.0
+6f8d0650_peroxidase,Peroxidase,independent adjacent,0.3152173232870154,2.253627248196608
+9896e450_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.37466812570392,3.3791426922689425
+9896e450_oxidase,Oxidase,independent adjacent,-0.8985277374226825,0.0860827502310712
+b210dff4_oxidase,Oxidase,independent separated,0.9740614364723116,0.0
+b210dff4_peroxidase,Peroxidase,independent separated,0.5262631611090001,1.2302048351803023
+b876b6fa_oxidase,Oxidase,independent separated,-0.9946319076716464,0.7555568992643202
+ba68d7b7_catalase,Catalase,independent adjacent,0.302382310035,2.36129121201202
+ba68d7b7_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.5674825729279291,1.2112451889288425
+e0e929e4_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.1576601761080383,0.0
+e0e929e4_peroxidase,Peroxidase,independent separated,0.5262631611067263,1.2302189629399436
+1598f4df_catalase,Catalase,independent separated,0.4758850669747971,1.168776473889011
+1598f4df_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.8737494870929368,6.344852714446461
+234243b6_catalase,Catalase,independent separated,0.4761698119675657,1.172015227110478
+234243b6_glucose_oxidase,Glucose Oxidase,independent separated,0.6427837277922208,1.195325201443211
+2df232c8_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.56285845525872,2.121687067118728
+2df232c8_peroxidase,Peroxidase,independent separated,0.6351418367480619,0.0
+54778a08_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.5628584552578104,2.142142503757896
+54778a08_oxidase,Oxidase,independent separated,-0.6800426848953975,0.0
+58cd208d_catalase,Catalase,independent separated,0.4758850669761614,1.1715705891856487
+58cd208d_peroxidase,Peroxidase,independent separated,0.6351201728298292,0.0
+655701ab_catalase,Catalase,independent separated,0.4758850669779804,1.1717552776035518
+655701ab_oxidase,Oxidase,independent separated,-0.6800715941658382,0.0
+f29e0fdd_catalase,Catalase,independent separated,0.4763387289510774,1.163343434795479
+f29e0fdd_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.9906042153520505,6.385169913145546
+21438f1d_catalase,Catalase,independent separated,0.4081156865202047,2.7172579511598087
+21438f1d_oxidase,Oxidase,independent separated,-0.3976328278208711,0.0
+76727a58_catalase,Catalase,independent separated,0.4081156865202047,2.717257926729417
+76727a58_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.2763779433580567,6.4040124168077455
+9502397a_catalase,Catalase,independent separated,0.4081156865215689,2.717257921455257
+9502397a_peroxidase,Peroxidase,independent separated,0.9437311232336468,0.3642356107529849
+d8167640_catalase,Catalase,independent separated,0.4086313981113108,1.0594042606185212
+d8167640_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.3849198092570987,3.68144887476592
+66a9e1fa_catalase,Catalase,independent separated,0.3309939567927813,0.6102786935698532
+66a9e1fa_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.208612301551966,2.063572721210221
+04e048d9_glucose_oxidase,Glucose Oxidase,independent separated,-0.0759343134056962,0.3947741481151752
+04e048d9_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.2497429645372904,0.0
+07be8be8_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.42429024975354,1.3975366283057156
+07be8be8_peroxidase,Peroxidase,independent adjacent,1.0084350087349776,0.0
+0a4850cd_catalase,Catalase,independent separated,1.260385040378651,2.5259784257787032
+0a4850cd_oxidase,Oxidase,independent separated,-0.781652895712341,0.0
+0c47f082_catalase,Catalase,independent adjacent,0.5534339283856298,1.6919974937700315
+0c47f082_glucose_oxidase,Glucose Oxidase,independent adjacent,3.430152351760853,0.0
+0d026db6_oxidase,Oxidase,independent adjacent,-1.0236268670751087,0.0
+0d026db6_peroxidase,Peroxidase,independent adjacent,1.0121149420060649,0.0
+0f96c07e_glucose_oxidase,Glucose Oxidase,independent separated,-0.0759343134088794,0.3650558899480529
+0f96c07e_peroxidase,Peroxidase,independent separated,0.9400362599212712,0.0
+1205c5f3_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.0161034122320416,4.572913402627819
+1205c5f3_peroxidase,Peroxidase,independent separated,0.2638292477868162,0.8456860404071449
+12d32dab_catalase,Catalase,independent adjacent,0.5564039106391192,1.6681313726271585
+12d32dab_oxidase,Oxidase,independent adjacent,0.0025848339419098,0.0
+16da8ca8_glucose_oxidase,Glucose Oxidase,independent adjacent,1.2937403040743902,0.0
+16da8ca8_peroxidase,Peroxidase,independent adjacent,1.5692457908626238,0.8937813455841024
+18413b3e_glucose_oxidase,Glucose Oxidase,independent adjacent,1.293740304076664,0.0
+18413b3e_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.6941686506334008,1.2512431751019903
+1cbd79d8_glucose_oxidase,Glucose Oxidase,independent separated,0.3435432607177517,0.0
+1cbd79d8_oxidase,Oxidase,independent separated,-0.3821994594877651,0.0
+1dce8c74_oxidase,Oxidase,independent separated,-0.8429324673088558,0.4291293889937151
+1dce8c74_peroxidase,Peroxidase,independent separated,0.2656015602101433,1.1315467517747493
+1ee7d713_oxidase,Oxidase,independent adjacent,-1.0224800690239135,0.0
+1ee7d713_peroxidase,Peroxidase,independent adjacent,1.567263516379171,0.8963441880664504
+278270c5_glucose_oxidase,Glucose Oxidase,independent separated,-0.0759343134052414,0.0
+278270c5_oxidase,Oxidase,independent separated,-0.3825420900652716,0.0
+2c11e785_glucose_oxidase,Glucose Oxidase,independent separated,-0.1236731612891617,0.0230404737235403
+2c11e785_peroxidase,Peroxidase,independent separated,0.2650180474192893,1.1317893653135798
+2cef1d32_catalase,Catalase,independent separated,1.2609819735350811,2.550663159952819
+2cef1d32_oxidase,Oxidase,independent separated,-0.381626190829138,0.0
+35496c33_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.4255681264921805,2.8751297108410654
+35496c33_peroxidase,Peroxidase,independent adjacent,1.5625640805592411,0.8958374943308627
+3fc90a7e_catalase,Catalase,independent separated,1.2611083042754672,2.5233686140854843
+3fc90a7e_glucose_oxidase,Glucose Oxidase,independent separated,0.3830079891690729,0.0
+4442f5f8_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.8816231141267965,2.261296907625365
+4442f5f8_oxidase,Oxidase,independent separated,-0.3808257863856852,0.0
+449c2453_catalase,Catalase,independent separated,1.2603850403791057,2.525978417755141
+449c2453_peroxidase,Peroxidase,independent separated,0.2655303116389405,1.131275248395923
+4536cfb5_catalase,Catalase,independent separated,1.260744070093324,2.531405658606218
+4536cfb5_glucose_oxidase,Glucose Oxidase,independent separated,-0.09092238887456,0.4256289403374467
+4a583596_glucose_oxidase,Glucose Oxidase,independent separated,-0.1236731612905259,0.0247244051106463
+4a583596_oxidase,Oxidase,independent separated,-0.7815976715669422,0.0
+4adfaf8a_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.9256691192294968,3.1338528968572064
+4adfaf8a_peroxidase,Peroxidase,independent separated,0.9415518900177632,0.0
+53689eb8_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.7000977735438028,5.837471971231025
+53689eb8_peroxidase,Peroxidase,independent adjacent,1.5672635163764426,0.896361113108469
+64928548_oxidase,Oxidase,independent adjacent,-1.4641504103442458,0.0
+64928548_peroxidase,Peroxidase,independent adjacent,1.5676901628817177,0.8955697048186266
+6e25a9f2_glucose_oxidase,Glucose Oxidase,independent separated,0.3435432607177517,0.0
+6e25a9f2_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.2504653427981791,0.0
+730b9385_catalase,Catalase,independent adjacent,0.556403910637755,1.6835228956992978
+730b9385_peroxidase,Peroxidase,independent adjacent,1.0072540926262263,0.0
+73dc09b5_glucose_oxidase,Glucose Oxidase,independent separated,0.3435432607182065,0.0
+73dc09b5_peroxidase,Peroxidase,independent separated,0.9406779747801012,0.0
+742aba40_catalase,Catalase,independent adjacent,0.5569621442207335,1.6791863719872708
+742aba40_oxidase,Oxidase,independent adjacent,0.3788613632286797,0.4715776656580601
+74c8179e_glucose_oxidase,Glucose Oxidase,independent separated,0.3469990866981334,0.8666484641621537
+78a36f04_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.8816231141277056,2.9757627731578395
+78a36f04_peroxidase,Peroxidase,independent separated,0.9433980214416806,0.0
+82135a5e_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.927890448576818,1.0366182456245951
+82135a5e_oxidase,Oxidase,independent separated,-0.7816771208704267,0.0
+830321f8_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.1865036863473506,4.43486625377318
+830321f8_peroxidase,Peroxidase,independent separated,0.2656015602096886,1.1316653527023846
+8b06e731_catalase,Catalase,independent adjacent,0.5563957640986246,0.0
+8b06e731_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.749213697522464,5.301827206349117
+919ccd7b_oxidase,Oxidase,independent separated,-1.284677738629398,0.0
+919ccd7b_peroxidase,Peroxidase,independent separated,0.2630419797901595,1.1373747637603628
+a23c7a6c_catalase,Catalase,independent adjacent,0.5563604884348479,1.6684597524349556
+a23c7a6c_glucose_oxidase,Glucose Oxidase,independent adjacent,3.5220558979697216,1.5046086499355624
+a4f1410e_oxidase,Oxidase,independent separated,-0.843045528312814,0.4085948320353054
+a4f1410e_peroxidase,Peroxidase,independent separated,0.9433980214416806,0.0
+ac79c6bc_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.925669119228587,4.578894724719248
+ac79c6bc_oxidase,Oxidase,independent separated,-0.381828541952018,0.0
+b0d27180_glucose_oxidase,Glucose Oxidase,independent separated,0.3229150772697267,0.0
+b0d27180_oxidase,Oxidase,independent separated,-0.7820008663015869,0.5560798129481554
+c78f0cb3_catalase,Catalase,independent separated,1.2609819735337169,2.550663298819927
+c78f0cb3_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.2519155384311489,0.0
+d0e763c5_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,2.73246002243377,0.5772380900780263
+d0e763c5_peroxidase,Peroxidase,independent adjacent,1.0121149420047004,0.0
+debc04c4_catalase,Catalase,independent separated,1.260981973531898,2.5506632902770434
+debc04c4_peroxidase,Peroxidase,independent separated,0.9417529278011898,0.0
+e079d280_catalase,Catalase,independent separated,1.2612552370653702,2.5299080665595284
+e6496c02_oxidase,Oxidase,independent adjacent,-1.2712159495758897,0.5434619387451676
+e6496c02_peroxidase,Peroxidase,independent adjacent,1.0123198905498612,0.0
+ea2c7ef2_catalase,Catalase,independent adjacent,0.5569621442220978,1.6791791231617026
+ea2c7ef2_peroxidase,Peroxidase,independent adjacent,1.5628362170095895,0.9024411945697466
+ebe06968_catalase,Catalase,independent adjacent,0.556962144221643,1.6791549096064955
+ebe06968_glutathione_peroxidase,Glutathione Peroxidase,independent adjacent,1.687260507881092,3.2791850743415125
+ecd634a6_glucose_oxidase,Glucose Oxidase,independent separated,0.3229150772692719,0.0
+ecd634a6_peroxidase,Peroxidase,independent separated,0.2636476618258712,1.136319864662255
+efb03ea5_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.881934096435998,2.9637538856140964
+efb03ea5_oxidase,Oxidase,independent separated,-0.7815190994742807,0.0
+f596df19_oxidase,Oxidase,independent separated,-1.2847378541032413,0.0
+f596df19_peroxidase,Peroxidase,independent separated,0.9414589923671884,0.0
+f7e729b9_glucose_oxidase,Glucose Oxidase,independent separated,-0.095170543159611,0.0213857469288996
+f7e729b9_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.7837310195800455,4.061868393539953
+0d586dda_oxidase,Oxidase,bridged,-1.7595071115683822,0.0
+0d586dda_peroxidase,Peroxidase,bridged,-0.1435463311890998,0.6889416796902879
+33f5090f_oxidase,Oxidase,bridged,-1.0949931633140295,0.0
+33f5090f_peroxidase,Peroxidase,bridged,0.4310017359321136,0.1811884987700978
+65f1b705_catalase,Catalase,independent adjacent,0.4081156865211142,2.7172579456942003
+65f1b705_peroxidase,Peroxidase,independent adjacent,0.9437311232336468,0.3642252362856197
+99c9e8a3_catalase,Catalase,independent adjacent,0.4081156865224784,2.7172579209177457
+99c9e8a3_oxidase,Oxidase,independent adjacent,-0.3976328278226901,0.0
+d55d440b_catalase,Catalase,bridged,0.389821455210722,2.353571458002989
+d55d440b_peroxidase,Peroxidase,bridged,-0.5456388948159656,0.0
+dadedca1_catalase,Catalase,bridged,0.389821455208903,2.3568092457499006
+dadedca1_oxidase,Oxidase,bridged,-1.974860245540185,0.0
+3861fc30_oxidase,Oxidase,independent adjacent,-1.37173307807916,0.0
+3861fc30_peroxidase,Peroxidase,independent adjacent,0.9295208413486762,1.2577958771157682
+83fb28e5_oxidase,Oxidase,independent adjacent,-1.3422955515934518,0.0
+83fb28e5_peroxidase,Peroxidase,independent adjacent,0.4998069702014618,1.1257570965640298
+287b9237_catalase,Catalase,bridged,0.5219053398116102,2.400673571608422
+287b9237_oxidase,Oxidase,bridged,-1.684972845072025,0.0
+40f61d8b_catalase,Catalase,bridged,0.5117220410272694,2.434001075802371
+40f61d8b_oxidase,Oxidase,bridged,-2.0598739562574337,0.0
+59ee06a3_catalase,Catalase,bridged,0.5117220410290884,2.433799307923437
+59ee06a3_peroxidase,Peroxidase,bridged,-0.9113497879884562,0.0
+5bfbeee7_catalase,Catalase,bridged,0.5219053398161577,2.400673546045254
+5bfbeee7_peroxidase,Peroxidase,bridged,0.8394608176436122,0.8565901489819225
+820735e7_oxidase,Oxidase,bridged,-1.648869798335454,0.0
+820735e7_peroxidase,Peroxidase,bridged,1.4695527672943172,2.1239903965779376
+c583be02_oxidase,Oxidase,bridged,-1.8563063657720704,0.0
+c583be02_peroxidase,Peroxidase,bridged,-0.1435243720029575,0.0
+183f4719_glucose_oxidase,Glucose Oxidase,independent separated,-0.029151367714121,1.1454532701714015
+183f4719_oxidase,Oxidase,independent separated,-1.2177098831270996,0.5311219190002703
+1faba8f9_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.742991900490779,5.473378493240489
+1faba8f9_oxidase,Oxidase,independent separated,-1.2173546462040576,0.5288532888444024
+2270131c_catalase,Catalase,independent separated,0.7954041775140013,0.3236594523309577
+2270131c_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.1516338836413524,1.9902879647015648
+31967c28_glucose_oxidase,Glucose Oxidase,independent separated,-0.3463260641003671,1.809600120886444
+31967c28_peroxidase,Peroxidase,independent separated,0.8090207944524082,0.0
+43609ae6_catalase,Catalase,independent separated,0.7950717952937794,1.3643639053329937
+43609ae6_oxidase,Oxidase,independent separated,-1.2172440682170418,0.5309000165016187
+47008e1f_catalase,Catalase,independent separated,0.7949588025046523,1.3729907128540615
+47008e1f_glucose_oxidase,Glucose Oxidase,independent separated,1.5956419836932128,0.0
+49d8654f_oxidase,Oxidase,independent separated,-1.1202094947852856,0.1316744221639965
+49d8654f_peroxidase,Peroxidase,independent separated,0.3462572546950468,1.8377585986108893
+4af72a56_oxidase,Oxidase,independent separated,-1.1202628444898437,0.128787008648942
+4af72a56_peroxidase,Peroxidase,independent separated,0.8071018563559846,0.0
+4e3975dc_catalase,Catalase,independent separated,0.7938054135663606,1.375713820468718
+4e3975dc_glucose_oxidase,Glucose Oxidase,independent separated,0.9995427490318888,0.4048645751927324
+527978e9_glucose_oxidase,Glucose Oxidase,independent separated,0.0013793754690141,1.1119840720593857
+527978e9_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.8482119700684048,1.604935591954927
+5a342069_glucose_oxidase,Glucose Oxidase,independent separated,0.4313484962469829,0.7967774179287517
+5a342069_peroxidase,Peroxidase,independent separated,0.3457575830507267,1.8339081797680592
+5efb93e0_glucose_oxidase,Glucose Oxidase,independent separated,-0.3463260641012766,1.8095776325517363
+5efb93e0_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.8485854844357164,1.6063785883970922
+65580183_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.7139220891190234,3.968232596758753
+65580183_oxidase,Oxidase,independent separated,-0.9042394702141792,0.0
+69a0bda6_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.742991900490779,5.482507962662567
+69a0bda6_peroxidase,Peroxidase,independent separated,0.3460631334555728,1.8418723200024945
+6e8d7cbd_glucose_oxidase,Glucose Oxidase,independent separated,-0.029151367714121,1.110324886581111
+6e8d7cbd_peroxidase,Peroxidase,independent separated,0.3451509356709721,1.8404526177209848
+6f57fdb3_glucose_oxidase,Glucose Oxidase,independent separated,0.4313484962456186,0.7967774179810476
+6f57fdb3_oxidase,Oxidase,independent separated,-1.217295808768995,0.5309139338842215
+800a5ee6_catalase,Catalase,independent separated,0.7950717952928699,1.3643638977391674
+800a5ee6_peroxidase,Peroxidase,independent separated,0.3458347985038017,1.8438941864828848
+8bd9eb2b_catalase,Catalase,independent separated,0.7954041775135465,0.3236594276918367
+8bd9eb2b_oxidase,Oxidase,independent separated,-0.9062498933994902,0.0
+923d957d_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.7139220891208424,2.5444703521570773
+923d957d_peroxidase,Peroxidase,independent separated,0.8101979784651121,0.0
+943889b8_catalase,Catalase,independent separated,0.795404177512637,0.3236594317108938
+943889b8_peroxidase,Peroxidase,independent separated,0.8081370067520766,0.0
+a5876604_oxidase,Oxidase,independent separated,-0.573108843785576,0.0
+a5876604_peroxidase,Peroxidase,independent separated,0.8101979784637479,0.0
+a9f7bf53_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.7134558622460645,0.528679237666438
+a9f7bf53_peroxidase,Peroxidase,independent separated,0.3459904193732654,1.840191336973476
+b9ee7011_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.7134558622460645,0.5290261803866088
+b9ee7011_oxidase,Oxidase,independent separated,-1.217244518626103,0.5300358073909592
+bf72d0e8_glucose_oxidase,Glucose Oxidase,independent separated,-0.3463260641021861,1.8095952929534176
+bf72d0e8_oxidase,Oxidase,independent separated,-0.9054292913906464,0.0
+c86619b2_glucose_oxidase,Glucose Oxidase,independent separated,0.0013793754694688,1.1119840724541064
+c86619b2_peroxidase,Peroxidase,independent separated,0.8089136166504431,0.0
+c8e4178b_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.7447641676899366,6.268377611278993
+c8e4178b_oxidase,Oxidase,independent separated,-0.9036336653193756,0.0
+ccdababb_glucose_oxidase,Glucose Oxidase,independent separated,-0.3403104977230669,0.0
+ccdababb_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.918515034424672,0.0
+dfc95401_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.744764167689482,6.273007648630482
+dfc95401_peroxidase,Peroxidase,independent separated,0.8110347619658569,0.0
+f05535a0_glucose_oxidase,Glucose Oxidase,independent separated,0.0150894308483202,1.11025825179604
+f05535a0_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.9184324162060875,0.0
+f7f45691_catalase,Catalase,independent separated,0.7974956939499407,1.3728088416287392
+f7f45691_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.0213213687079588,0.0
+fac043ca_oxidase,Oxidase,independent separated,-0.5731289500936327,0.0
+fac043ca_peroxidase,Peroxidase,independent separated,0.3459904193732654,1.840195166378635
+fda8de88_glucose_oxidase,Glucose Oxidase,independent separated,0.0013793754662856,1.111984071767438
+fda8de88_oxidase,Oxidase,independent separated,-0.905515673584432,0.0
+41ea9b1a_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.977089531722413,3.1234513582812724
+41ea9b1a_peroxidase,Peroxidase,independent separated,0.7338694234395007,0.5760239882965834
+e2df0fd2_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.9770895317233224,3.1003324244147734
+e2df0fd2_oxidase,Oxidase,independent separated,-0.7598463572430774,0.0
+0da00df8_glucose_oxidase,Glucose Oxidase,independent separated,-0.09517054316143,0.021823244018833
+0da00df8_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.7837310195823193,4.127264198214107
+12f8e209_catalase,Catalase,independent separated,1.2609819735337169,2.5506633980112383
+12f8e209_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.2519155384325131,0.0
+14da43b0_catalase,Catalase,independent separated,1.260744070094688,2.531405658776748
+14da43b0_glucose_oxidase,Glucose Oxidase,independent separated,-0.0909223888741053,0.4130453634693367
+1627eeaf_glucose_oxidase,Glucose Oxidase,independent separated,0.3469990866990429,0.0
+1627eeaf_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.7848598359228165,0.7254870578135524
+16b9004c_glucose_oxidase,Glucose Oxidase,independent separated,0.3435432607186612,0.9280659822265988
+16b9004c_oxidase,Oxidase,independent separated,-0.3821994594873104,0.0
+28418c62_glucose_oxidase,Glucose Oxidase,independent separated,0.3435432607186612,0.0
+28418c62_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.2504653427963603,0.0
+2b9a2411_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.186503686344622,1.537998816774234
+2b9a2411_peroxidase,Peroxidase,independent separated,0.2656015602101433,1.1315359843374608
+3090753d_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.0141441577943624,1.3904570355553003
+3090753d_peroxidase,Peroxidase,independent separated,0.9415518900182178,0.0
+3a71ed17_glucose_oxidase,Glucose Oxidase,independent separated,-0.0759343134070604,0.3719361990470133
+3a71ed17_peroxidase,Peroxidase,independent separated,0.9400362599212712,0.0
+3d0842b0_glucose_oxidase,Glucose Oxidase,independent separated,0.3435432607163875,0.0
+3d0842b0_peroxidase,Peroxidase,independent separated,0.9406779747823748,0.0
+500dcc9a_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.8816231141249773,2.975951793546301
+500dcc9a_oxidase,Oxidase,independent separated,-0.3808257863865947,0.0
+5c800c3f_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.9278904485759083,3.675387710205541
+5c800c3f_peroxidase,Peroxidase,independent separated,0.2638292477863615,1.1338171513016275
+69363cfc_catalase,Catalase,independent separated,1.260385040378651,2.525978423460401
+69363cfc_peroxidase,Peroxidase,independent separated,0.2655303116389405,1.1311483026097449
+6e9c3cb1_oxidase,Oxidase,independent separated,-0.8429324673074916,0.429129454188569
+6e9c3cb1_peroxidase,Peroxidase,independent separated,0.2656015602105981,0.8083913385580672
+7e2ac79d_oxidase,Oxidase,independent separated,-0.8430455283105402,0.4085961949026568
+7e2ac79d_peroxidase,Peroxidase,independent separated,0.9433980214380426,0.0
+857368fa_oxidase,Oxidase,independent separated,-1.284737854105515,0.0
+857368fa_peroxidase,Peroxidase,independent separated,0.9414589923680978,0.0
+89f6b696_glucose_oxidase,Glucose Oxidase,independent separated,0.3229150772688172,0.0
+89f6b696_oxidase,Oxidase,independent separated,-0.7820008663006774,0.5560783678461121
+90f59ed8_catalase,Catalase,independent separated,1.2611083042772862,2.523365427023691
+90f59ed8_glucose_oxidase,Glucose Oxidase,independent separated,0.3830079891690729,0.0
+9843432e_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.9256691192258584,4.566944717205843
+9843432e_oxidase,Oxidase,independent separated,-0.3818285419511085,0.0
+b747c30a_glucose_oxidase,Glucose Oxidase,independent separated,-0.0759343134061509,0.0
+b747c30a_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.2497429645354714,0.0
+bb8e562b_catalase,Catalase,independent separated,1.2609819735328074,2.5506634086546
+bb8e562b_oxidase,Oxidase,independent separated,-0.3816261908282286,0.0
+be9451f8_glucose_oxidase,Glucose Oxidase,independent separated,-0.1236731612887069,0.0254756038775667
+be9451f8_peroxidase,Peroxidase,independent separated,0.2650180474188346,1.1316636978049246
+c2e06ea5_catalase,Catalase,independent separated,1.2609819735328074,2.55066328828525
+c2e06ea5_peroxidase,Peroxidase,independent separated,0.9417529278030088,0.0
+c462dc2f_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.18650368634826,4.434774351254418
+c462dc2f_oxidase,Oxidase,independent separated,-0.7815190994770091,0.0
+c6a40341_glucose_oxidase,Glucose Oxidase,independent separated,-0.0759343134075152,0.0
+c6a40341_oxidase,Oxidase,independent separated,-0.3825420900652716,0.0
+d15b087a_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.9278904485777275,4.4743208033141855
+d15b087a_oxidase,Oxidase,independent separated,-0.7816771208695172,0.0
+d81cfa42_oxidase,Oxidase,independent separated,-1.2846777386303074,0.0
+d81cfa42_peroxidase,Peroxidase,independent separated,0.263041979791069,1.1373680852389043
+e572916b_glucose_oxidase,Glucose Oxidase,independent separated,0.3229150772669982,0.0
+e572916b_peroxidase,Peroxidase,independent separated,0.2636476618235974,1.136388365545827
+e6650af1_catalase,Catalase,independent separated,1.261255237064006,2.5299060115085013
+e6650af1_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.7853323914514476,4.114828645129819
+e98a6f21_glucose_oxidase,Glucose Oxidase,independent separated,-0.1236731612896164,0.0228028211099626
+e98a6f21_oxidase,Oxidase,independent separated,-0.7815976715687611,0.0
+f27c9bfe_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.8816231141267965,2.261082810269727
+f27c9bfe_peroxidase,Peroxidase,independent separated,0.9433980214394068,0.0
+fdfd6860_catalase,Catalase,independent separated,1.2603850403795605,2.5259784222553208
+fdfd6860_oxidase,Oxidase,independent separated,-0.7816528957137052,0.0
+00794632_glucose_oxidase,Glucose Oxidase,independent separated,-0.3463260640999124,1.8095991852264888
+00794632_peroxidase,Peroxidase,independent separated,0.8090207944524082,0.0
+022ccd24_glucose_oxidase,Glucose Oxidase,independent separated,-0.3463260641030956,1.8095979518598144
+022ccd24_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.8485854844357164,1.5920251150546392
+12abc2ab_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.713922089121752,0.5210196770740367
+12abc2ab_oxidase,Oxidase,independent separated,-0.9042394702128148,0.0
+15554d92_catalase,Catalase,independent separated,0.7954041775140013,0.3236594257086835
+15554d92_peroxidase,Peroxidase,independent separated,0.8081370067520766,0.0
+25b5188e_glucose_oxidase,Glucose Oxidase,independent separated,-0.0291513677145758,1.1552425842396588
+25b5188e_peroxidase,Peroxidase,independent separated,0.3451509356709721,1.840162620920637
+40f2a0e8_glucose_oxidase,Glucose Oxidase,independent separated,0.0013793754671951,1.1119840720834873
+40f2a0e8_oxidase,Oxidase,independent separated,-0.905515673584432,0.0
+483b02da_catalase,Catalase,independent separated,0.7950717952915056,1.3643638476919475
+483b02da_oxidase,Oxidase,independent separated,-1.217244068216587,0.5309004706796259
+48587e0c_glucose_oxidase,Glucose Oxidase,independent separated,0.0013793754671951,1.1119840716341969
+48587e0c_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.84821197006886,1.5965244799899665
+4b1e1178_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.7447641676885723,2.4128401512243727
+4b1e1178_peroxidase,Peroxidase,independent separated,0.8110347619654021,0.0
+5435c51d_glucose_oxidase,Glucose Oxidase,independent separated,0.4952220627551469,0.0
+5435c51d_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.9184324162056328,0.0
+6351872b_catalase,Catalase,independent separated,0.7949588025041976,1.3729907133597408
+6351872b_glucose_oxidase,Glucose Oxidase,independent separated,1.5956419836950315,0.0
+779659da_catalase,Catalase,independent separated,0.7950717952937794,1.3643640329132722
+779659da_peroxidase,Peroxidase,independent separated,0.3458347985060754,1.8438350867600093
+80c2eafe_catalase,Catalase,independent separated,0.7938054135659058,1.375713826136689
+80c2eafe_glucose_oxidase,Glucose Oxidase,independent separated,0.9995427490327984,0.0
+8116498d_glucose_oxidase,Glucose Oxidase,independent separated,0.4313484962460734,0.7967774177886895
+8116498d_oxidase,Oxidase,independent separated,-1.2172958087699044,0.5309182988398788
+923d23ca_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.713455862246974,0.5349767214956955
+923d23ca_peroxidase,Peroxidase,independent separated,0.3459904193732654,1.8401896357831904
+92bbfa96_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.7134558622465192,0.5286287121507485
+92bbfa96_oxidase,Oxidase,independent separated,-1.217244518627922,0.5300455375327147
+94dcfd67_glucose_oxidase,Glucose Oxidase,independent separated,-0.3463260641017314,1.8095986135163
+94dcfd67_oxidase,Oxidase,independent separated,-0.9054292913874632,0.0
+a383b8e4_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.7139220891208424,2.156652122687774
+a383b8e4_peroxidase,Peroxidase,independent separated,0.8101979784651121,0.0
+b03e841e_oxidase,Oxidase,independent separated,-0.5731088437864855,0.0
+b03e841e_peroxidase,Peroxidase,independent separated,0.8101979784651121,0.0
+b3c635a6_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.7429919004930525,2.428894720360404
+b3c635a6_oxidase,Oxidase,independent separated,-1.2173546462040576,0.5288555589049793
+b86cb42a_oxidase,Oxidase,independent separated,-1.1202094947825572,0.1322549253841316
+b86cb42a_peroxidase,Peroxidase,independent separated,0.3462572546955016,1.8377581020527032
+b948358d_glucose_oxidase,Glucose Oxidase,independent separated,0.4313484962465281,0.7967774181483946
+b948358d_peroxidase,Peroxidase,independent separated,0.3457575830479982,1.833903887169981
+ba41df18_glucose_oxidase,Glucose Oxidase,independent separated,0.0013793754690141,1.111984072085761
+ba41df18_peroxidase,Peroxidase,independent separated,0.8089136166495337,0.0
+be3a4d93_oxidase,Oxidase,independent separated,-0.5731289500936327,0.0
+be3a4d93_peroxidase,Peroxidase,independent separated,0.3459904193746297,1.8402046179494391
+c17409f6_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.7447641676881176,2.414580120471328
+c17409f6_oxidase,Oxidase,independent separated,-0.9036336653211948,0.0
+c62eca05_catalase,Catalase,independent separated,0.7954041775130918,0.3236594361392235
+c62eca05_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.151633883644081,1.693787632601925
+d57805d3_catalase,Catalase,independent separated,0.7954041775135465,0.3236594449654149
+d57805d3_oxidase,Oxidase,independent separated,-0.9062498934026736,0.0
+d71aff67_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.7429919004944168,2.41566304009757
+d71aff67_peroxidase,Peroxidase,independent separated,0.3460631334551181,1.8418777082520137
+dfd552c6_glucose_oxidase,Glucose Oxidase,independent separated,-0.0291513677132115,1.1137469982809307
+dfd552c6_oxidase,Oxidase,independent separated,-1.2177098831275543,0.5311241448680448
+e9adae1b_glucose_oxidase,Glucose Oxidase,independent separated,-0.3403104977239763,0.0
+e9adae1b_glutathione_peroxidase,Glutathione Peroxidase,independent separated,1.918515034421944,0.0241925661039204
+f5499cc5_oxidase,Oxidase,independent separated,-1.1202628444889342,0.1358769812172795
+f5499cc5_peroxidase,Peroxidase,independent separated,0.8071018563591679,0.0
+f86e34d1_catalase,Catalase,independent separated,0.7974956939499407,1.372808820877708
+f86e34d1_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.0213213687097777,1.1315124728935189
+0210dc0e_oxidase,Oxidase,independent separated,-1.1155932673959796,0.0
+0210dc0e_peroxidase,Peroxidase,independent separated,0.756746570130872,1.356306747069084
+4154006c_glucose_oxidase,Glucose Oxidase,independent separated,1.2288571284755108,1.1652097828309709
+4154006c_peroxidase,Peroxidase,independent separated,0.2730095515853463,1.731435837285062
+c5915db8_glucose_oxidase,Glucose Oxidase,independent separated,1.2288571284741463,1.1599606954482624
+c5915db8_oxidase,Oxidase,independent separated,-1.494645666118231,0.0
+f2c68f59_oxidase,Oxidase,independent separated,-1.1158658135877886,0.0
+f2c68f59_peroxidase,Peroxidase,independent separated,0.2730532739042246,1.7268617808754243
+692acd53_glucose_oxidase,Glucose Oxidase,independent separated,3.449741677087559,1.2165947552107357
+692acd53_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.0756595251064027,3.229515958466436
+79c287f3_catalase,Catalase,independent separated,0.5443547770771602,2.418602239222764
+79c287f3_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.164960782077742,0.0
+f3835a85_glucose_oxidase,Glucose Oxidase,independent separated,0.9808057518946498,0.9420603189028044
+f3835a85_glutathione_peroxidase,Glutathione Peroxidase,independent separated,2.169827050056483,2.129602789177625

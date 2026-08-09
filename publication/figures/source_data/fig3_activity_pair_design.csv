@@ -1,0 +1,191 @@
+activity_pair,design_index,candidate_count
+Catalase + DNase,6,1
+Catalase + Glucose Oxidase,33,1
+Catalase + Glucose Oxidase,41,4
+Catalase + Glucose Oxidase,57,2
+Catalase + Glucose Oxidase,81,2
+Catalase + Glucose Oxidase,97,2
+Catalase + Glutathione Peroxidase,1,2
+Catalase + Glutathione Peroxidase,3,2
+Catalase + Glutathione Peroxidase,4,1
+Catalase + Glutathione Peroxidase,8,2
+Catalase + Glutathione Peroxidase,12,1
+Catalase + Glutathione Peroxidase,16,1
+Catalase + Glutathione Peroxidase,20,2
+Catalase + Glutathione Peroxidase,21,1
+Catalase + Glutathione Peroxidase,23,1
+Catalase + Glutathione Peroxidase,24,1
+Catalase + Glutathione Peroxidase,26,1
+Catalase + Glutathione Peroxidase,28,2
+Catalase + Glutathione Peroxidase,30,1
+Catalase + Glutathione Peroxidase,33,2
+Catalase + Glutathione Peroxidase,37,2
+Catalase + Glutathione Peroxidase,39,1
+Catalase + Glutathione Peroxidase,41,4
+Catalase + Glutathione Peroxidase,57,2
+Catalase + Glutathione Peroxidase,81,2
+Catalase + Glutathione Peroxidase,97,2
+Catalase + Glutathione Peroxidase,100,1
+Catalase + Oxidase,1,2
+Catalase + Oxidase,3,2
+Catalase + Oxidase,4,1
+Catalase + Oxidase,6,1
+Catalase + Oxidase,8,2
+Catalase + Oxidase,12,1
+Catalase + Oxidase,16,1
+Catalase + Oxidase,20,2
+Catalase + Oxidase,21,2
+Catalase + Oxidase,23,1
+Catalase + Oxidase,24,1
+Catalase + Oxidase,26,2
+Catalase + Oxidase,28,2
+Catalase + Oxidase,29,1
+Catalase + Oxidase,30,1
+Catalase + Oxidase,33,1
+Catalase + Oxidase,37,1
+Catalase + Oxidase,41,6
+Catalase + Oxidase,42,2
+Catalase + Oxidase,46,2
+Catalase + Oxidase,57,2
+Catalase + Oxidase,81,2
+Catalase + Oxidase,97,2
+Catalase + Peroxidase,1,4
+Catalase + Peroxidase,4,1
+Catalase + Peroxidase,6,1
+Catalase + Peroxidase,8,1
+Catalase + Peroxidase,12,1
+Catalase + Peroxidase,15,1
+Catalase + Peroxidase,17,1
+Catalase + Peroxidase,20,2
+Catalase + Peroxidase,21,1
+Catalase + Peroxidase,24,1
+Catalase + Peroxidase,26,2
+Catalase + Peroxidase,28,2
+Catalase + Peroxidase,29,1
+Catalase + Peroxidase,30,1
+Catalase + Peroxidase,33,1
+Catalase + Peroxidase,37,1
+Catalase + Peroxidase,41,4
+Catalase + Peroxidase,42,2
+Catalase + Peroxidase,46,2
+Catalase + Peroxidase,57,2
+Catalase + Peroxidase,81,2
+Catalase + Peroxidase,97,2
+DNase + Oxidase,6,1
+DNase + Peroxidase,6,1
+Glucose Oxidase + Glutathione Peroxidase,8,1
+Glucose Oxidase + Glutathione Peroxidase,12,1
+Glucose Oxidase + Glutathione Peroxidase,14,1
+Glucose Oxidase + Glutathione Peroxidase,16,1
+Glucose Oxidase + Glutathione Peroxidase,20,1
+Glucose Oxidase + Glutathione Peroxidase,23,1
+Glucose Oxidase + Glutathione Peroxidase,28,2
+Glucose Oxidase + Glutathione Peroxidase,41,5
+Glucose Oxidase + Glutathione Peroxidase,57,4
+Glucose Oxidase + Glutathione Peroxidase,81,4
+Glucose Oxidase + Glutathione Peroxidase,97,4
+Glucose Oxidase + Glutathione Peroxidase,100,2
+Glucose Oxidase + Oxidase,8,1
+Glucose Oxidase + Oxidase,12,1
+Glucose Oxidase + Oxidase,14,1
+Glucose Oxidase + Oxidase,16,1
+Glucose Oxidase + Oxidase,20,1
+Glucose Oxidase + Oxidase,23,1
+Glucose Oxidase + Oxidase,28,2
+Glucose Oxidase + Oxidase,41,4
+Glucose Oxidase + Oxidase,57,4
+Glucose Oxidase + Oxidase,81,4
+Glucose Oxidase + Oxidase,97,4
+Glucose Oxidase + Oxidase,99,1
+Glucose Oxidase + Peroxidase,5,1
+Glucose Oxidase + Peroxidase,41,5
+Glucose Oxidase + Peroxidase,57,4
+Glucose Oxidase + Peroxidase,81,4
+Glucose Oxidase + Peroxidase,97,4
+Glucose Oxidase + Peroxidase,99,1
+Glutathione Peroxidase + Oxidase,1,1
+Glutathione Peroxidase + Oxidase,3,2
+Glutathione Peroxidase + Oxidase,4,1
+Glutathione Peroxidase + Oxidase,7,1
+Glutathione Peroxidase + Oxidase,8,2
+Glutathione Peroxidase + Oxidase,9,1
+Glutathione Peroxidase + Oxidase,12,2
+Glutathione Peroxidase + Oxidase,14,2
+Glutathione Peroxidase + Oxidase,15,1
+Glutathione Peroxidase + Oxidase,16,2
+Glutathione Peroxidase + Oxidase,17,1
+Glutathione Peroxidase + Oxidase,19,2
+Glutathione Peroxidase + Oxidase,20,2
+Glutathione Peroxidase + Oxidase,21,1
+Glutathione Peroxidase + Oxidase,23,1
+Glutathione Peroxidase + Oxidase,24,1
+Glutathione Peroxidase + Oxidase,25,1
+Glutathione Peroxidase + Oxidase,26,1
+Glutathione Peroxidase + Oxidase,28,2
+Glutathione Peroxidase + Oxidase,29,1
+Glutathione Peroxidase + Oxidase,30,2
+Glutathione Peroxidase + Oxidase,33,1
+Glutathione Peroxidase + Oxidase,41,4
+Glutathione Peroxidase + Oxidase,57,4
+Glutathione Peroxidase + Oxidase,65,1
+Glutathione Peroxidase + Oxidase,81,4
+Glutathione Peroxidase + Oxidase,97,4
+Glutathione Peroxidase + Peroxidase,1,1
+Glutathione Peroxidase + Peroxidase,3,1
+Glutathione Peroxidase + Peroxidase,4,1
+Glutathione Peroxidase + Peroxidase,7,1
+Glutathione Peroxidase + Peroxidase,8,2
+Glutathione Peroxidase + Peroxidase,9,1
+Glutathione Peroxidase + Peroxidase,12,2
+Glutathione Peroxidase + Peroxidase,13,1
+Glutathione Peroxidase + Peroxidase,14,1
+Glutathione Peroxidase + Peroxidase,15,1
+Glutathione Peroxidase + Peroxidase,16,1
+Glutathione Peroxidase + Peroxidase,17,2
+Glutathione Peroxidase + Peroxidase,19,1
+Glutathione Peroxidase + Peroxidase,20,2
+Glutathione Peroxidase + Peroxidase,21,1
+Glutathione Peroxidase + Peroxidase,23,1
+Glutathione Peroxidase + Peroxidase,24,2
+Glutathione Peroxidase + Peroxidase,25,1
+Glutathione Peroxidase + Peroxidase,26,1
+Glutathione Peroxidase + Peroxidase,28,2
+Glutathione Peroxidase + Peroxidase,30,2
+Glutathione Peroxidase + Peroxidase,33,1
+Glutathione Peroxidase + Peroxidase,41,8
+Glutathione Peroxidase + Peroxidase,57,4
+Glutathione Peroxidase + Peroxidase,65,1
+Glutathione Peroxidase + Peroxidase,81,4
+Glutathione Peroxidase + Peroxidase,97,4
+Oxidase + Peroxidase,1,1
+Oxidase + Peroxidase,3,2
+Oxidase + Peroxidase,4,1
+Oxidase + Peroxidase,6,1
+Oxidase + Peroxidase,7,1
+Oxidase + Peroxidase,8,2
+Oxidase + Peroxidase,9,1
+Oxidase + Peroxidase,12,2
+Oxidase + Peroxidase,13,1
+Oxidase + Peroxidase,14,1
+Oxidase + Peroxidase,15,1
+Oxidase + Peroxidase,16,1
+Oxidase + Peroxidase,17,3
+Oxidase + Peroxidase,19,1
+Oxidase + Peroxidase,20,2
+Oxidase + Peroxidase,21,2
+Oxidase + Peroxidase,23,1
+Oxidase + Peroxidase,24,2
+Oxidase + Peroxidase,25,1
+Oxidase + Peroxidase,26,1
+Oxidase + Peroxidase,27,1
+Oxidase + Peroxidase,28,2
+Oxidase + Peroxidase,29,1
+Oxidase + Peroxidase,30,2
+Oxidase + Peroxidase,41,8
+Oxidase + Peroxidase,42,2
+Oxidase + Peroxidase,45,2
+Oxidase + Peroxidase,46,2
+Oxidase + Peroxidase,57,4
+Oxidase + Peroxidase,81,4
+Oxidase + Peroxidase,97,4
+Oxidase + Peroxidase,99,2

@@ -1,0 +1,25 @@
+activity,selected_method,profile_count
+Catalase,First pass,52
+Catalase,GFN1 SCF fallback,52
+Catalase,GFN1 extended,2
+Catalase,GFN2 deep,14
+DNase,GFN2 deep,1
+Glucose Oxidase,First pass,16
+Glucose Oxidase,GFN1 SCF fallback,15
+Glucose Oxidase,GFN1 extended,5
+Glucose Oxidase,GFN2 deep,44
+Glucose Oxidase,GFN2 extended,2
+Glutathione Peroxidase,First pass,1
+Glutathione Peroxidase,GFN1 SCF fallback,12
+Glutathione Peroxidase,GFN1 extended,30
+Glutathione Peroxidase,GFN2 deep,103
+Glutathione Peroxidase,GFN2 extended,8
+Oxidase,First pass,119
+Oxidase,GFN1 SCF fallback,7
+Oxidase,GFN1 extended,1
+Oxidase,GFN2 deep,47
+Peroxidase,First pass,52
+Peroxidase,GFN1 SCF fallback,42
+Peroxidase,GFN1 extended,31
+Peroxidase,GFN2 deep,42
+Peroxidase,GFN2 extended,1

@@ -1,0 +1,23 @@
+check,status,observed,expected,interpretation
+candidate_row_count,pass,355,355,candidate grain
+candidate_id_unique,pass,355,355,primary key
+candidate_required_fields_complete,pass,0,0,required null cells
+profile_row_count,pass,699,699,profile grain
+profile_id_unique,pass,699,699,primary key
+profile_required_fields_complete,pass,0,0,required null cells
+profile_candidate_fk,pass,0,0,orphan profiles
+profile_candidate_metadata,pass,0,0,linked metadata mismatches
+declared_activity_membership,pass,0,0,activity/partner outside declared pair
+positive_profile_frames,pass,0,0,nonpositive frame rows
+all_profile_frames_converged,pass,0,0,unequal frame rows
+aggregate_converged_frames,pass,3515,3515,aggregate count only
+design_axis_complete,pass,100,100,x1-x100 axis
+topology_tests_recomputed,pass,1.7763568394002505e-15,<1e-10,SciPy/BH/epsilon-squared
+descriptor_correlation_recomputed,pass,4.630932134985777e-07,<1e-6,Spearman matrix
+figure_source_csv_count,pass,17,17,panel source tables
+figure_formats_present,pass,1,1,5 figures x PNG/SVG/PDF
+figure_qa_rows,pass,5/5,5/5,submission readiness
+visible_candidate_design_key,warning,240,355,115 rows require opaque candidate_id/source-side chemistry to distinguish
+candidate_retention_semantics,warning,172 legacy + 183 explicit,one uniform flag unavailable,do not state a campaign-wide calculability rate
+candidate_metal_provenance,warning,not present,candidate-level metal/oxidation/source fields,public table cannot explain all repeated visible design rows
+topology_group_sizes_schema,warning,4,0,two-group tests serialize a leading bridged=0 slot; use keyed sizes

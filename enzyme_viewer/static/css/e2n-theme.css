@@ -1,0 +1,495 @@
+/* ============================================================
+   E2N - Journal Plate theme
+   Editorial / publication-grade skin for the Flask workbench.
+   Loaded by all 5 templates -> single propagation point.
+   Fonts: Newsreader (display serif) · Instrument Sans (body)
+          · IBM Plex Mono (data/IDs)
+   Palette: warm paper, ink, forest green, catalytic rust, ochre.
+   ------------------------------------------------------------
+   Preserves every selector the original theme exposed so no
+   template or JS-rendered class loses its styling. Only the
+   visual identity changes; layout/behaviour are untouched.
+   ============================================================ */
+
+:root {
+  /* palette */
+  --e2n-paper: #f4efe3;
+  --e2n-paper-2: #efe9db;
+  --e2n-ink: #211a12;
+  --e2n-ink-2: #5c4f3d;        /* muted body */
+  --e2n-ink-3: #8a7d63;        /* faint labels */
+  --e2n-line: #cdbf9f;         /* hairline */
+  --e2n-line-soft: #e2d8c2;
+  --e2n-forest: #2c5f4a;
+  --e2n-forest-2: #234b3a;
+  --e2n-rust: #b5502a;         /* catalytic / primary accent */
+  --e2n-rust-2: #97411f;
+  --e2n-ochre: #b5851f;
+  --e2n-green: #3b7a52;        /* active-site accent */
+  --e2n-slate: #4a5563;        /* structure-info accent */
+  --e2n-shadow: 0 1px 0 rgba(33,26,18,.04), 0 8px 22px rgba(33,26,18,.05);
+  /* legacy token aliases used by older templates */
+  --e2n-blue: var(--e2n-rust);
+  --e2n-teal: var(--e2n-forest);
+  --e2n-muted: var(--e2n-ink-2);
+  --e2n-soft-line: var(--e2n-line-soft);
+  --e2n-charcoal: var(--e2n-ink);
+  --e2n-success: var(--e2n-forest);
+  --e2n-danger: #b73a2b;
+  /* typography */
+  --e2n-font: 'Instrument Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --e2n-display: 'Newsreader', Georgia, "Times New Roman", "PingFang SC", serif;
+  --e2n-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+html {
+  background: var(--e2n-paper);
+}
+
+body.e2n-app,
+body {
+  color: var(--e2n-ink);
+}
+
+body.e2n-app {
+  min-height: 100vh;
+  font-family: var(--e2n-font);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-synthesis-weight: none;
+  text-shadow: none;
+  background:
+    radial-gradient(1000px 600px at 100% 0%, rgba(181,133,31,.06), transparent 55%),
+    radial-gradient(800px 600px at 0% 100%, rgba(44,95,74,.05), transparent 55%),
+    var(--e2n-paper);
+}
+
+/* paper grain overlay */
+body.e2n-app::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: .045;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- unified masthead: both .navbar (older pages) and .e2n-topbar (newer) ---- */
+.e2n-topbar,
+body.e2n-app .navbar {
+  min-height: 60px;
+  background: var(--e2n-paper-2) !important;
+  color: var(--e2n-ink);
+  border-bottom: 2px solid var(--e2n-ink);
+  box-shadow: none;
+  border-radius: 0;
+}
+
+body.e2n-app .navbar-brand,
+.e2n-brand {
+  font-family: var(--e2n-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.32rem;
+  letter-spacing: -.01em;
+  color: var(--e2n-ink) !important;
+}
+
+body.e2n-app .navbar-brand b,
+.e2n-brand b {
+  font-style: normal;
+  font-weight: 500;
+  color: var(--e2n-rust);
+}
+
+.e2n-brand {
+  font-size: 1.1rem;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.e2n-brand:hover {
+  color: var(--e2n-rust);
+  text-decoration: none;
+}
+
+body.e2n-app .navbar-text {
+  color: var(--e2n-ink-2) !important;
+  font-family: var(--e2n-mono);
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+/* nav links / pills in the masthead */
+.e2n-topbar .btn,
+.e2n-nav-pill,
+body.e2n-app .navbar .btn.btn-outline-light,
+body.e2n-app .navbar .btn-outline-light {
+  border-radius: 2px;
+  border: 1px solid var(--e2n-line);
+  color: var(--e2n-ink-2);
+  background: transparent;
+  font-family: var(--e2n-mono);
+  font-size: .68rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: .32rem .7rem;
+}
+
+.e2n-topbar .btn:hover,
+.e2n-nav-pill:hover,
+body.e2n-app .navbar .btn-outline-light:hover {
+  color: var(--e2n-rust);
+  border-color: var(--e2n-rust);
+  background: rgba(181,80,42,.05);
+}
+
+body.e2n-app .footer {
+  background: var(--e2n-paper-2);
+  color: var(--e2n-ink-3);
+  border-top: 1px solid var(--e2n-line);
+  box-shadow: none;
+  font-family: var(--e2n-mono);
+  font-size: .74rem;
+  letter-spacing: .06em;
+}
+
+/* ---- info-panel headers: small-caps mono label + per-variant accent ---- */
+body.e2n-app .panel-header {
+  background: var(--e2n-paper-2);
+  color: var(--e2n-ink);
+  border-bottom: 1px solid var(--e2n-line);
+  font-family: var(--e2n-mono);
+  font-size: .7rem;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  border-left: 3px solid var(--e2n-ink-3);
+}
+
+body.e2n-app .basic-info-panel .panel-header    { border-left-color: var(--e2n-forest); }
+body.e2n-app .metal-sites-panel .panel-header   { border-left-color: var(--e2n-rust); }
+body.e2n-app .active-sites-panel .panel-header   { border-left-color: var(--e2n-green); }
+body.e2n-app .structure-info-panel .panel-header { border-left-color: var(--e2n-ochre); }
+
+/* ---- cards / panels: paper, hairline, restrained shadow ---- */
+.e2n-panel,
+.card,
+.surface,
+.control-panel,
+.pdb-list-panel,
+.structure-info,
+.info-panel,
+.motif-section,
+.metal-card,
+.anchor-card,
+.metric-box,
+.artifact-frame {
+  border-radius: 4px !important;
+  border: 1px solid var(--e2n-line) !important;
+  background: rgba(255,255,253,.96) !important;
+  box-shadow: var(--e2n-shadow) !important;
+}
+
+.e2n-panel {
+  padding: 22px;
+}
+
+/* ---- buttons: hairline, small radius, ink/rust/forest ---- */
+.btn {
+  border-radius: 3px;
+  font-family: var(--e2n-mono);
+  font-weight: 500;
+  font-size: .76rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.btn-primary {
+  background: var(--e2n-rust);
+  border-color: var(--e2n-rust);
+  color: #fff;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background: var(--e2n-rust-2);
+  border-color: var(--e2n-rust-2);
+}
+
+.btn-success {
+  background: var(--e2n-forest);
+  border-color: var(--e2n-forest);
+}
+
+.btn-success:hover,
+.btn-success:focus {
+  background: var(--e2n-forest-2);
+  border-color: var(--e2n-forest-2);
+}
+
+.btn-outline-primary {
+  color: var(--e2n-rust);
+  border-color: var(--e2n-rust);
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  background: var(--e2n-rust);
+  border-color: var(--e2n-rust);
+  color: #fff;
+}
+
+.btn-outline-secondary {
+  color: var(--e2n-ink-2);
+  border-color: var(--e2n-line);
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus {
+  background: var(--e2n-ink);
+  border-color: var(--e2n-ink);
+  color: var(--e2n-paper);
+}
+
+/* disabled state: muted paper (beats Bootstrap's per-variant :disabled via scope) */
+body.e2n-app .btn:disabled,
+body.e2n-app .btn.disabled,
+body.e2n-app .btn[disabled] {
+  background: var(--e2n-paper-2);
+  border-color: var(--e2n-line);
+  color: var(--e2n-ink-3);
+  opacity: .75;
+  cursor: not-allowed;
+}
+
+.btn-outline-light {
+  color: var(--e2n-ink-2) !important;
+  border-color: var(--e2n-line) !important;
+}
+
+.btn-outline-light:hover {
+  color: var(--e2n-rust) !important;
+  border-color: var(--e2n-rust) !important;
+  background: rgba(181,80,42,.05);
+}
+
+/* ---- forms ---- */
+.form-control,
+.form-select {
+  border-radius: 3px;
+  border-color: var(--e2n-line);
+  font-family: var(--e2n-mono);
+  font-size: .82rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--e2n-rust);
+  box-shadow: 0 0 0 .18rem rgba(181,80,42,.14);
+}
+
+/* ---- badges: small-caps mono pills ---- */
+.badge {
+  border-radius: 2px;
+  letter-spacing: .08em;
+  font-family: var(--e2n-mono);
+  font-weight: 500;
+  font-size: .66rem;
+  text-transform: uppercase;
+}
+
+.badge-success { background: var(--e2n-forest); color: #fff; }
+.badge-warning { background: var(--e2n-ochre); color: #fff; }
+.badge-secondary { background: var(--e2n-paper-2); color: var(--e2n-ink-2); border: 1px solid var(--e2n-line); }
+
+/* ---- tables ---- */
+.table,
+table {
+  border-radius: 4px;
+  font-family: var(--e2n-mono);
+}
+
+.table th,
+table th {
+  font-family: var(--e2n-mono);
+  font-weight: 500;
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--e2n-ink-3);
+}
+
+/* ---- editorial typography helpers ---- */
+.e2n-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--e2n-rust);
+  font-family: var(--e2n-mono);
+  font-size: .72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+}
+
+.e2n-kicker::before {
+  content: "";
+  width: 22px;
+  height: 2px;
+  background: var(--e2n-rust);
+}
+
+.e2n-brand,
+.e2n-title {
+  font-family: var(--e2n-display);
+  font-weight: 400;
+  letter-spacing: -.01em;
+}
+
+.e2n-title {
+  font-size: clamp(1.6rem, 2vw, 2.3rem);
+  line-height: 1.08;
+  margin: 0;
+  font-style: italic;
+}
+
+.e2n-subtitle {
+  color: var(--e2n-ink-2);
+  max-width: 760px;
+  margin: 8px 0 0;
+  font-family: var(--e2n-font);
+}
+
+.e2n-topbar .fw-bold {
+  font-family: var(--e2n-display);
+  font-style: italic;
+  font-weight: 400 !important;
+  color: var(--e2n-ink);
+}
+
+body.e2n-app h1,
+body.e2n-app h2,
+body.e2n-app h3,
+body.e2n-app h4,
+body.e2n-app h5,
+body.e2n-app h6 {
+  font-family: var(--e2n-display);
+  font-weight: 500;
+  letter-spacing: -.01em;
+}
+
+.e2n-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--e2n-line), transparent);
+}
+
+/* ---- score / progress bars: journal rule-bar ---- */
+.score-bar,
+.progress-shell {
+  background: var(--e2n-line-soft);
+}
+
+.score-fill,
+.progress-fill {
+  background: linear-gradient(90deg, var(--e2n-rust), var(--e2n-forest));
+}
+
+/* ---- scrollbar ---- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--e2n-paper-2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--e2n-line);
+  border: 2px solid var(--e2n-paper-2);
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--e2n-ink-3);
+  border: 2px solid var(--e2n-paper-2);
+  background-clip: padding-box;
+}
+
+@media (max-width: 768px) {
+  .e2n-workbench {
+    width: min(100vw - 20px, 100%);
+    padding-top: 16px;
+  }
+
+  .e2n-panel {
+    padding: 18px;
+  }
+}
+
+/* ------------------------------------------------------------
+   Structure Browser functional layout (preserved from v1).
+   Keeps the EC list / PDB list scroll behaviour intact; only
+   colours are re-themed above via the component rules.
+   ------------------------------------------------------------ */
+body.e2n-app #outerContainer {
+  align-items: flex-start;
+  min-height: calc(100vh - 132px);
+}
+
+body.e2n-app #leftColumn {
+  position: static;
+  height: auto;
+  min-height: 0;
+}
+
+body.e2n-app #leftColumn .control-panel {
+  flex: 0 0 auto;
+}
+
+body.e2n-app #leftColumn .pdb-list-panel {
+  height: clamp(720px, 82vh, 1040px);
+  min-height: 720px;
+  max-height: none;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+body.e2n-app #leftColumn .ec-list {
+  max-height: none;
+  overflow-y: visible;
+}
+
+body.e2n-app #leftColumn .pdb-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  overflow-y: auto;
+}
+
+@media (max-width: 992px) {
+  body.e2n-app #outerContainer {
+    flex-direction: column;
+  }
+
+  body.e2n-app #leftColumn {
+    position: static;
+    height: auto;
+    min-height: 0;
+  }
+
+  body.e2n-app #leftColumn .pdb-list {
+    max-height: 360px;
+  }
+
+  body.e2n-app #leftColumn .ec-list {
+    max-height: none;
+  }
+}

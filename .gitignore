@@ -1,115 +1,43 @@
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
 *.py[cod]
-*$py.class
-
-# C extensions
-*.so
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
 *.egg-info/
-.installed.cfg
-*.egg
-
-# PyInstaller
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.db
+*.db-shm
+*.db-wal
+*.log
 
-# Translations
-*.mo
-*.pot
-
-# Environments
+# Environments and local configuration
+.venv/
+.venv-*/
 .env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-envs/
+.env.*
+!.env.example
 
-# IDE
+# Editors and operating-system metadata
+.DS_Store
+._*
+Thumbs.db
 .idea/
 .vscode/
-*.swp
-*.swo
-*~
 
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# Data and cache
-data/
+# E2N local/private inputs and generated work
+outputs/
 cache/
-*.db
-*.sqlite
-
-# Model checkpoints (large files)
-models/easifa/checkpoints/
-
-# Logs
-*.log
-logs/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Project specific
-*.pdb
-*.cif
-output/
-results/
-motifs/
-processed/
-metal_sites_output/
-nanozyme-env/
-envs/
-
-# Data libraries (generated at runtime)
+models/
 pdb_library/
 motif_library/
+designed_structures/
+assembled_nanozymes/
+.runtime/
 
-# Temporary analysis files
-cache_data_analysis.md
-MCSA_INTEGRATION_REPORT.md
-金属位点问题分析.md
-IMPLEMENTATION_SUMMARY.md
-monitor_progress.sh
-install_deps.sh
-install.log
-motif_extraction.log
-pipeline_run.log
-dgl/
+# Ad hoc rebuilds; the curated publication release remains tracked
+figure_rebuild/
+report_rebuild/

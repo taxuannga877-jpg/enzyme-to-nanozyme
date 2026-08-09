@@ -1,0 +1,6 @@
+version_or_scope,candidate_unit,profile_unit,frame_unit,statistics,use_in_current_manuscript
+paper_data_current (2026-06-25),22 calculable candidates,44 complete profiles,280 converged frames,8 tests; 0 FDR-retained,No - superseded historical snapshot
+broader x1-x100 lineage audit,1817 upstream records; 661 MACE; historical 355 calculable label,699 complete / 706 eligible,3580 converged / 3590 attempted,batch-level lineage,No - audit lineage only; legacy values prohibited
+v5 audited submission,355 retained canonical candidate records,699 complete profiles,3515 frames in complete profiles,10 tests; 8 q<0.05; 36 DOI references; 5 review rounds,Yes - numerical and figure authority
+v6 narrative manuscript,355 stated as calculable (wording too broad),699 complete profiles,3515 converged frames,30 references; 3 v6 review rounds; 7133 main-text words,Narrative input only; requires evidence corrections
+current evidence contract / public release,355 retained canonical candidate records,699 complete profiles; linkage 346/7/2,3515 aggregate converged frames,10 exploratory tests; 8 q<0.05,Recommended controlling terminology

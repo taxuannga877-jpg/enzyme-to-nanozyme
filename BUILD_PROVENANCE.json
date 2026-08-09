@@ -1,0 +1,1087 @@
+{
+  "schema_version": 1,
+  "builder": "tools/public_repo/build_public_repo.py",
+  "built_at_utc": "2026-08-09T15:21:44.714996+00:00",
+  "release_state": "PRE-RELEASE",
+  "source_commit": "816990d13707aadeee9727dfc0695fe0a55e0ba9",
+  "source_worktree_dirty": true,
+  "source_remote": "https://github.com/taxuannga877-jpg/enzyme-to-nanozyme.git",
+  "manifest_sha256": "4bc7e0243a2d5196f2a868fd8e22903c7b58aaeed50cee573e6a8a7d5ca7d8fd",
+  "files": [
+    {
+      "path": ".e2n-public-repo",
+      "bytes": 52,
+      "sha256": "3e604fa07cae07a0d0481968c62634e8f658fe06888fd5bbb6d08bd9cf25d2e3"
+    },
+    {
+      "path": ".env.example",
+      "bytes": 1082,
+      "sha256": "9f897ae21b51b5b7dca9134b6ae3592ea10987b5d8f2a0474328835919a44dd5"
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 156,
+      "sha256": "9180914bb048b3069e3eef8a6f76bffbf8f624b8b8fb00d65e1c8834bfd72cbd"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 923,
+      "sha256": "f0042cd24e3f77abc77d8d430b729a4757321822172a640fa8a7ac20d4bc972d"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 560,
+      "sha256": "f6a6cf935c9b053dfa72f37e6f1d260ceb2d20f44feb388d8fe33b764534d7d7"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 925,
+      "sha256": "8a51e9cc54c647c455f944dce0f9c90e239c1f4268d8fe80af9eb21285e408c6"
+    },
+    {
+      "path": "CITATION.cff",
+      "bytes": 1742,
+      "sha256": "90c1964dc60e467592c3812b1a9cf353c1f9b8c5a818d92d85fdd4652e1a7a78"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "bytes": 1954,
+      "sha256": "5e7eaa5dc971eb65224cfa2eaa26ca4c9fa2941ddac2a7121ed78d079aa6299a"
+    },
+    {
+      "path": "PUBLIC_RELEASE_STATUS.md",
+      "bytes": 3538,
+      "sha256": "5fa20340e1d623b05b753e187b636d699d541e186521f1a74babc1b76b96809a"
+    },
+    {
+      "path": "README.md",
+      "bytes": 66191,
+      "sha256": "0115fd4e22f12e50e0a6aa41a5d931fefd4114fe6028eea689a0c22c7ab86769"
+    },
+    {
+      "path": "RIGHTS_AND_LICENSING.md",
+      "bytes": 3897,
+      "sha256": "d69cd9cbe03bb6b3b92e3136bcd12dab7a62c1b9b7c06fc6b44dead2d01e8453"
+    },
+    {
+      "path": "SECURITY.md",
+      "bytes": 1066,
+      "sha256": "0261a03d0be60838bd1b41175b0784f5c7b664586592e468db68a9846b51fc73"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "bytes": 2200,
+      "sha256": "e5ffdfe746eb3865577e1129911d8c6ff9fb2a8e610df78498b14db4da90c0ce"
+    },
+    {
+      "path": "docs/DATA.md",
+      "bytes": 3708,
+      "sha256": "f1fe78281cdd3ba44c32d5b65be236e46e00522f5c8c105a769294e908a85db4"
+    },
+    {
+      "path": "docs/RELEASE_CHECKLIST.md",
+      "bytes": 3301,
+      "sha256": "77248f0678121cf33ad95d3c06ff59af634f223265be1eafc448b7a2cb283b67"
+    },
+    {
+      "path": "docs/REPOSITORY_LAYOUT.md",
+      "bytes": 2917,
+      "sha256": "bcccffdfe04c97a0c61500df7bbb0143964e5c56006ee5c846674f27e6131079"
+    },
+    {
+      "path": "docs/REPRODUCIBILITY.md",
+      "bytes": 4453,
+      "sha256": "6f6eec6ac6abce35d47388c40db94bbcd24a4da8747771761ef066fa8f34bf7f"
+    },
+    {
+      "path": "docs/SCIENTIFIC_SCOPE.md",
+      "bytes": 2947,
+      "sha256": "cc3fdefe09064632cdca011018ce49f928b71554e9ac6347fe2a2b806603a502"
+    },
+    {
+      "path": "enzyme_viewer/__init__.py",
+      "bytes": 197,
+      "sha256": "9bca5b55e2fdbb0d5a19f8349bcc44a5c4afed21dd2d52f7b2f83fe6a280b931"
+    },
+    {
+      "path": "enzyme_viewer/activity_validation_worker.py",
+      "bytes": 10847,
+      "sha256": "91bc0e152a089d364f0cba33e385950e457e04420f580f18a7eb1db1be9b6732"
+    },
+    {
+      "path": "enzyme_viewer/app.py",
+      "bytes": 22208,
+      "sha256": "02e1976b2a58aac05351eef38c5fb99a89b27c4ec3be7abdaec829db1c72652b"
+    },
+    {
+      "path": "enzyme_viewer/catalytic_metal_db.py",
+      "bytes": 30889,
+      "sha256": "25cc440f3ebd2023fa6ca3bb9f41a494109dd9440bd342844c72c80d37019419"
+    },
+    {
+      "path": "enzyme_viewer/design_io.py",
+      "bytes": 6088,
+      "sha256": "31724b643a68a9410f9dcfbd052c599d6277e7263a79c8d3ac44042f930708a9"
+    },
+    {
+      "path": "enzyme_viewer/design_serialization.py",
+      "bytes": 4064,
+      "sha256": "d3f48e68b8cffb493f94861af7b6d7ae5b160b8c4fbf9f6d7313003d219f817c"
+    },
+    {
+      "path": "enzyme_viewer/design_store.py",
+      "bytes": 14301,
+      "sha256": "0b7817202a134c64fde3b423a2abc895d44bfbbc488a6a936971da106edf1999"
+    },
+    {
+      "path": "enzyme_viewer/design_subprocess.py",
+      "bytes": 4529,
+      "sha256": "40612a91532ac6dd82bd9abb4528ea84fe994ad6748d0515d7ac7618a73ff891"
+    },
+    {
+      "path": "enzyme_viewer/http_headers.py",
+      "bytes": 2959,
+      "sha256": "53f62595bb1a27ef6c6ea2f48e44f59012853b60517adae4c1fb4eaac4e91ed5"
+    },
+    {
+      "path": "enzyme_viewer/images.py",
+      "bytes": 5453,
+      "sha256": "23ec2bb19d5d58c6e2f06d74529e7f47f8ce819b868e8ce08281ae576c346ad3"
+    },
+    {
+      "path": "enzyme_viewer/ligand_db.py",
+      "bytes": 14047,
+      "sha256": "72e78de481c93ef4d2ddd6eda348542bb6aa4ef5599615a98256ab6818416921"
+    },
+    {
+      "path": "enzyme_viewer/motif_db.py",
+      "bytes": 26972,
+      "sha256": "ac9671486c7bd9e8230b96eb5b276b6c056b383f86edd316b9fca0fe8b5857fd"
+    },
+    {
+      "path": "enzyme_viewer/routes/__init__.py",
+      "bytes": 66,
+      "sha256": "13546aec7f9161fde741079a44602b4106ed1cb1efe82440adad3c9310e73bdd"
+    },
+    {
+      "path": "enzyme_viewer/routes/activity_validation.py",
+      "bytes": 7115,
+      "sha256": "df37d3c4d674aa547b4929c3a77a7ca4d354b0d800f00f04811145921d7c18f0"
+    },
+    {
+      "path": "enzyme_viewer/routes/catalog.py",
+      "bytes": 10343,
+      "sha256": "afbca4024676d4582273f15037adf5637044a02898cc877e018bbb3308e2d397"
+    },
+    {
+      "path": "enzyme_viewer/routes/design_jobs.py",
+      "bytes": 11429,
+      "sha256": "ac203faf3c489f85a68c7b9cc88a70bf842aec2a3e7b6c6c688425d400c5a6f9"
+    },
+    {
+      "path": "enzyme_viewer/routes/design_metadata.py",
+      "bytes": 3155,
+      "sha256": "6492da6a96ef730f95a797a4543e626f5cccfb03e8a7a40fc696691e89a0439d"
+    },
+    {
+      "path": "enzyme_viewer/routes/ligand.py",
+      "bytes": 6141,
+      "sha256": "6b0de1f4180d18fefaec7c7dd14d15ed66c179957108eb5c5ef071f9dd863ce1"
+    },
+    {
+      "path": "enzyme_viewer/routes/motif_basic.py",
+      "bytes": 6550,
+      "sha256": "83e4c96ca8f5e643660579a717b636dae225d113988dfd94f147f0820c28420d"
+    },
+    {
+      "path": "enzyme_viewer/routes/motif_listing.py",
+      "bytes": 12297,
+      "sha256": "82cbdcfa1d1433709b98776d48152d2f6ad44560aa6ec5b7f2e6089ce83275ea"
+    },
+    {
+      "path": "enzyme_viewer/routes/motif_structure.py",
+      "bytes": 14359,
+      "sha256": "b90a8a5575df7ebfcdb441e943dae2d19b2abcb7817cf40d781e89e2a5b4b69a"
+    },
+    {
+      "path": "enzyme_viewer/routes/pages.py",
+      "bytes": 1337,
+      "sha256": "274558add2168d47467e3a2c22c64cddb020cef0292c70a5a3823c6bf023448f"
+    },
+    {
+      "path": "enzyme_viewer/routes/structure.py",
+      "bytes": 10483,
+      "sha256": "e72fa2fa3dbe06d1b8433df950690cc1f6692d3757d7a79ec65598c4cd6ca8d4"
+    },
+    {
+      "path": "enzyme_viewer/runtime_cache.py",
+      "bytes": 4911,
+      "sha256": "005512ecb3ff38adf8614029433edc48bd0476d9ab86ae2977613429ff3292a4"
+    },
+    {
+      "path": "enzyme_viewer/security.py",
+      "bytes": 13631,
+      "sha256": "53dbed157f167da2b5e9a180f1a5b026ac974c268f74e33aa35529c0efdf2c23"
+    },
+    {
+      "path": "enzyme_viewer/static/css/bootstrap.min.css",
+      "bytes": 204248,
+      "sha256": "f9dcd8538e4a5258dc86f0fbd965802ad09ee4afef515f4fe1053e4c4b19f6bf"
+    },
+    {
+      "path": "enzyme_viewer/static/css/e2n-theme.css",
+      "bytes": 11801,
+      "sha256": "67cb2c904ad439e40ce88c34a40d6190c1104e376e52606a630dfe5f4be9ac6d"
+    },
+    {
+      "path": "enzyme_viewer/static/css/style.css",
+      "bytes": 13975,
+      "sha256": "f480d3b5acc2189cf3799161b2815c892e3d1452c821bec5295ce9398fa7a14d"
+    },
+    {
+      "path": "enzyme_viewer/static/js/3Dmol-min.js",
+      "bytes": 537792,
+      "sha256": "f7cc78921ae72e7623e89cdd111434f58c2efddd2ffda1cd212644b406fb8016"
+    },
+    {
+      "path": "enzyme_viewer/static/js/3Dmol-min.js.LICENSE.txt",
+      "bytes": 120,
+      "sha256": "ae3bfc688d0c9687b76e0ecc7fece0b393bcb4acf2aee09e19dda697eaa10b16"
+    },
+    {
+      "path": "enzyme_viewer/static/js/activity_validation.js",
+      "bytes": 16197,
+      "sha256": "d54e519f7668181f3eef1d7f529239d1ee8da4455a9520de1e3699bb04c007d8"
+    },
+    {
+      "path": "enzyme_viewer/static/js/bootstrap.min.js",
+      "bytes": 58072,
+      "sha256": "0a34a87842c539c1f4feec56bba982fd596b73500046a6e6fe38a22260c6577b"
+    },
+    {
+      "path": "enzyme_viewer/static/js/e2n-common.js",
+      "bytes": 3154,
+      "sha256": "5e5e16dea078d16958eec0f48652492dd5d5cc0494e88961ddd6beac21413cec"
+    },
+    {
+      "path": "enzyme_viewer/static/js/index.js",
+      "bytes": 19105,
+      "sha256": "d757ffd4fbc7c951f91c28bf91171638ddf651f7a50ab6828db12385a01b4229"
+    },
+    {
+      "path": "enzyme_viewer/static/js/jquery-3.3.1.slim.min.js",
+      "bytes": 69917,
+      "sha256": "dde76b9b2b90d30eb97fc81f06caa8c338c97b688cea7d2729c88f529f32fbb1"
+    },
+    {
+      "path": "enzyme_viewer/static/js/motif_library.js",
+      "bytes": 11354,
+      "sha256": "83a975d17545c5b2f0c87b4dd0275e5687be3be7bda8bbb006a747e9ddea149c"
+    },
+    {
+      "path": "enzyme_viewer/static/js/motif_view.js",
+      "bytes": 6447,
+      "sha256": "d8a00b5c92ae06f58ea1d71a209a477f4d2d6d9e260d9b0def787cc0ecdf3191"
+    },
+    {
+      "path": "enzyme_viewer/static/js/nanozyme_design.js",
+      "bytes": 30922,
+      "sha256": "3bd7f0cbd9d95bea6ef497620871983f28be821eedfe6ddff40515f8e3357841"
+    },
+    {
+      "path": "enzyme_viewer/static/js/popper-1.14.7.min.js",
+      "bytes": 21004,
+      "sha256": "66f3a07e1fa9b64a686b66381e4458dbc8abf3dbbff954720c4eec07b84411c2"
+    },
+    {
+      "path": "enzyme_viewer/static/js/test_nanozyme.js",
+      "bytes": 1528,
+      "sha256": "4b11c731c0bc711bfae66b6af0749696ba100b62f43ed96777693be21dbbbfd8"
+    },
+    {
+      "path": "enzyme_viewer/static/vendor/fontawesome/css/all.min.css",
+      "bytes": 83981,
+      "sha256": "a361e7885c36bacb3fd9cb068da207c3b9329962cac022d06e28923939f575e8"
+    },
+    {
+      "path": "enzyme_viewer/static/vendor/fontawesome/webfonts/fa-brands-400.ttf",
+      "bytes": 181260,
+      "sha256": "523dc72caa42687c946e5a8d7e6b438880a26881964466cf1425ce5114e49701"
+    },
+    {
+      "path": "enzyme_viewer/static/vendor/fontawesome/webfonts/fa-brands-400.woff2",
+      "bytes": 105204,
+      "sha256": "33a252d6393cbd6debe0ac517229c7aa258a0ee68fc0253f8be6a7cee8b65ee9"
+    },
+    {
+      "path": "enzyme_viewer/static/vendor/fontawesome/webfonts/fa-regular-400.ttf",
+      "bytes": 60208,
+      "sha256": "e47616185481b0ecd636dc35fc4673a4a332b1ac96585fc1f9cf0d0553dac2a0"
+    },
+    {
+      "path": "enzyme_viewer/static/vendor/fontawesome/webfonts/fa-regular-400.woff2",
+      "bytes": 23760,
+      "sha256": "886fd1e6ce992ede514743a826fa71fefdb577047a2a899ca95f6f28f3305d09"
+    },
+    {
+      "path": "enzyme_viewer/static/vendor/fontawesome/webfonts/fa-solid-900.ttf",
+      "bytes": 298276,
+      "sha256": "1c210c134c340a1133991a605b0aac990ce8505c48fce37c915063402964e994"
+    },
+    {
+      "path": "enzyme_viewer/static/vendor/fontawesome/webfonts/fa-solid-900.woff2",
+      "bytes": 125064,
+      "sha256": "94e1bbc1c2a41ebc73fa5253fd563256c0035b4d69181e48f9aef9e474a11251"
+    },
+    {
+      "path": "enzyme_viewer/static/vendor/fontawesome/webfonts/fa-v4compatibility.ttf",
+      "bytes": 10552,
+      "sha256": "a77fc4d94850e5a9b3964d08f5e2d2fad5c6635ba68d38b2a7e17cf4c560bf37"
+    },
+    {
+      "path": "enzyme_viewer/static/vendor/fontawesome/webfonts/fa-v4compatibility.woff2",
+      "bytes": 5016,
+      "sha256": "4dc08f15f61ce16b97c0c4580bd233be0c9ea52165333fe460af54040a5c425c"
+    },
+    {
+      "path": "enzyme_viewer/static/vendor/licenses/3Dmol-2.5.5-BSD-3-Clause.txt",
+      "bytes": 4283,
+      "sha256": "4c6eaaed856f3f28a3b1a98e74f4a8a71618de7d51ea4155c29f6f793bcef861"
+    },
+    {
+      "path": "enzyme_viewer/static/vendor/licenses/Bootstrap-4.3.1-MIT.txt",
+      "bytes": 1153,
+      "sha256": "074d99b8c25d13649dac52080900ee8c8d2373d07ea3f4fb67bd2bf79aa8cc72"
+    },
+    {
+      "path": "enzyme_viewer/static/vendor/licenses/Font-Awesome-Free-6.0.0-beta3.txt",
+      "bytes": 7427,
+      "sha256": "3960bccdb10203104075a1d1ad3f6bb4b116f4344dc57444d6222f35297a052c"
+    },
+    {
+      "path": "enzyme_viewer/static/vendor/licenses/Popper.js-1.14.7-MIT.txt",
+      "bytes": 1106,
+      "sha256": "60409ec0a31d2b71d2bdc17aaaecdc6be4633107caf6bfed7cc777e51e835143"
+    },
+    {
+      "path": "enzyme_viewer/static/vendor/licenses/jQuery-3.3.1-MIT.txt",
+      "bytes": 1605,
+      "sha256": "2b3ed8ba424423a50b023e728530d94bc385cfc7c328ad65a3dfee9c7c0531c5"
+    },
+    {
+      "path": "enzyme_viewer/structure_info.py",
+      "bytes": 10429,
+      "sha256": "6252557d95894f6bfa253573e95e51f36b8b4c6f09ebcd1983163349c85eba79"
+    },
+    {
+      "path": "enzyme_viewer/templates/activity_validation.html",
+      "bytes": 10540,
+      "sha256": "e207e552d0c75abffb09d16c6d2578124f824e3eeb5ce4bc35db0a37301c1c68"
+    },
+    {
+      "path": "enzyme_viewer/templates/index.html",
+      "bytes": 6149,
+      "sha256": "f36516f6cd176921c8b454e225e2159c817b2af57a7428bce568fcb4efa6d9dc"
+    },
+    {
+      "path": "enzyme_viewer/templates/motif_library.html",
+      "bytes": 8676,
+      "sha256": "4c07b32d8aba504db157f0da1b8deb6cd61326e51a7a16e661c8050984c63186"
+    },
+    {
+      "path": "enzyme_viewer/templates/motif_view.html",
+      "bytes": 6454,
+      "sha256": "539d0e19eae0e8c00d716c40061ce78a1ed46abf73a25158a034fd70a95df035"
+    },
+    {
+      "path": "enzyme_viewer/templates/nanozyme_design.html",
+      "bytes": 12677,
+      "sha256": "431955d5b443ea8fc4c8853de5c7002257a76c57ad5cc1b9da4f00c951d77453"
+    },
+    {
+      "path": "enzyme_viewer/templates/test_nanozyme.html",
+      "bytes": 437,
+      "sha256": "338c8c766908fd6e83feced732e299dd1b26fd238cf1d84d5177bb460763d25a"
+    },
+    {
+      "path": "examples/quickstart.py",
+      "bytes": 1155,
+      "sha256": "13fa08c51f5de0f63d4723cd23ba6bdb66996ad5543527afdfde868ac6883057"
+    },
+    {
+      "path": "nanozyme_mining/__init__.py",
+      "bytes": 503,
+      "sha256": "677944d0013bf538d1242fd324fd63a5a5549eddc19ce8a1a8bd8ebb23704de5"
+    },
+    {
+      "path": "nanozyme_mining/assembly/__init__.py",
+      "bytes": 1143,
+      "sha256": "d0a218ea7cf96f4584f4ceba3e1bc325d1b67acaf3e9eb9ea3353c106d5986be"
+    },
+    {
+      "path": "nanozyme_mining/assembly/assembler.py",
+      "bytes": 9388,
+      "sha256": "162383e26d897747ef604261ea64c039153a36593d059dc8e60da05d8840ac98"
+    },
+    {
+      "path": "nanozyme_mining/assembly/motif_enhanced.py",
+      "bytes": 13180,
+      "sha256": "c07c2945ccba63a8c0bf65a146ea9652192726b17867519e4fdc868908e4acec"
+    },
+    {
+      "path": "nanozyme_mining/assembly/strategies/__init__.py",
+      "bytes": 347,
+      "sha256": "05c02d9a070aee492674ce71caeb7612391a019aa8659af2d9b23b359181146a"
+    },
+    {
+      "path": "nanozyme_mining/assembly/strategies/rule_based.py",
+      "bytes": 18388,
+      "sha256": "04c70fcada50a1891de7a9eb2eef5ca46d38644c47674b138c9b3c702fb64ac6"
+    },
+    {
+      "path": "nanozyme_mining/assembly/structure.py",
+      "bytes": 11024,
+      "sha256": "3fd29ab01a7e20cc13dab77a6e655bc0a5ac5743cc70ce93ccd04b3b4a3d5018"
+    },
+    {
+      "path": "nanozyme_mining/assembly/validator.py",
+      "bytes": 13108,
+      "sha256": "20f35cd58700678bcc0c1e4b0655e58a32b866d680b577ce502ddeab3d3e5c96"
+    },
+    {
+      "path": "nanozyme_mining/database/__init__.py",
+      "bytes": 330,
+      "sha256": "16b897510b37f8210529b04452e838310a51a3362d4a64558084617022e93ff9"
+    },
+    {
+      "path": "nanozyme_mining/database/nanozyme_db.py",
+      "bytes": 9453,
+      "sha256": "79f7b248d06fb5be3416e509ef634d6551693d1d96fc5a84e484df9c997ab506"
+    },
+    {
+      "path": "nanozyme_mining/database/uniprot_fetcher.py",
+      "bytes": 16348,
+      "sha256": "54bd65ab8fe56fa5da9dbb5694b4e2976fedd0b7dcdc37eae7be21aab9683b1e"
+    },
+    {
+      "path": "nanozyme_mining/design/__init__.py",
+      "bytes": 1481,
+      "sha256": "22fdedbd1b0fbeb7c27b548138295728ef2332674c18242f8ec03a09ee8a9515"
+    },
+    {
+      "path": "nanozyme_mining/design/activity_validation_report.py",
+      "bytes": 66339,
+      "sha256": "74cfd25f27beabf46dd0395e951760306701edfc80a2085c9bbe673b6037d537"
+    },
+    {
+      "path": "nanozyme_mining/design/batch_pipeline.py",
+      "bytes": 40603,
+      "sha256": "86d69623fa95a3a38820b1b0d74ae55de9eb5d0ea8e02b81ca43d75b84d35255"
+    },
+    {
+      "path": "nanozyme_mining/design/bimetallic_topology.py",
+      "bytes": 7469,
+      "sha256": "4fca29c5866d316e455113811a0f9bfa6665a0b0430825569d5835988e67d7ad"
+    },
+    {
+      "path": "nanozyme_mining/design/carbon_scaffold.py",
+      "bytes": 66239,
+      "sha256": "a60b659bffddac8219842ce1ffb1606e0e0b5605e8e086477ecbb2f17f2dcc61"
+    },
+    {
+      "path": "nanozyme_mining/design/catalysis_screening.py",
+      "bytes": 98692,
+      "sha256": "17e7401dd00539a147cced9070174a4fadbdfec6c1b939fe10dec5e5dbbfcc44"
+    },
+    {
+      "path": "nanozyme_mining/design/chemical_system.py",
+      "bytes": 9864,
+      "sha256": "2324288e71bcabd6ea8f8692c8ea8c2298f7490980b1c357e7fc3fb26517c53a"
+    },
+    {
+      "path": "nanozyme_mining/design/constraint_scorer.py",
+      "bytes": 10541,
+      "sha256": "f95522e760fe843e7d9f7a0eb92cdcd01f5dff7b4b8ca3e09b7287659d605097"
+    },
+    {
+      "path": "nanozyme_mining/design/data/physchem_constraints.v1.json",
+      "bytes": 8311,
+      "sha256": "5f6a3b59d5456dff77740d1aca45fc4e524700330f9649150245096c4eeab25b"
+    },
+    {
+      "path": "nanozyme_mining/design/design_spec.py",
+      "bytes": 5105,
+      "sha256": "825fbe143bce487c454796bb74fed5234846f0940554a0d51643084cc759031e"
+    },
+    {
+      "path": "nanozyme_mining/design/dopant_modifier.py",
+      "bytes": 2472,
+      "sha256": "52b121d448dae7b0e74ce5a04d9c772d14c006203de82d930552903372164628"
+    },
+    {
+      "path": "nanozyme_mining/design/metal_core_builder.py",
+      "bytes": 4457,
+      "sha256": "c2d5627a274309fafa28145840271420ec77b68e82c7073b994bb66b8e256669"
+    },
+    {
+      "path": "nanozyme_mining/design/metallogen_bridge.py",
+      "bytes": 1628,
+      "sha256": "8bbbd0e334045302a7c19f2fe9e737b83e091e69d46560dc2066888e79e152f4"
+    },
+    {
+      "path": "nanozyme_mining/design/motif_selector.py",
+      "bytes": 21338,
+      "sha256": "1cdc72abd250d219182f9aaeaa0cac8635d5c07c7a6ca713b65f89d202ef462c"
+    },
+    {
+      "path": "nanozyme_mining/design/multi_metal_linker.py",
+      "bytes": 7910,
+      "sha256": "fe92971fafbbd681e57b952d1eab06e0ac141ce9518926b069e0ce11db93ab90"
+    },
+    {
+      "path": "nanozyme_mining/design/nanozyme_assembler.py",
+      "bytes": 27114,
+      "sha256": "45c3a6e7caec42bb95ec10c99477048f24f5b0e35cdae71a99e7fc37d828b592"
+    },
+    {
+      "path": "nanozyme_mining/design/physchem_knowledge.py",
+      "bytes": 13355,
+      "sha256": "aae9245d4f25b2415faf958cbd9e6a33fd5386c0d25f45b878ecf53bc4a689cc"
+    },
+    {
+      "path": "nanozyme_mining/design/potential_evaluator.py",
+      "bytes": 44238,
+      "sha256": "c061f8ea638ab5a7c7f5c56d14862dccd6ed97ce9b4e9b4ed6e7575d63f9cfc2"
+    },
+    {
+      "path": "nanozyme_mining/design/scientific_audit.py",
+      "bytes": 19502,
+      "sha256": "c4a14614794952a3f819ab9b3fb88cfa890b543c401aab30ee7f4b1fa16e9bd5"
+    },
+    {
+      "path": "nanozyme_mining/design/second_shell_attacher.py",
+      "bytes": 2999,
+      "sha256": "7053c7a7aa0bdb205dd5df029e0da88d75f37a8642e95b8ba1ec4522bd06fd84"
+    },
+    {
+      "path": "nanozyme_mining/design/structure_exporter.py",
+      "bytes": 9094,
+      "sha256": "e0e8a1740e8efc7895a38dd0ce039c12fabd1f2a558304c4c32dc7a9b8002461"
+    },
+    {
+      "path": "nanozyme_mining/design/substrate_catalog.py",
+      "bytes": 17696,
+      "sha256": "3f0e773ad65e4dc78aae66dc7a11006f9b386287a547583d898c8f1999db102b"
+    },
+    {
+      "path": "nanozyme_mining/design/validation.py",
+      "bytes": 18369,
+      "sha256": "63fb0bd716a1f307fcc4682f63a80e126ef8e95c5a8c2377627bf9612906dc9d"
+    },
+    {
+      "path": "nanozyme_mining/extraction/__init__.py",
+      "bytes": 350,
+      "sha256": "716154e0d2ef96477640c68f738fbfad2d2f27e194d81c62386be198b2eb6231"
+    },
+    {
+      "path": "nanozyme_mining/extraction/extractor.py",
+      "bytes": 32549,
+      "sha256": "749f12876eac5ddae15cf5ed5a5f69722ecc2636d2558f63e854b9161bd66fcd"
+    },
+    {
+      "path": "nanozyme_mining/extraction/motif.py",
+      "bytes": 9870,
+      "sha256": "908b62622895aee4d110e936048c550bfea803b6e4d47d9dbbd8dcd1c883970a"
+    },
+    {
+      "path": "nanozyme_mining/structure/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "nanozyme_mining/structure/environment_analyzer.py",
+      "bytes": 18320,
+      "sha256": "be7e03b2b1e682ac3ece74a72ce2137a55f1ce7f2b2ce5f2cac2f88baefbe0e7"
+    },
+    {
+      "path": "nanozyme_mining/structure/pdb_metal_extractor.py",
+      "bytes": 21068,
+      "sha256": "fc725981a71f2be72eca054093b6fd00c992c353ce90780bb27800175457bb30"
+    },
+    {
+      "path": "nanozyme_mining/structure/pdb_parser.py",
+      "bytes": 41291,
+      "sha256": "9350aacf331b5baebb1a03005acd76c379ee37d1309c140a345a232ac93142a7"
+    },
+    {
+      "path": "nanozyme_mining/utils/__init__.py",
+      "bytes": 589,
+      "sha256": "c7146e180426747fa20651287cff3f69b47edf68dde3517f83697f7e8f5c7448"
+    },
+    {
+      "path": "nanozyme_mining/utils/config.py",
+      "bytes": 3567,
+      "sha256": "fb6cede0eeaf09fe3f68ee1106e14d58cf161cb86c8ce3ba384bb79040699fb3"
+    },
+    {
+      "path": "nanozyme_mining/utils/constants.py",
+      "bytes": 5967,
+      "sha256": "cce404b6cb38211e4e7e319d5f29a93dbb66dc340207407a387c8a93f38f8324"
+    },
+    {
+      "path": "nanozyme_mining/utils/ec_mappings.py",
+      "bytes": 7684,
+      "sha256": "f63328714d0068820d965abdb38ca9efcc789ee1288715e5d204fb7e47d169ce"
+    },
+    {
+      "path": "nanozyme_mining/utils/exceptions.py",
+      "bytes": 1648,
+      "sha256": "35c7b733079e13571b897b55d8b233faf6a8604373080f9fbe760a78c48f7ee9"
+    },
+    {
+      "path": "nanozyme_mining/utils/http_utils.py",
+      "bytes": 3961,
+      "sha256": "38c2ec41707572888f71e0365a64f3704d014453573f0746355c5f43a3aeefb1"
+    },
+    {
+      "path": "publication/CITATION.cff",
+      "bytes": 1742,
+      "sha256": "90c1964dc60e467592c3812b1a9cf353c1f9b8c5a818d92d85fdd4652e1a7a78"
+    },
+    {
+      "path": "publication/EVIDENCE_CONTRACT.md",
+      "bytes": 12626,
+      "sha256": "7b89d60e8d5597dd91de83e05cef4a3c86cec02e4f200b43edca50638cc0bbf9"
+    },
+    {
+      "path": "publication/LICENSE_SCOPE.md",
+      "bytes": 3897,
+      "sha256": "d69cd9cbe03bb6b3b92e3136bcd12dab7a62c1b9b7c06fc6b44dead2d01e8453"
+    },
+    {
+      "path": "publication/README.md",
+      "bytes": 7669,
+      "sha256": "bf44379cb31b63db002d3c6065f1697a21183add70cad914b8170586e6fd8eb7"
+    },
+    {
+      "path": "publication/RELEASE_MANIFEST.json",
+      "bytes": 14083,
+      "sha256": "6479ea148e8e1775406698d9612a73333480d5e36ab2f7cea1baff4c196d2dd8"
+    },
+    {
+      "path": "publication/data/x1_x100_dataset/README.md",
+      "bytes": 3029,
+      "sha256": "e19ac132eaa131b7ed4209756d47da4965d60eccd0a99ca20ef99fd9200e0089"
+    },
+    {
+      "path": "publication/data/x1_x100_dataset/activity_pair_topology.csv",
+      "bytes": 1275,
+      "sha256": "b6b130e0d4172f7f0d2315c9bcaee0c8a86b25dc0aafa944b9e78584a4d967cf"
+    },
+    {
+      "path": "publication/data/x1_x100_dataset/candidate_design_topology.csv",
+      "bytes": 1412,
+      "sha256": "d6a6bfedf740325f0091dbe917ac0d54c52982488f648984fefc2191c315315c"
+    },
+    {
+      "path": "publication/data/x1_x100_dataset/candidates.csv",
+      "bytes": 49379,
+      "sha256": "7aea45d04249865e7e8ec747ad47a6d4523959547b368b1e9120613c2276dfbb"
+    },
+    {
+      "path": "publication/data/x1_x100_dataset/dataset_manifest.json",
+      "bytes": 4722,
+      "sha256": "7d40956ef983a9cf05ab4161cf9b58d283380491cfa0295a2e2b25d3900d9612"
+    },
+    {
+      "path": "publication/data/x1_x100_dataset/descriptor_correlation.csv",
+      "bytes": 657,
+      "sha256": "f3245d471a90a67196fdf874d5e8417cd2ad5d7004d20f524b1a1609cb8a60a6"
+    },
+    {
+      "path": "publication/data/x1_x100_dataset/descriptor_summary.csv",
+      "bytes": 859,
+      "sha256": "7025f5eb4aae108aaff71cf1164bba12cf645b6227589626903458dbe14be55f"
+    },
+    {
+      "path": "publication/data/x1_x100_dataset/designs.csv",
+      "bytes": 1823,
+      "sha256": "815c216fa0462971ca54b80e6539002c7191ceaf25e4ba82a29afcff7ae7136f"
+    },
+    {
+      "path": "publication/data/x1_x100_dataset/geometry.csv",
+      "bytes": 2011,
+      "sha256": "1224ccd0688b93acaab36b433b09676349a8795f5d1adf2c5c6f7e20d3b67dc5"
+    },
+    {
+      "path": "publication/data/x1_x100_dataset/method_activity.csv",
+      "bytes": 745,
+      "sha256": "5280ac40caefa4a01c86e1a8ef85275f180820d7a9491ff0b3cc1b1e7f0fcf69"
+    },
+    {
+      "path": "publication/data/x1_x100_dataset/profile_activity_topology.csv",
+      "bytes": 490,
+      "sha256": "f340556167c655719b41733ca3b36c773f1da53f7aa4b89b52c18c7bce44cf57"
+    },
+    {
+      "path": "publication/data/x1_x100_dataset/profiles.csv",
+      "bytes": 191754,
+      "sha256": "0fc14db56ef723fafd577b6b02f1e3882eaff3d7b2eb6b4436eb2176b49f6d4f"
+    },
+    {
+      "path": "publication/data/x1_x100_dataset/representative.csv",
+      "bytes": 268,
+      "sha256": "2a7fbd93c15355d26582d4270f338fa1f62de01146277cf1e50f67372d94d924"
+    },
+    {
+      "path": "publication/data/x1_x100_dataset/representative_scans.csv",
+      "bytes": 463,
+      "sha256": "6d1260adb8e0f3357bc8eca1173bf883d62c733d784a851fdebf3b116a66a98e"
+    },
+    {
+      "path": "publication/data/x1_x100_dataset/representative_structure.png",
+      "bytes": 130658,
+      "sha256": "5e432ea399a92236d8ff1056e7f12d774c76dfa9a6b189f7d414722c8f3a95ed"
+    },
+    {
+      "path": "publication/data/x1_x100_dataset/topology_tests.csv",
+      "bytes": 1755,
+      "sha256": "63d98d6271fa7313c985b2cd6e2febe8a5245a9a4927e744e3dc15f94fb8bbf3"
+    },
+    {
+      "path": "publication/figures/README.md",
+      "bytes": 2612,
+      "sha256": "073807926ddc6728d6c83018dc5eb7e00f4e6827f720e4eb442703d21833df72"
+    },
+    {
+      "path": "publication/figures/fig1_canonical_evidence_trace.pdf",
+      "bytes": 214353,
+      "sha256": "b76dbb2b5e417ddfa58330bec121aaf054f518246ad70eba08c960e7f4997a17"
+    },
+    {
+      "path": "publication/figures/fig1_canonical_evidence_trace.png",
+      "bytes": 454099,
+      "sha256": "befce280ade341c073822a1b83201fb587f6a22d46a735d13979253c8d2f4add"
+    },
+    {
+      "path": "publication/figures/fig1_canonical_evidence_trace.svg",
+      "bytes": 311145,
+      "sha256": "5e5246ab9ddc0cd66fe4dc114abc585da209ee2b397bd21ebb64c543d6a77407"
+    },
+    {
+      "path": "publication/figures/fig2_geometry_landscape.pdf",
+      "bytes": 33380,
+      "sha256": "c99796aade390d9b45d7a88ddadfea3dd8ce0fdea27fe296d3db8ab5395063d6"
+    },
+    {
+      "path": "publication/figures/fig2_geometry_landscape.png",
+      "bytes": 307944,
+      "sha256": "ade1ad0fb426dce1ef85ca605730827db085e016911d3b4a37241d82bf1f638d"
+    },
+    {
+      "path": "publication/figures/fig2_geometry_landscape.svg",
+      "bytes": 119873,
+      "sha256": "33f0354788e1aee6dfc84a7b8c24b382dda13332b1436fc10129450987f3ccfc"
+    },
+    {
+      "path": "publication/figures/fig3_activity_pair_composition.pdf",
+      "bytes": 47728,
+      "sha256": "08301ced58661e0d2a18ed0a32b3fd575689b3cf4091775a781978494ac8ff2a"
+    },
+    {
+      "path": "publication/figures/fig3_activity_pair_composition.png",
+      "bytes": 310423,
+      "sha256": "5783c2a6a3a317f07ec9dd0b1bb2c428fe04c5b7186aad54bfdc99e41056df0e"
+    },
+    {
+      "path": "publication/figures/fig3_activity_pair_composition.svg",
+      "bytes": 130811,
+      "sha256": "666d83e05ba7658452c8ed9e968c293b7532e05f9dc533e8c03972f02cdf0184"
+    },
+    {
+      "path": "publication/figures/fig4_profile_descriptors.pdf",
+      "bytes": 67030,
+      "sha256": "aa7e998f5fd253ee27873375305a0bc25201f16226f59b2e4363b4576a542876"
+    },
+    {
+      "path": "publication/figures/fig4_profile_descriptors.png",
+      "bytes": 408774,
+      "sha256": "579a309632f68b663d0897e31a2359f756dbbed8626da447c224d5245547031b"
+    },
+    {
+      "path": "publication/figures/fig4_profile_descriptors.svg",
+      "bytes": 349768,
+      "sha256": "ac5fe3086964643d2fffac1c1203ec1f81790ae176a567734289c338bfb1ca02"
+    },
+    {
+      "path": "publication/figures/fig5_topology_statistics.pdf",
+      "bytes": 35984,
+      "sha256": "233dfdb2e3440457aecc0d80a08e4aa4434fb7acf15341c34243de6296ecd2a0"
+    },
+    {
+      "path": "publication/figures/fig5_topology_statistics.png",
+      "bytes": 270160,
+      "sha256": "222f09b7bba5d3c46c54df63376e782a149cd351ab8ddfaa734e04132d91fe9c"
+    },
+    {
+      "path": "publication/figures/fig5_topology_statistics.svg",
+      "bytes": 55245,
+      "sha256": "75f10e4ccb7b51e900a63cf59c35c842b9e8715d39e6dd3e1240bded1267d53a"
+    },
+    {
+      "path": "publication/figures/figure_captions_v6.md",
+      "bytes": 3725,
+      "sha256": "4fa5eaf24327ae1e1062634d9d36e524dfd7a73436c85c27b13b6483f4c52935"
+    },
+    {
+      "path": "publication/figures/manifest_v6.json",
+      "bytes": 2186,
+      "sha256": "7695f2eaef627dae3c449197a977500720e7cd683879b7959bb629f26e01149a"
+    },
+    {
+      "path": "publication/figures/panel_source_data_index.csv",
+      "bytes": 2483,
+      "sha256": "43b95f2041690661ac0a336ee0a895e255df9f73932b70cf05518b5313028974"
+    },
+    {
+      "path": "publication/figures/qa/submission_qa.csv",
+      "bytes": 760,
+      "sha256": "00594519186bb6534e31dc3b39911ea50bd0eabbbabfbff6ebbf7cd3b5a06cb2"
+    },
+    {
+      "path": "publication/figures/qa/success_only_source_data_audit.json",
+      "bytes": 188,
+      "sha256": "d91d1b7ea73448d9cb16693611c6ca09aed0e0e1066e7548ab5276f3d7c9abcb"
+    },
+    {
+      "path": "publication/figures/source_data/fig1_canonical_summary.csv",
+      "bytes": 118,
+      "sha256": "561ab67f6080e9844e6f647a8f6b0dc339cad70d4196af59ac0cdda2b2d24b9b"
+    },
+    {
+      "path": "publication/figures/source_data/fig1_design_topology.csv",
+      "bytes": 1412,
+      "sha256": "e87e821b68d10c96c9e8d76d0855a050bf4b875861139fd087c55c8d82c0d008"
+    },
+    {
+      "path": "publication/figures/source_data/fig1_representative_candidate.csv",
+      "bytes": 268,
+      "sha256": "2a7fbd93c15355d26582d4270f338fa1f62de01146277cf1e50f67372d94d924"
+    },
+    {
+      "path": "publication/figures/source_data/fig1_representative_scans.csv",
+      "bytes": 460,
+      "sha256": "37c6f0b40b000f0e876d49b2146721d053efb397df93eb7ae487f9c713efd384"
+    },
+    {
+      "path": "publication/figures/source_data/fig2_distance_points.csv",
+      "bytes": 14256,
+      "sha256": "eca5f0db6fd6907bdac376f68a5cbb25f92c90cd632e1b903b69ec0034df8cc0"
+    },
+    {
+      "path": "publication/figures/source_data/fig2_geometry.csv",
+      "bytes": 2011,
+      "sha256": "1224ccd0688b93acaab36b433b09676349a8795f5d1adf2c5c6f7e20d3b67dc5"
+    },
+    {
+      "path": "publication/figures/source_data/fig2_highlighted_geometry.csv",
+      "bytes": 86,
+      "sha256": "2f560a7bd9aa737f5e7f7b534fe114e36d3c5f86999be7d99699bf5023a81709"
+    },
+    {
+      "path": "publication/figures/source_data/fig3_activity_pair_counts.csv",
+      "bytes": 406,
+      "sha256": "3059f5fa8c2e0c0532a0b2520bae553c9cad953d6478d042be6faca16adbd888"
+    },
+    {
+      "path": "publication/figures/source_data/fig3_activity_pair_design.csv",
+      "bytes": 6292,
+      "sha256": "1384aef7ba257da7bfaacf686d8e3791187807ecbd7a438713873144d4eac06c"
+    },
+    {
+      "path": "publication/figures/source_data/fig3_activity_pair_topology.csv",
+      "bytes": 1275,
+      "sha256": "b6b130e0d4172f7f0d2315c9bcaee0c8a86b25dc0aafa944b9e78584a4d967cf"
+    },
+    {
+      "path": "publication/figures/source_data/fig3_activity_pair_topology_percent.csv",
+      "bytes": 1733,
+      "sha256": "20af8f7cae8b50d74788b56bfabd200e5484db761d6424d65503f48972f3c8b0"
+    },
+    {
+      "path": "publication/figures/source_data/fig4_activity_counts.csv",
+      "bytes": 117,
+      "sha256": "ce796b8c08f8e26bbdc2aa9fe41c163829e2bf98845cf0c4e4e7c041be099d1a"
+    },
+    {
+      "path": "publication/figures/source_data/fig4_descriptor_points.csv",
+      "bytes": 62108,
+      "sha256": "a57f53be69cdec59206429eb8d5329ece454220b32fd10001225af6502e21a4a"
+    },
+    {
+      "path": "publication/figures/source_data/fig4_method_activity.csv",
+      "bytes": 745,
+      "sha256": "5280ac40caefa4a01c86e1a8ef85275f180820d7a9491ff0b3cc1b1e7f0fcf69"
+    },
+    {
+      "path": "publication/figures/source_data/fig4_zero_activation.csv",
+      "bytes": 284,
+      "sha256": "f8b2ec55799c84d2724a51c77017130fcda7f2c892094affe0c90a525d75abe7"
+    },
+    {
+      "path": "publication/figures/source_data/fig5_topology_medians.csv",
+      "bytes": 1343,
+      "sha256": "3ad6ffef2bd5ce6c94f3685abca85be9632802924fc5fe52d677c7a312e3dda2"
+    },
+    {
+      "path": "publication/figures/source_data/fig5_topology_tests.csv",
+      "bytes": 1701,
+      "sha256": "9093f3f474c9b9e183d1c4f08dd9cb07e59ac7d61c7b46c918545ed859e767a5"
+    },
+    {
+      "path": "publication/reports/e2n_x1_x100_data_summary_zh.md",
+      "bytes": 28072,
+      "sha256": "3039e674abfcb810d187a069cd5c9c3169b5f8bec8bd47a8061ba58100ad66d0"
+    },
+    {
+      "path": "publication/reports/tables/activity_pair_counts.csv",
+      "bytes": 681,
+      "sha256": "7b4e591f8deae7fe57f6048f9705a1bc552f9896cdecc598a395eac201fe9561"
+    },
+    {
+      "path": "publication/reports/tables/activity_pair_topology_summary.csv",
+      "bytes": 1626,
+      "sha256": "a4e727fc2c3f596b8dc0c80984bc10b24ab6b27e9832239e974bdc94f59505dc"
+    },
+    {
+      "path": "publication/reports/tables/candidate_angle_summary.csv",
+      "bytes": 209,
+      "sha256": "0a59b0740349ce81d5e6e9e1a51c192b1fb1bbe40626667c22ede37c3074e3a2"
+    },
+    {
+      "path": "publication/reports/tables/candidate_doping_summary.csv",
+      "bytes": 131,
+      "sha256": "bcd45162cd5c1cfac9d92197ba77cc6800838b2fe8c712f755911522c4d56fbe"
+    },
+    {
+      "path": "publication/reports/tables/candidate_profile_linkage.csv",
+      "bytes": 59668,
+      "sha256": "c0b755d6ec6cb862116466ae3032820681c56aecacadcd2b91f98d3c9b44f327"
+    },
+    {
+      "path": "publication/reports/tables/candidate_topology_summary.csv",
+      "bytes": 397,
+      "sha256": "0e9e46c608c81b2ae66cef5c057bbf50a8698b4f8a6d9ce09f0c3ace78915081"
+    },
+    {
+      "path": "publication/reports/tables/data_quality_checks.csv",
+      "bytes": 1614,
+      "sha256": "dc40722d6425509c3812920e7c46c59b5add96532f1352d0b04d4d0a14023785"
+    },
+    {
+      "path": "publication/reports/tables/declared_target_profile_reconciliation.csv",
+      "bytes": 207,
+      "sha256": "2c6b5e737f6fd2d29e51564ffa07ee5398535a365a73157ff7a1d466df5a392f"
+    },
+    {
+      "path": "publication/reports/tables/design_occupancy.csv",
+      "bytes": 1332,
+      "sha256": "ae0c8ede63bc3eef43e63af7769aeeadcdf5c342f1c6c08ed265f648a11c71d4"
+    },
+    {
+      "path": "publication/reports/tables/geometry_cell_summary.csv",
+      "bytes": 1695,
+      "sha256": "da50cd660c2b314e2c32f54a5729cd31b6228ee83a9b38142f1a6d041226ec0b"
+    },
+    {
+      "path": "publication/reports/tables/method_activity_summary.csv",
+      "bytes": 1425,
+      "sha256": "028a57284a0ca0480ab2144b7eabb4fd70e23dae5f7ee1cb75af234212a9bbcc"
+    },
+    {
+      "path": "publication/reports/tables/method_total_summary.csv",
+      "bytes": 189,
+      "sha256": "78ff071719cd42ca5a414413545c7b3e530596a42a339561607bd10d17e4c29b"
+    },
+    {
+      "path": "publication/reports/tables/profile_activity_summary.csv",
+      "bytes": 1119,
+      "sha256": "920d4a41e6b828f8d982d1e702a49e73a29f2f47195cbb200d1048b4a5295045"
+    },
+    {
+      "path": "publication/reports/tables/profile_linkage_summary.csv",
+      "bytes": 105,
+      "sha256": "979758fe732e151a86f63f9911a2a31e7b8a207f55cf69ae2ff77b600d351227"
+    },
+    {
+      "path": "publication/reports/tables/topology_tests_recomputed.csv",
+      "bytes": 2615,
+      "sha256": "b9453680fdf9c4cbae840d4386d37cf57557e4521ff98d32511fb19b0dc3bf3b"
+    },
+    {
+      "path": "publication/reports/tables/version_reconciliation.csv",
+      "bytes": 1130,
+      "sha256": "19de397c764db7a40ad8e3722458ebfbc09eea99d4d60b0db170adff8319dd8b"
+    },
+    {
+      "path": "publication/requirements-release.txt",
+      "bytes": 506,
+      "sha256": "082213c851999512041d4d4c4f9ce7c03ae727c7c2451c4b43cf7c908a374f01"
+    },
+    {
+      "path": "publication/scripts/build_release_manifest.py",
+      "bytes": 6586,
+      "sha256": "18862e9312f6624b3b0a5373fdd3d152c8a81c20fe1733a7cb2a2523a873aa58"
+    },
+    {
+      "path": "publication/scripts/verify_publication_release.py",
+      "bytes": 55370,
+      "sha256": "22b9828f87b4ca8f1ff14723dc1b006d390783e3f3de42675df13c4d6b957ec0"
+    },
+    {
+      "path": "pyproject.toml",
+      "bytes": 1809,
+      "sha256": "9c3e53ec71b81db75781224958aa3a28f4612ad3fe685d2bbfa16616a78fa593"
+    },
+    {
+      "path": "scripts/_bootstrap.py",
+      "bytes": 375,
+      "sha256": "11c75b78f3fea2113101bad62602ad9ddb63e6500e46db5e2c210cef658412ed"
+    },
+    {
+      "path": "scripts/_io_utils.py",
+      "bytes": 2223,
+      "sha256": "214492f76b7cf32e71fd682c312793be01b0bfe9a417eb57b308d8ff0ebc51cc"
+    },
+    {
+      "path": "scripts/build_spj_data_summary_report.py",
+      "bytes": 55946,
+      "sha256": "e3a5d4d153a140826523b2051667f75062069121c1197479b68243d2924bfde8"
+    },
+    {
+      "path": "scripts/build_spj_main_figures_latest.py",
+      "bytes": 57125,
+      "sha256": "70eb486c91121ac0b6f8062e1e69a1be77149e9dbeb55b2d44a82d645cc3cf9a"
+    },
+    {
+      "path": "scripts/build_x1_x100_dataset.py",
+      "bytes": 26672,
+      "sha256": "1f49d8e49c21f59ea940d451dd88bb59db423d15dbc9f1a1a803dea0760c050f"
+    },
+    {
+      "path": "scripts/figure_style.py",
+      "bytes": 7010,
+      "sha256": "40cf15bf90b6ef567e96221f26269c87e40a728d18fa19156f3fffe0f0eb9bd0"
+    },
+    {
+      "path": "tests/test_public_contract.py",
+      "bytes": 4161,
+      "sha256": "8743713bfb17850374a6ae7e86f3112a4d3821571893994c3e5aef818b221760"
+    },
+    {
+      "path": "tools/verify_public_repo.py",
+      "bytes": 12299,
+      "sha256": "45a199b681b682a665f9f3504e815d3186b27ddd83d54f0929a548086bbcfaff"
+    }
+  ]
+}

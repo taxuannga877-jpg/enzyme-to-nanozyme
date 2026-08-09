@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="e2n-csp-nonce" content="{{ csp_nonce }}">
+<title>E2N Rational Nanozyme Design</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/e2n-theme.css') }}?v=journal-plate-20260709">
+<style>
+.wizard-step { display:none; }
+.wizard-step.active { display:block; }
+.design-hero {
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) auto;
+  gap:22px;
+  align-items:end;
+  margin-bottom:18px;
+}
+.hero-stat {
+  min-width:128px;
+  padding:12px 14px;
+  border:1px solid var(--e2n-line);
+  border-radius:8px;
+  background:rgba(255,255,255,.78);
+}
+.hero-stat strong { display:block; font-family:var(--e2n-display); font-size:1.48rem; line-height:1; font-weight:500; }
+.hero-stat span { color:var(--e2n-muted); font-size:.74rem; text-transform:uppercase; letter-spacing:.04em; font-weight:500; }
+.step-indicator {
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0, 1fr));
+  gap:10px;
+  margin-bottom:18px;
+}
+.step-dot {
+  position:relative;
+  min-height:64px;
+  padding:10px 12px 10px 44px;
+  border:1px solid var(--e2n-line);
+  border-radius:8px;
+  background:rgba(255,255,255,.82);
+  color:var(--e2n-muted);
+  font-size:13px;
+  font-weight:500;
+  cursor:pointer;
+  transition:all .18s ease;
+}
+.step-dot::before {
+  position:absolute;
+  left:12px;
+  top:13px;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#edf2f4;
+  color:var(--e2n-muted);
+  font-size:12px;
+  font-weight:500;
+  content:attr(data-step);
+}
+.step-dot small { display:block; margin-top:3px; font-weight:400; color:inherit; opacity:.78; }
+.step-dot.active {
+  border-color:rgba(79,120,167,.62);
+  background:#f4f9fb;
+  color:var(--e2n-ink);
+  box-shadow:0 12px 28px rgba(79,120,167,.12);
+}
+.step-dot.active::before {
+  background:var(--e2n-blue);
+  color:#fff;
+}
+.step-dot.done {
+  border-color:rgba(39,124,117,.40);
+  background:#f3f9f6;
+  color:var(--e2n-teal);
+}
+.step-dot.done::before {
+  content:"✓";
+  background:var(--e2n-teal);
+  color:#fff;
+}
+.activity-btn {
+  padding:10px 15px;
+  border:1px solid #cdd5dd;
+  border-radius:999px;
+  background:#fff;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:400;
+  margin:5px;
+  transition:all .16s ease;
+}
+.activity-btn:hover { border-color:var(--e2n-blue); transform:translateY(-1px); }
+.activity-btn.selected {
+  border-color:var(--e2n-blue);
+  background:#eef6fa;
+  color:var(--e2n-blue);
+  box-shadow:0 8px 18px rgba(79,120,167,.13);
+}
+.metal-card {
+  border:1px solid var(--e2n-line);
+  border-radius:8px;
+  padding:16px;
+  margin-bottom:12px;
+  background:#fff;
+}
+.metal-card-header { display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
+.coord-table { width:100%; font-size:13px; }
+.coord-table th { background:#f3f7f8; padding:7px 8px; font-weight:500; color:#405061; }
+.coord-table td { padding:6px 8px; border-top:1px solid #edf1f3; }
+.role-badge { font-size:11px; padding:2px 8px; border-radius:10px; }
+.role-acid { background:#fff2dc; color:#8a5617; }
+.role-base { background:#dff3f0; color:#1f6862; }
+.role-nucleophile { background:#f8e3e6; color:#8d3844; }
+.role-electrostatic { background:#e4f1e8; color:#285d38; }
+.role-hydrogen_bond { background:#e8edf6; color:#455f82; }
+#result-panel { display:none; }
+.score-bar { height:8px; border-radius:4px; background:#e9ecef; overflow:hidden; }
+.score-fill { height:100%; border-radius:4px; transition:width .5s; }
+#viewer3d { width:100%; height:400px; border:1px solid var(--e2n-line); border-radius:8px; background:#ffffff; }
+#viewer3d, [id^="mini-viewer-"] { position:relative; overflow:hidden; }
+.note-panel {
+  border:1px solid var(--e2n-line);
+  border-radius:8px;
+  background:#f7faf9;
+}
+.thumb-card.border-primary {
+  border-color:var(--e2n-blue) !important;
+  box-shadow:0 14px 32px rgba(79,120,167,.18) !important;
+}
+.btn-xs { padding:.2rem .4rem; }
+@media (max-width: 860px) {
+  .design-hero { grid-template-columns:1fr; }
+  .step-indicator { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body class="e2n-app">
+<nav class="e2n-topbar d-flex align-items-center px-3 gap-2">
+  <a class="e2n-brand" href="/">← Structure Browser</a>
+  <span class="mx-auto fw-bold">Rational Nanozyme Design</span>
+  <a class="btn btn-sm" href="/motif_library">Motif Library</a>
+</nav>
+
+<div class="e2n-workbench">
+  <div class="design-hero">
+    <div>
+      <div class="e2n-kicker">Evidence-to-nanozyme workbench</div>
+      <h1 class="e2n-title mt-2">Build catalytic metal centers from mined enzyme motifs</h1>
+      <p class="e2n-subtitle">Select one or two target activities, bind each activity to a metal center, choose first- and second-shell chemistry, then assemble and validate carbon-supported nanozyme candidates.</p>
+    </div>
+    <div class="d-flex gap-2 flex-wrap">
+      <div class="hero-stat"><strong>4</strong><span>design stages</span></div>
+      <div class="hero-stat"><strong>2</strong><span>max centers</span></div>
+    </div>
+  </div>
+
+  <div class="step-indicator">
+    <div class="step-dot active" data-step="1" data-action="go-step" data-step-target="1" id="dot1">Activity Targets<small>single or dual activity</small></div>
+    <div class="step-dot" data-step="2" data-action="go-step" data-step-target="2" id="dot2">Metal & First Shell<small>coordination template</small></div>
+    <div class="step-dot" data-step="3" data-action="go-step" data-step-target="3" id="dot3">Second Shell<small>functional residues</small></div>
+    <div class="step-dot" data-step="4" id="dot4">Assemblies<small>ranked structures</small></div>
+  </div>
+
+  <div class="wizard-step active" id="step1">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+          <div>
+            <div class="e2n-kicker">Stage 1</div>
+            <h5 class="mb-1 mt-2">Choose enzyme-like activities</h5>
+            <div class="text-muted small">Select up to two activities. Dual selections produce topology-aware bimetallic assemblies.</div>
+          </div>
+        </div>
+        <div id="activity-buttons">
+          <span class="text-muted">Loading activities...</span>
+        </div>
+        <div id="metal-hint" class="mt-3 p-3 note-panel" style="display:none;">
+          <strong>Frequent catalytic metals:</strong>
+          <span id="metal-hint-text"></span>
+        </div>
+        <div class="mt-4 text-end">
+          <button class="btn btn-primary" data-action="go-step" data-step-target="2" id="btn-step1-next" disabled>Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wizard-step" id="step2">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <div class="e2n-kicker">Stage 2</div>
+            <h5 class="mb-0 mt-2">Metal centers and first-shell coordination</h5>
+          </div>
+          <button class="btn btn-sm btn-outline-primary" id="btn-add-metal" data-action="add-metal">+ Add missing center</button>
+        </div>
+        <div id="metal-cards"></div>
+
+        <div id="multi-metal-options" style="display:none;" class="mt-3 p-3 note-panel">
+          <span class="text-success">✓ Dual-activity bimetallic mode will generate bridged, independent-adjacent, and independent-non-adjacent dual-metal topologies, with relaxation and scoring for each candidate.</span>
+        </div>
+
+        <div class="mt-4 d-flex justify-content-between">
+          <button class="btn btn-outline-secondary" data-action="go-step" data-step-target="1">← Back</button>
+          <button class="btn btn-primary" data-action="go-step" data-step-target="3">Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wizard-step" id="step3">
+    <div class="card">
+      <div class="card-body">
+        <div class="e2n-kicker">Stage 3</div>
+        <h5 class="mb-1 mt-2">Second-shell chemistry</h5>
+        <div class="text-muted small mb-3">Functional residues or groups near the active center, typically 3-6 Å from the metal and not directly coordinated.</div>
+        <div id="second-shell-list">
+          <span class="text-muted">Loading recommended residues...</span>
+        </div>
+        <button class="btn btn-sm btn-outline-secondary mt-2" data-action="add-second-shell">+ Add manually</button>
+        <div class="card mt-3 border-secondary">
+          <div class="card-body py-2">
+            <h6 class="mb-2">Optional heteroatom doping</h6>
+            <div class="d-flex gap-3 align-items-center flex-wrap">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="dope-n">
+                <label class="form-check-label" for="dope-n">N doping</label>
+              </div>
+              <div class="d-flex align-items-center gap-1">
+                <label class="form-label mb-0 small">N atoms</label>
+                <input type="number" id="doping-n-count" class="form-control form-control-sm" value="2" min="1" max="6" style="width:60px">
+              </div>
+              <div class="form-check ms-3">
+                <input class="form-check-input" type="checkbox" id="dope-s">
+                <label class="form-check-label" for="dope-s">S doping</label>
+              </div>
+              <div class="d-flex align-items-center gap-1">
+                <label class="form-label mb-0 small">S atoms</label>
+                <input type="number" id="doping-s-count" class="form-control form-control-sm" value="1" min="1" max="4" style="width:60px">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 d-flex justify-content-between">
+          <button class="btn btn-outline-secondary" data-action="go-step" data-step-target="2">← Back</button>
+          <button class="btn btn-success" id="btn-assemble" data-action="assemble">Build assemblies</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wizard-step" id="step4">
+  <div id="result-panel" class="mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="mb-0">Generated assemblies <span id="total-count" class="badge bg-secondary ms-2"></span></h5>
+      <div class="d-flex gap-2">
+        <button class="btn btn-sm btn-outline-secondary" data-action="go-step" data-step-target="3">← Refine design</button>
+        <button class="btn btn-sm btn-primary" data-action="open-activity-validation">Validate Activity</button>
+        <button class="btn btn-sm btn-success" data-action="download-all">Download all PDBs</button>
+      </div>
+    </div>
+    <div class="row g-3 mb-3">
+      <div class="col-md-7">
+        <div class="card">
+          <div class="card-body p-2">
+            <div class="text-muted small mb-1" id="active-label"></div>
+            <div id="viewer3d" style="width:100%;height:420px;border:1px solid #dee2e6;border-radius:8px;background:#ffffff;"></div>
+            <div class="mt-2 d-flex gap-2">
+              <button class="btn btn-sm btn-outline-primary" data-action="download-active" data-download-format="xyz">XYZ</button>
+              <button class="btn btn-sm btn-outline-primary" data-action="download-active" data-download-format="pdb">PDB</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="card">
+          <div class="card-body">
+            <h6>Assembly score</h6>
+            <div id="score-display"></div>
+            <div id="error-display" class="text-danger mt-2" style="display:none;"></div>
+          </div>
+        </div>
+        <div class="card mt-3">
+          <div class="card-body">
+            <h6>Next step</h6>
+            <div class="small text-muted mb-2">Open the validation workbench for substrate adsorption, electronic-state checks, and reaction-coordinate screening.</div>
+            <button class="btn btn-primary w-100" data-action="open-activity-validation">Validate Activity</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="thumbnail-grid" class="row g-2"></div>
+  </div>
+  </div><!-- /step4 -->
+
+</div><!-- /container -->
+
+<script src="{{ url_for('static', filename='js/3Dmol-min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/e2n-common.js') }}?v=journal-plate-20260709"></script>
+<script src="{{ url_for('static', filename='js/nanozyme_design.js') }}?v=journal-plate-20260709"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+{
+  "version": "v6",
+  "dataset": "x1-x100",
+  "path_base": "directory containing this manifest",
+  "data_dir": "../data/x1_x100_dataset",
+  "evidence_scope": {
+    "candidates": "retained canonical candidate records",
+    "profiles": "complete activity-specific profiles",
+    "frames": "converged scan frames within complete profiles"
+  },
+  "counts": {
+    "candidates": 355,
+    "profiles": 699,
+    "frames": 3515,
+    "design_indices": 38,
+    "activity_pairs": 13,
+    "activities": 6,
+    "topologies": 3
+  },
+  "figures": {
+    "Fig. 1": {
+      "panels": 3,
+      "png": "fig1_canonical_evidence_trace.png",
+      "svg": "fig1_canonical_evidence_trace.svg",
+      "pdf": "fig1_canonical_evidence_trace.pdf"
+    },
+    "Fig. 2": {
+      "panels": 3,
+      "png": "fig2_geometry_landscape.png",
+      "svg": "fig2_geometry_landscape.svg",
+      "pdf": "fig2_geometry_landscape.pdf"
+    },
+    "Fig. 3": {
+      "panels": 3,
+      "png": "fig3_activity_pair_composition.png",
+      "svg": "fig3_activity_pair_composition.svg",
+      "pdf": "fig3_activity_pair_composition.pdf"
+    },
+    "Fig. 4": {
+      "panels": 4,
+      "png": "fig4_profile_descriptors.png",
+      "svg": "fig4_profile_descriptors.svg",
+      "pdf": "fig4_profile_descriptors.pdf"
+    },
+    "Fig. 5": {
+      "panels": 3,
+      "png": "fig5_topology_statistics.png",
+      "svg": "fig5_topology_statistics.svg",
+      "pdf": "fig5_topology_statistics.pdf"
+    }
+  },
+  "captions": "figure_captions_v6.md",
+  "source_data": {
+    "directory": "source_data",
+    "csv_files": 17,
+    "panels": 16,
+    "panel_index": "panel_source_data_index.csv",
+    "representative_structure": "../data/x1_x100_dataset/representative_structure.png"
+  },
+  "qa": {
+    "submission_qa": "qa/submission_qa.csv",
+    "source_data_audit": "qa/success_only_source_data_audit.json"
+  },
+  "boundary": "The 355 entries are retained canonical candidate records, not 355 uniquely identified material compositions or an unqualified calculable set. Requested design parameters and computational screening descriptors are not unconstrained equilibrium geometries, experimental activity measurements, or density-functional barriers."
+}

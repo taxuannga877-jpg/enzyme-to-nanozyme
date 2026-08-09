@@ -1,0 +1,4 @@
+topology,candidate_count,represented_design_indices,requested_distance_q25_a,requested_distance_median_a,requested_distance_q75_a,median_score,median_max_force_ev_per_a,candidate_percent
+bridged,28,10,6.1,6.2,7.7,0.72868066,0.04827646,7.88732394
+independent adjacent,101,19,6.8,8.8,9.2,0.7455198,0.04562046,28.45070423
+independent separated,226,28,11.4,13.0,13.0,0.76502627,0.04517321,63.66197183

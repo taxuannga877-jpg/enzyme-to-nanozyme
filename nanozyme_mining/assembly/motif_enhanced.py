@@ -19,6 +19,8 @@ from dataclasses import dataclass, field, asdict
 import json
 import numpy as np
 
+from nanozyme_mining.utils.constants import KNOWN_METAL_ELEMENTS
+
 
 class MaterialType(Enum):
     """Types of nanozyme materials"""
@@ -77,8 +79,7 @@ class AtomType(Enum):
     @classmethod
     def is_metal(cls, atom_symbol: str) -> bool:
         """Check if atom is a metal"""
-        metals = {'Fe', 'Cu', 'Mn', 'Co', 'Ni', 'Zn', 'Ce', 'Pt', 'Au', 'Ag', 'Pd', 'Ru', 'V', 'Ti'}
-        return atom_symbol in metals
+        return (atom_symbol or "").strip().upper() in KNOWN_METAL_ELEMENTS
     
     @classmethod
     def get_atomic_number(cls, atom_symbol: str) -> int:
@@ -385,4 +386,3 @@ def convert_basic_to_nanozyme_motif(
     )
     
     return nanozyme_motif
-

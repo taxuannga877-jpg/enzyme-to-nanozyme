@@ -13,6 +13,7 @@ Based on user requirements:
 """
 
 import json
+import math
 import numpy as np
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Any
@@ -23,15 +24,18 @@ from enum import Enum
 def convert_numpy_types(obj: Any) -> Any:
     """
     Recursively convert numpy types to Python native types for JSON serialization.
-    
+
     Args:
         obj: Object that may contain numpy types
-        
+
     Returns:
         Object with numpy types converted to Python native types
     """
-    if isinstance(obj, (np.integer, np.floating)):
+    if isinstance(obj, np.integer):
         return obj.item()  # Convert numpy scalar to Python native type
+    elif isinstance(obj, (np.floating, float)):
+        value = float(obj)
+        return value if math.isfinite(value) else None
     elif isinstance(obj, np.ndarray):
         return obj.tolist()  # Convert numpy array to list
     elif isinstance(obj, dict):
@@ -127,6 +131,7 @@ class CatalyticMotif:
     source_uniprot_id: str
     source_ec_number: str
     nanozyme_type: str
+    source_pdb_id: str = ""
 
     # Core components
     anchor_atoms: List[AnchorAtom] = field(default_factory=list)
@@ -141,11 +146,11 @@ class CatalyticMotif:
     confidence_score: float = 0.0
     extraction_method: str = ""
     notes: str = ""
-    
+
     # Enhanced fields
     residue_structures: Dict[Tuple[str, int], Dict] = field(default_factory=dict)
     structure_2d_svg: str = ""
-    
+
     # Extended PDB information fields
     metal_sites: List[Dict] = field(default_factory=list)
     chemical_bonds: Dict[str, List[Dict]] = field(default_factory=dict)  # SSBOND, LINK, CONECT
@@ -161,10 +166,11 @@ class CatalyticMotif:
         for key, value in self.residue_structures.items():
             key_str = f"{key[0]}_{key[1]}"
             residue_structures_dict[key_str] = value
-        
+
         result = {
             "motif_id": self.motif_id,
             "source_uniprot_id": self.source_uniprot_id,
+            "source_pdb_id": self.source_pdb_id,
             "source_ec_number": self.source_ec_number,
             "nanozyme_type": self.nanozyme_type,
             "anchor_atoms": [a.to_dict() for a in self.anchor_atoms],
@@ -184,14 +190,14 @@ class CatalyticMotif:
             "residue_environment": {f"{k[0]}_{k[1]}": v for k, v in self.residue_environment.items()},
             "secondary_structure": self.secondary_structure
         }
-        
+
         # Convert numpy types to Python native types for JSON serialization
         return convert_numpy_types(result)
 
     def to_json(self, filepath: str) -> None:
         """Export to JSON file."""
         with open(filepath, 'w') as f:
-            json.dump(self.to_dict(), f, indent=2)
+            json.dump(self.to_dict(), f, indent=2, allow_nan=False)
 
     def to_xyz(self, filepath: str) -> None:
         """Export anchor atoms to XYZ format."""
@@ -207,7 +213,7 @@ class CatalyticMotif:
         """Create from dictionary."""
         anchor_atoms = [AnchorAtom.from_dict(a) for a in data.get("anchor_atoms", [])]
         geometry = [GeometryConstraint.from_dict(g) for g in data.get("geometry_constraints", [])]
-        
+
         # Convert residue_structures back from string keys to tuple keys
         residue_structures = {}
         residue_structures_dict = data.get("residue_structures", {})
@@ -220,7 +226,7 @@ class CatalyticMotif:
                     residue_structures[(res_name, res_num)] = value
                 except ValueError:
                     pass
-        
+
         # Convert residue_environment back from string keys to tuple keys
         residue_environment = {}
         residue_environment_dict = data.get("residue_environment", {})
@@ -233,10 +239,11 @@ class CatalyticMotif:
                     residue_environment[(res_name, res_num)] = value
                 except ValueError:
                     pass
-        
+
         return cls(
             motif_id=data["motif_id"],
             source_uniprot_id=data["source_uniprot_id"],
+            source_pdb_id=data.get("source_pdb_id", ""),
             source_ec_number=data["source_ec_number"],
             nanozyme_type=data["nanozyme_type"],
             anchor_atoms=anchor_atoms,

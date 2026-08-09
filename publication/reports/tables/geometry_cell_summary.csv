@@ -1,0 +1,50 @@
+topology,distance_a,doping,angle_deg,candidate_count,design_index_count
+independent separated,13.0,NS,105,67,3
+independent separated,13.0,NS,75,64,2
+independent adjacent,9.2,S,75,20,1
+bridged,6.2,S,75,12,2
+independent separated,8.8,N,45,11,2
+independent adjacent,6.8,N,0,9,1
+independent adjacent,6.2,N,135,8,1
+independent adjacent,8.8,N,135,8,1
+independent separated,8.8,N,135,8,1
+independent separated,11.4,N,135,7,1
+independent separated,13.0,NS,135,7,1
+independent separated,14.6,N,15,7,2
+independent adjacent,6.2,N,45,6,1
+independent adjacent,6.2,N,105,6,1
+independent adjacent,8.8,N,15,6,1
+independent adjacent,9.8,NS,75,6,1
+independent separated,8.8,N,15,6,1
+independent separated,9.8,NS,75,6,1
+independent adjacent,7.4,NS,15,5,1
+independent adjacent,7.4,NS,45,5,1
+independent adjacent,8.8,N,75,5,1
+independent separated,8.8,N,105,5,1
+independent separated,12.0,N,135,5,1
+independent separated,12.4,S,60,5,1
+independent separated,13.0,NS,45,5,2
+bridged,8.0,S,105,4,1
+independent separated,9.8,NS,105,4,1
+independent separated,10.4,S,45,4,1
+independent separated,11.4,N,45,4,1
+bridged,5.8,NS,15,3,1
+independent adjacent,7.0,S,45,3,2
+independent adjacent,8.0,N,105,3,1
+independent adjacent,8.4,S,60,3,1
+independent adjacent,9.2,S,105,3,1
+independent separated,12.0,N,75,3,1
+independent separated,13.0,NS,15,3,1
+bridged,5.6,NS,0,2,1
+bridged,5.8,NS,75,2,1
+bridged,8.0,S,75,2,1
+independent adjacent,7.0,S,135,2,1
+independent adjacent,9.8,NS,105,2,1
+independent separated,12.0,N,15,2,1
+bridged,6.4,N,60,1,1
+bridged,7.6,NS,105,1,1
+bridged,8.4,N,105,1,1
+independent adjacent,10.4,N,15,1,1
+independent separated,9.8,NS,15,1,1
+independent separated,10.4,S,15,1,1
+independent separated,11.4,N,15,1,1

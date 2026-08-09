@@ -1,0 +1,14 @@
+activity_pair,candidate_count
+Catalase + DNase,1
+DNase + Oxidase,1
+DNase + Peroxidase,1
+Catalase + Glucose Oxidase,11
+Glucose Oxidase + Peroxidase,19
+Glucose Oxidase + Oxidase,25
+Glucose Oxidase + Glutathione Peroxidase,27
+Catalase + Glutathione Peroxidase,34
+Catalase + Peroxidase,36
+Catalase + Oxidase,40
+Glutathione Peroxidase + Oxidase,48
+Glutathione Peroxidase + Peroxidase,50
+Oxidase + Peroxidase,62

@@ -1,17 +1,23 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>酶结构查看器 - Enzyme Structure Viewer</title>
+    <meta name="e2n-csp-nonce" content="{{ csp_nonce }}">
+    <title>Enzyme Structure Viewer</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}?v=journal-plate-20260709">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/e2n-theme.css') }}?v=journal-plate-20260709">
 </head>
-<body>
+<body class="e2n-app">
     <nav class="navbar navbar-expand-lg navbar-dark navbar-shadow">
         <div class="container">
-            <a class="navbar-brand" href="/">Enzyme Structure Viewer</a>
+            <a class="navbar-brand" href="/">E2N Structure Browser</a>
+            <div class="ml-auto d-flex gap-2">
+                <a class="btn btn-sm btn-outline-light" href="/nanozyme_design">Rational Design</a>
+                <a class="btn btn-sm btn-outline-light" href="/motif_library">Motif Library</a>
+            </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -21,35 +27,78 @@
 
     <div id="content">
         <div id="outerContainer">
-            <!-- 左侧：EC号选择和PDB列表 -->
+            <!-- Left: EC number selection and PDB list -->
             <div id="leftColumn">
                 <div class="control-panel">
-                    <h3><i class="fas fa-list"></i> 可用EC号列表</h3>
+                    <h3><i class="fas fa-list"></i> Available EC Numbers</h3>
                     <div id="loadingECIndicator" class="loading-indicator">
-                        <i class="fas fa-spinner fa-spin"></i> 正在加载EC号列表...
+                        <i class="fas fa-spinner fa-spin"></i> Loading EC numbers...
                     </div>
                     <div id="ecList" class="ec-list">
-                        <!-- EC号列表将在这里动态生成 -->
+                        <!-- EC number list is rendered here. -->
                     </div>
                 </div>
 
                 <div class="pdb-list-panel" id="pdbListPanel" style="display: none;">
-                    <h4><i class="fas fa-list"></i> PDB结构列表 (<span id="pdbCount">0</span>)</h4>
+                    <h4><i class="fas fa-list"></i> PDB Structure List (<span id="pdbCount">0</span>)</h4>
                     <div id="loadingPDBIndicator" class="loading-indicator" style="display: none;">
-                        <i class="fas fa-spinner fa-spin"></i> 正在加载结构列表...
+                        <i class="fas fa-spinner fa-spin"></i> Loading structure list...
                     </div>
                     <div id="pdbList" class="pdb-list">
-                        <!-- PDB列表将在这里动态生成 -->
+                        <!-- PDB list is rendered here. -->
                     </div>
                 </div>
             </div>
 
-            <!-- 右侧：结构展示和催化位点信息 -->
+            <!-- Right: structure display and PDB information panels -->
             <div id="rightColumn">
                 <div id="structureInfo" class="structure-info">
                     <div class="placeholder-text">
                         <i class="fas fa-dna fa-3x"></i>
-                        <p>请从左侧选择EC号查看结构</p>
+                        <p>Select an EC number from the left to view structure</p>
+                    </div>
+                </div>
+
+                <!-- Full PDB information panel area -->
+                <div id="pdbInfoPanels" class="pdb-info-panels" style="display: none;">
+                    <!-- Basic information panel -->
+                    <div class="info-panel basic-info-panel">
+                        <div class="panel-header">
+                            <i class="fas fa-info-circle"></i> Basic Information
+                        </div>
+                        <div class="panel-body" id="basicInfoContent">
+                            <div class="info-loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+                        </div>
+                    </div>
+
+                    <!-- Metal-site panel, first shell -->
+                    <div class="info-panel metal-sites-panel">
+                        <div class="panel-header">
+                            <i class="fas fa-atom"></i> Metal Sites (First Shell)
+                        </div>
+                        <div class="panel-body" id="metalSitesContent">
+                            <div class="info-loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+                        </div>
+                    </div>
+
+                    <!-- Active-site panel, second shell -->
+                    <div class="info-panel active-sites-panel">
+                        <div class="panel-header">
+                            <i class="fas fa-flask"></i> Active Sites (Second Shell)
+                        </div>
+                        <div class="panel-body" id="activeSitesContent">
+                            <div class="info-loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+                        </div>
+                    </div>
+
+                    <!-- Structure information panel -->
+                    <div class="info-panel structure-info-panel">
+                        <div class="panel-header">
+                            <i class="fas fa-project-diagram"></i> Structure Information
+                        </div>
+                        <div class="panel-body" id="structureInfoContent">
+                            <div class="info-loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -61,548 +110,12 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper-1.14.7.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    <script src="https://3Dmol.org/build/3Dmol-min.js"></script>
-    
-    <script>
-        // 页面加载时获取EC号列表
-        document.addEventListener('DOMContentLoaded', function() {
-            loadECList();
-        });
+    <script src="{{ url_for('static', filename='js/3Dmol-min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/e2n-common.js') }}?v=journal-plate-20260709"></script>
 
-        // 加载EC号列表
-        function loadECList() {
-            const loadingIndicator = document.getElementById('loadingECIndicator');
-            const ecList = document.getElementById('ecList');
-            
-            loadingIndicator.style.display = 'block';
-            ecList.innerHTML = '';
-
-            fetch('/api/list_ec', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                loadingIndicator.style.display = 'none';
-                
-                if (data.error) {
-                    ecList.innerHTML = '<div class="error-text">加载失败: ' + data.error + '</div>';
-                    return;
-                }
-
-                if (data.ec_list && data.ec_list.length > 0) {
-                    displayECList(data.ec_list);
-                } else {
-                    ecList.innerHTML = '<div class="error-text">未找到可用的EC号</div>';
-                }
-            })
-            .catch(error => {
-                loadingIndicator.style.display = 'none';
-                console.error('Error:', error);
-                ecList.innerHTML = '<div class="error-text">加载失败: ' + error + '</div>';
-            });
-        }
-
-        // 显示EC号列表
-        function displayECList(ecList) {
-            const ecListDiv = document.getElementById('ecList');
-            ecListDiv.innerHTML = '';
-
-            ecList.forEach((ecNumber, index) => {
-                const ecItem = document.createElement('div');
-                ecItem.className = 'ec-item';
-                ecItem.innerHTML = `
-                    <button class="btn btn-outline-primary btn-block ec-btn" 
-                            data-ec-number="${ecNumber}">
-                        <i class="fas fa-dna"></i> ${ecNumber}
-                    </button>
-                `;
-                
-                // 添加点击事件
-                const ecBtn = ecItem.querySelector('.ec-btn');
-                ecBtn.addEventListener('click', function() {
-                    // 移除其他按钮的active状态
-                    document.querySelectorAll('.ec-btn').forEach(btn => {
-                        btn.classList.remove('active');
-                    });
-                    // 添加当前按钮的active状态
-                    this.classList.add('active');
-                    queryECNumber(ecNumber);
-                });
-                
-                ecListDiv.appendChild(ecItem);
-            });
-        }
-
-        // 查询EC号对应的PDB结构
-        function queryECNumber(ecNumber) {
-            const loadingIndicator = document.getElementById('loadingPDBIndicator');
-            const pdbListPanel = document.getElementById('pdbListPanel');
-            const pdbList = document.getElementById('pdbList');
-            
-            loadingIndicator.style.display = 'block';
-            pdbListPanel.style.display = 'block';
-            pdbList.innerHTML = '';
-
-            fetch('/api/query_ec', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ ec_number: ecNumber })
-            })
-            .then(response => response.json())
-            .then(data => {
-                loadingIndicator.style.display = 'none';
-                
-                if (data.error) {
-                    pdbList.innerHTML = '<div class="error-text">查询失败: ' + data.error + '</div>';
-                    return;
-                }
-
-                if (data.pdb_list && data.pdb_list.length > 0) {
-                    displayPDBList(data.pdb_list, data.ec_number);
-                } else {
-                    pdbList.innerHTML = '<div class="error-text">未找到该EC号对应的PDB结构</div>';
-                }
-            })
-            .catch(error => {
-                loadingIndicator.style.display = 'none';
-                console.error('Error:', error);
-                pdbList.innerHTML = '<div class="error-text">查询失败: ' + error + '</div>';
-            });
-        }
-
-        function displayPDBList(pdbList, ecNumber) {
-            const pdbListPanel = document.getElementById('pdbListPanel');
-            const pdbListDiv = document.getElementById('pdbList');
-            const pdbCount = document.getElementById('pdbCount');
-            
-            pdbCount.textContent = pdbList.length;
-            pdbListDiv.innerHTML = '';
-
-            pdbList.forEach((pdb, index) => {
-                const pdbItem = document.createElement('div');
-                pdbItem.className = 'pdb-item';
-                const hasPDB = pdb.pdb_path && pdb.pdb_path.trim() !== '';
-                const btnClass = hasPDB ? 'btn btn-sm btn-primary view-btn' : 'btn btn-sm btn-secondary view-btn';
-                const btnDisabled = hasPDB ? '' : 'disabled';
-                const btnText = hasPDB ? '<i class="fas fa-eye"></i> 查看结构' : '<i class="fas fa-exclamation-triangle"></i> PDB文件不存在';
-                
-                // 下载按钮（当没有PDB文件时显示）
-                const downloadBtn = !hasPDB ? `
-                    <button class="btn btn-sm btn-success download-pdb-btn" style="margin-top: 5px;"
-                            data-alphafold-id="${pdb.alphafolddb_id}"
-                            data-uniprot-id="${pdb.uniprot_id}">
-                        <i class="fas fa-download"></i> 下载PDB
-                    </button>
-                ` : '';
-                
-                pdbItem.innerHTML = `
-                    <div class="pdb-item-header">
-                        <strong>${index + 1}. ${pdb.alphafolddb_id || 'Unknown'}</strong>
-                        ${pdb.has_active_sites ? '<span class="badge badge-success">有活性位点</span>' : '<span class="badge badge-warning">无活性位点</span>'}
-                    </div>
-                    <div class="pdb-item-info">
-                        <div><i class="fas fa-id-card"></i> UniProt: ${pdb.uniprot_id || 'N/A'}</div>
-                        <div><i class="fas fa-ruler"></i> 序列长度: ${pdb.sequence_length}</div>
-                        ${hasPDB ? '' : '<div class="text-warning"><i class="fas fa-exclamation-circle"></i> PDB文件未找到</div>'}
-                    </div>
-                    <button class="${btnClass}" ${btnDisabled}
-                            data-pdb-path="${pdb.pdb_path || ''}" 
-                            data-ec-number="${ecNumber}"
-                            data-alphafold-id="${pdb.alphafolddb_id}"
-                            data-uniprot-id="${pdb.uniprot_id}"
-                            data-has-active="${pdb.has_active_sites}">
-                        ${btnText}
-                    </button>
-                    ${downloadBtn}
-                `;
-                
-                // 添加点击事件（仅当有PDB文件时）
-                if (hasPDB) {
-                    const viewBtn = pdbItem.querySelector('.view-btn');
-                    viewBtn.addEventListener('click', function() {
-                        loadStructure(pdb.pdb_path, ecNumber, pdb.alphafolddb_id, pdb.uniprot_id, pdb.has_active_sites);
-                    });
-                } else {
-                    // 添加下载按钮事件
-                    const downloadBtn = pdbItem.querySelector('.download-pdb-btn');
-                    if (downloadBtn) {
-                        downloadBtn.addEventListener('click', function() {
-                            downloadPDB(pdb.alphafolddb_id, pdb.uniprot_id, ecNumber);
-                        });
-                    }
-                }
-                
-                pdbListDiv.appendChild(pdbItem);
-            });
-
-            pdbListPanel.style.display = 'block';
-        }
-
-        function downloadPDB(alphafoldId, uniprotId, ecNumber) {
-            const downloadBtn = event.target.closest('.download-pdb-btn');
-            const originalHTML = downloadBtn.innerHTML;
-            downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 下载中...';
-            downloadBtn.disabled = true;
-
-            fetch('/api/download_pdb', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    alphafold_id: alphafoldId,
-                    uniprot_id: uniprotId
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    alert('✓ ' + data.message);
-                    // 重新查询EC号以刷新列表
-                    queryECNumber(ecNumber);
-                } else {
-                    alert('✗ 下载失败: ' + data.error);
-                    downloadBtn.innerHTML = originalHTML;
-                    downloadBtn.disabled = false;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('✗ 下载失败: ' + error);
-                downloadBtn.innerHTML = originalHTML;
-                downloadBtn.disabled = false;
-            });
-        }
-
-        function loadStructure(pdbPath, ecNumber, alphafoldId, uniprotId, hasActiveSites) {
-            const structureInfo = document.getElementById('structureInfo');
-            structureInfo.innerHTML = '<div class="loading-text"><i class="fas fa-spinner fa-spin"></i> 正在加载结构...</div>';
-
-            fetch('/api/get_structure', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    pdb_path: pdbPath,
-                    ec_number: ecNumber,
-                    uniprot_id: uniprotId || alphafoldId
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    structureInfo.innerHTML = '<div class="error-text">加载失败: ' + data.error + '</div>';
-                    return;
-                }
-
-                // 构建功能按钮
-                const actionButtons = `
-                    <div class="action-buttons" style="position: absolute; top: 10px; right: 10px; z-index: 1000;">
-                        <button class="btn btn-primary btn-sm mcsa-btn" 
-                                data-ec-number="${ecNumber}"
-                                style="margin-right: 5px;">
-                            <i class="fas fa-database"></i> 查询M-CSA
-                        </button>
-                        ${!hasActiveSites ? `
-                            <button class="btn btn-warning btn-sm predict-btn" 
-                                    data-pdb-path="${pdbPath}" 
-                                    data-ec-number="${ecNumber}"
-                                    data-uniprot-id="${uniprotId || alphafoldId}"
-                                    style="margin-right: 5px;">
-                                <i class="fas fa-brain"></i> 预测催化位点
-                            </button>
-                        ` : `
-                            <button class="btn btn-info btn-sm motif-btn"
-                                    data-pdb-path="${pdbPath}"
-                                    data-ec-number="${ecNumber}"
-                                    data-uniprot-id="${uniprotId || alphafoldId}"
-                                    style="margin-right: 5px;">
-                                <i class="fas fa-puzzle-piece"></i> Motif提取
-                            </button>
-                        `}
-                    </div>
-                `;
-
-                // 显示结构信息
-                structureInfo.innerHTML = `
-                    <div class="structure-header" style="position: relative;">
-                        ${actionButtons}
-                        <h2><i class="fas fa-dna"></i> EC Number: ${ecNumber}</h2>
-                        <h3><i class="fas fa-id-badge"></i> UniProt ID: ${data.uniprot_id || alphafoldId || 'N/A'}</h3>
-                        <h4><i class="fas fa-database"></i> AlphaFold ID: ${alphafoldId || 'N/A'}</h4>
-                    </div>
-                    <div class="structure-viewer" id="structureViewer">
-                        ${data.structure_html}
-                    </div>
-                    <div class="active-sites-info">
-                        <h4><i class="fas fa-map-marker-alt"></i> 催化位点信息</h4>
-                        <div class="active-sites-table" id="activeSitesTable">
-                            ${data.active_data_html}
-                        </div>
-                    </div>
-                `;
-
-                // 执行3Dmol.js脚本
-                const scripts = structureInfo.getElementsByTagName('script');
-                for (let i = 0; i < scripts.length; i++) {
-                    eval(scripts[i].innerText);
-                }
-
-                // 添加按钮事件
-                const mcsaBtn = structureInfo.querySelector('.mcsa-btn');
-                if (mcsaBtn) {
-                    mcsaBtn.addEventListener('click', function() {
-                        queryMCSA(ecNumber);
-                    });
-                }
-
-                const predictBtn = structureInfo.querySelector('.predict-btn');
-                if (predictBtn) {
-                    predictBtn.addEventListener('click', function() {
-                        predictActiveSites(pdbPath, ecNumber, uniprotId || alphafoldId);
-                    });
-                }
-
-                const motifBtn = structureInfo.querySelector('.motif-btn');
-                if (motifBtn) {
-                    motifBtn.addEventListener('click', function() {
-                        // 跳转到Motif库页面
-                        window.location.href = '/motif_library';
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                structureInfo.innerHTML = '<div class="error-text">加载失败: ' + error + '</div>';
-            });
-        }
-
-        function queryMCSA(ecNumber) {
-            if (!ecNumber) {
-                alert('✗ 错误：EC号不能为空');
-                return;
-            }
-
-            const mcsaBtn = document.querySelector('.mcsa-btn');
-            const originalHTML = mcsaBtn.innerHTML;
-            mcsaBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 查询中...';
-            mcsaBtn.disabled = true;
-
-            console.log(`查询M-CSA数据库，EC号: ${ecNumber}`);
-
-            fetch('/api/query_mcsa', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    ec_number: ecNumber
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    // 显示M-CSA数据
-                    displayMCSAData(data);
-                    // 显示成功消息（包含EC号和结果摘要）
-                    let message = `✓ 查询成功 (EC ${ecNumber})\n\n`;
-                    message += data.message || '已找到相关信息';
-                    if (data.has_metal && data.metal_types) {
-                        message += `\n金属类型: ${data.metal_types.join(', ')}`;
-                    }
-                    alert(message);
-                } else {
-                    alert(`✗ 查询失败 (EC ${ecNumber}):\n${data.error || '未知错误'}`);
-                    mcsaBtn.innerHTML = originalHTML;
-                    mcsaBtn.disabled = false;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert(`✗ 查询失败 (EC ${ecNumber}):\n${error.message || error}`);
-                mcsaBtn.innerHTML = originalHTML;
-                mcsaBtn.disabled = false;
-            });
-        }
-
-        function displayMCSAData(data) {
-            // 查找或创建M-CSA信息显示区域
-            let mcsaSection = document.getElementById('mcsaInfo');
-            if (!mcsaSection) {
-                // 在催化位点信息下方添加M-CSA信息区域
-                const activeSitesInfo = document.querySelector('.active-sites-info');
-                if (activeSitesInfo) {
-                    mcsaSection = document.createElement('div');
-                    mcsaSection.id = 'mcsaInfo';
-                    mcsaSection.className = 'mcsa-info';
-                    mcsaSection.style.marginTop = '30px';
-                    mcsaSection.style.padding = '20px';
-                    mcsaSection.style.backgroundColor = '#ffffff';
-                    mcsaSection.style.borderRadius = '8px';
-                    mcsaSection.style.border = '2px solid #007bff';
-                    mcsaSection.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
-                    activeSitesInfo.parentNode.insertBefore(mcsaSection, activeSitesInfo.nextSibling);
-                } else {
-                    // 如果找不到active-sites-info，就在structureInfo末尾添加
-                    const structureInfo = document.getElementById('structureInfo');
-                    mcsaSection = document.createElement('div');
-                    mcsaSection.id = 'mcsaInfo';
-                    mcsaSection.className = 'mcsa-info';
-                    mcsaSection.style.marginTop = '30px';
-                    mcsaSection.style.padding = '20px';
-                    mcsaSection.style.backgroundColor = '#ffffff';
-                    mcsaSection.style.borderRadius = '8px';
-                    mcsaSection.style.border = '2px solid #007bff';
-                    mcsaSection.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
-                    structureInfo.appendChild(mcsaSection);
-                }
-            }
-
-            // 构建标题，显示EC号和查询结果摘要
-            const ecNumber = data.ec_number || 'N/A';
-            let titleHtml = `<h3 style="color: #007bff; margin-bottom: 20px; border-bottom: 2px solid #007bff; padding-bottom: 10px;">
-                <i class="fas fa-database"></i> M-CSA数据库查询结果 - EC ${ecNumber}
-            </h3>`;
-            
-            // 如果有金属位点，在标题中显示
-            if (data.has_metal) {
-                const metalTypes = data.metal_types || [];
-                titleHtml += `<div class="alert alert-success" style="margin-bottom: 20px;">
-                    <i class="fas fa-check-circle"></i> <strong>发现金属位点！</strong> 
-                    金属类型：<span style="font-weight: bold; color: #d9534f;">${metalTypes.join(', ')}</span>
-                </div>`;
-            } else if (data.mcsa_references && data.mcsa_references.length > 0) {
-                titleHtml += `<div class="alert alert-info" style="margin-bottom: 20px;">
-                    <i class="fas fa-info-circle"></i> 该EC号在M-CSA数据库中有记录，但不含金属位点
-                </div>`;
-            }
-
-            // 更新M-CSA信息内容
-            mcsaSection.innerHTML = titleHtml + (data.html_content || '<p class="text-muted">未找到相关信息</p>');
-
-            // 滚动到M-CSA信息区域
-            mcsaSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-            // 恢复按钮状态
-            const mcsaBtn = document.querySelector('.mcsa-btn');
-            if (mcsaBtn) {
-                mcsaBtn.innerHTML = '<i class="fas fa-database"></i> 查询M-CSA';
-                mcsaBtn.disabled = false;
-            }
-        }
-
-        function predictActiveSites(pdbPath, ecNumber, uniprotId) {
-            const predictBtn = document.querySelector('.predict-btn');
-            const originalHTML = predictBtn.innerHTML;
-            predictBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 预测中...';
-            predictBtn.disabled = true;
-
-            fetch('/api/predict_active_sites', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    pdb_path: pdbPath,
-                    ec_number: ecNumber,
-                    uniprot_id: uniprotId
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    alert('✓ ' + data.message);
-                    // 更新催化位点表格
-                    const activeSitesTable = document.getElementById('activeSitesTable');
-                    if (activeSitesTable) {
-                        activeSitesTable.innerHTML = data.active_data_html;
-                    }
-                    // 更新结构视图
-                    const structureViewer = document.getElementById('structureViewer');
-                    if (structureViewer) {
-                        structureViewer.innerHTML = data.structure_html;
-                        const scripts = structureViewer.getElementsByTagName('script');
-                        for (let i = 0; i < scripts.length; i++) {
-                            eval(scripts[i].innerText);
-                        }
-                    }
-                    // 将预测按钮替换为Motif提取按钮
-                    predictBtn.outerHTML = `
-                        <button class="btn btn-info btn-sm motif-btn"
-                                data-pdb-path="${pdbPath}"
-                                data-ec-number="${ecNumber}"
-                                data-uniprot-id="${uniprotId}"
-                                style="margin-right: 5px;">
-                            <i class="fas fa-puzzle-piece"></i> Motif提取
-                        </button>
-                    `;
-                    const motifBtn = document.querySelector('.motif-btn');
-                    if (motifBtn) {
-                        motifBtn.addEventListener('click', function() {
-                            // 跳转到Motif库页面
-                            window.location.href = '/motif_library';
-                        });
-                    }
-                } else {
-                    alert('✗ 预测失败: ' + data.error);
-                    predictBtn.innerHTML = originalHTML;
-                    predictBtn.disabled = false;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('✗ 预测失败: ' + error);
-                predictBtn.innerHTML = originalHTML;
-                predictBtn.disabled = false;
-            });
-        }
-
-        function extractMotif(pdbPath, ecNumber, uniprotId) {
-            const motifBtn = document.querySelector('.motif-btn');
-            const originalHTML = motifBtn.innerHTML;
-            motifBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 提取中...';
-            motifBtn.disabled = true;
-
-            fetch('/api/extract_motif', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    pdb_path: pdbPath,
-                    ec_number: ecNumber,
-                    uniprot_id: uniprotId,
-                    nanozyme_type: 'POD'  // 可以根据EC号自动推断
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    // 跳转到Motif展示页面
-                    window.location.href = `/motif_view?motif_id=${data.motif.motif_id}&ec=${ecNumber}&uniprot=${uniprotId}`;
-                } else {
-                    alert('✗ 提取失败: ' + data.error);
-                    motifBtn.innerHTML = originalHTML;
-                    motifBtn.disabled = false;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('✗ 提取失败: ' + error);
-                motifBtn.innerHTML = originalHTML;
-                motifBtn.disabled = false;
-            });
-        }
-    </script>
+    <script src="{{ url_for('static', filename='js/index.js') }}?v=journal-plate-20260709"></script>
 </body>
 </html>
-

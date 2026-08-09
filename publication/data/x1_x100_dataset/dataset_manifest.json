@@ -1,0 +1,116 @@
+{
+  "generated_at_utc": "2026-07-10T17:04:24.870599+00:00",
+  "dataset": "x1-x100",
+  "path_base": "directory containing this manifest",
+  "selection": {
+    "candidates": "355 retained canonical candidate records: 172 legacy-source records were prefiltered using available positive profile endpoints because those sources have no common calculable field, and 183 newer-source records carry calculable=true",
+    "profiles": "699 complete activity-specific records with positive frame counts, equality between frame_count and converged_frames, successful upstream status where available, and empty error fields",
+    "frames": "3515 converged scan frames within the 699 complete profiles"
+  },
+  "record_semantics": {
+    "candidate_identity": "candidate_id is unique across the 355 retained records",
+    "composition_boundary": "public columns do not establish 355 unique material compositions; metal identities, oxidation states, source-site lineage, and source design family are not released",
+    "visible_design_combinations": 240,
+    "design_occupancy": "38 of 100 requested design indices are represented; empty indices are not failure or yield denominators"
+  },
+  "counts": {
+    "candidates": 355,
+    "profiles": 699,
+    "frames": 3515,
+    "design_indices_with_candidates": 38,
+    "activity_pairs": 13,
+    "activities": 6,
+    "topologies": 3,
+    "panel_source_data_csv_files": 17
+  },
+  "inputs": {
+    "note": "Fingerprints describe source tables used to build the public canonical tables; the source tables themselves are not included in this directory.",
+    "candidate_tables": [
+      {
+        "input_id": "input_1",
+        "rows": 172,
+        "columns": 16,
+        "sha256": "99e8fe101c19926f18c8b71943a03b403a9ad718d1b224d68952ed600fb45552"
+      },
+      {
+        "input_id": "input_2",
+        "rows": 674,
+        "columns": 36,
+        "sha256": "325750d243dc548edf210ef7c510e06c7f8e14ff29d7b1616c5ed1b4c6365613"
+      }
+    ],
+    "profile_tables": [
+      {
+        "input_id": "input_1",
+        "rows": 344,
+        "columns": 54,
+        "sha256": "8813bb44e4685e5de321c10c312c7e8e305905d7c2b5cac3a4e12f73fffdb0f8"
+      },
+      {
+        "input_id": "input_2",
+        "rows": 362,
+        "columns": 65,
+        "sha256": "74f27a85c5635597c081f000571df6ae751948e53cad966d427b3c4bde48f1fa"
+      }
+    ]
+  },
+  "checks": {
+    "candidate_rows": 355,
+    "candidate_ids_unique": true,
+    "visible_design_combinations": 240,
+    "profile_rows": 699,
+    "profile_ids_unique": true,
+    "all_profile_frames_converged": true,
+    "profile_candidates_exist": true,
+    "candidate_design_ids_match": true,
+    "profile_design_ids_match": true,
+    "design_ids_sequential": true,
+    "design_rows": 100,
+    "design_index_min": 1,
+    "design_index_max": 100,
+    "topologies": [
+      "bridged",
+      "independent adjacent",
+      "independent separated"
+    ],
+    "activities": [
+      "Catalase",
+      "DNase",
+      "Glucose Oxidase",
+      "Glutathione Peroxidase",
+      "Oxidase",
+      "Peroxidase"
+    ],
+    "topology_tests": 10,
+    "retained_tests": 8
+  },
+  "canonical_files": [
+    "candidates.csv",
+    "profiles.csv",
+    "designs.csv"
+  ],
+  "derived_files": [
+    "activity_pair_topology.csv",
+    "candidate_design_topology.csv",
+    "descriptor_correlation.csv",
+    "descriptor_summary.csv",
+    "geometry.csv",
+    "method_activity.csv",
+    "profile_activity_topology.csv",
+    "topology_tests.csv"
+  ],
+  "snapshot_files": {
+    "representative_metadata": "representative.csv",
+    "representative_scans": "representative_scans.csv",
+    "representative_structure": "representative_structure.png",
+    "selection": "The builder intersected 536 private structure images with retained candidates having at least two complete profiles, yielding 179 eligible records, and selected the record closest to the eligible-set median score with deterministic design_index and candidate_id tie-breaking; it did not explicitly filter for x57 or the highlighted 13.0 A/NS/105 degree window.",
+    "provenance": "The representative scans were extracted from private raw result records and are not derivable from profiles.csv alone; representative selection also depended on a private structure-image availability pool."
+  },
+  "figure_package": {
+    "source_data_dir": "../../figures/source_data",
+    "panel_source_data_csv_files": 17,
+    "panel_index": "../../figures/panel_source_data_index.csv",
+    "representative_structure_from_figures_dir": "../data/x1_x100_dataset/representative_structure.png"
+  },
+  "reproducibility_boundary": "The public package supports released report, figure, and statistical verification but not full upstream campaign reconstruction."
+}

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="e2n-csp-nonce" content="{{ csp_nonce }}">
+<title>E2N Activity Validation Workbench</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/e2n-theme.css') }}?v=journal-plate-20260709">
+<style>
+.validation-hero {
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) auto;
+  gap:22px;
+  align-items:end;
+  margin-bottom:18px;
+}
+.hero-stat {
+  min-width:128px;
+  padding:12px 14px;
+  border:1px solid var(--e2n-line);
+  border-radius:8px;
+  background:rgba(255,255,255,.78);
+}
+.hero-stat strong {
+  display:block;
+  font-family:var(--e2n-display);
+  font-size:1.48rem;
+  line-height:1;
+  font-weight:500;
+}
+.hero-stat span {
+  color:var(--e2n-muted);
+  font-size:.74rem;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  font-weight:500;
+}
+.diagnostic-banner {
+  display:none;
+  border:1px solid #e4c176;
+  background:#fff7e3;
+  color:#5b4220;
+  border-radius:8px;
+  padding:12px 14px;
+  margin-bottom:14px;
+}
+.diagnostic-banner strong { color:#1f2a35; }
+.runtime-strip {
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:8px;
+  margin-top:10px;
+}
+.runtime-strip div {
+  border:1px solid var(--e2n-soft-line);
+  background:#fbfcfd;
+  border-radius:7px;
+  padding:8px 10px;
+}
+.validation-toolbar {
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.validation-panel {
+  padding:18px;
+}
+.section-title {
+  font-family:var(--e2n-display);
+  font-weight:500;
+  letter-spacing:0;
+  margin:0;
+}
+.label-muted { color:var(--e2n-muted); font-size:12px; }
+.viewer-box {
+  width:100%;
+  height:360px;
+  background:#ffffff;
+  border:1px solid var(--e2n-line);
+  border-radius:8px;
+  overflow:hidden;
+}
+.activity-row {
+  display:grid;
+  grid-template-columns:24px minmax(0, 1fr);
+  gap:10px;
+  align-items:start;
+  padding:10px 12px;
+  border:1px solid var(--e2n-soft-line);
+  border-radius:8px;
+  background:rgba(255,255,255,.68);
+  margin-bottom:8px;
+}
+.activity-row input { margin-top:4px; }
+.protocol-pill {
+  display:inline-flex;
+  align-items:center;
+  border:1px solid var(--e2n-line);
+  border-radius:999px;
+  padding:2px 8px;
+  font-size:11px;
+  color:#405061;
+  background:#f7f9fa;
+  margin-right:4px;
+}
+.progress-shell { height:9px; background:#dfe5eb; border-radius:999px; overflow:hidden; }
+.progress-fill { height:100%; background:linear-gradient(90deg, var(--e2n-blue), var(--e2n-teal)); width:0%; transition:width .25s ease; }
+.event-log {
+  height:250px;
+  overflow:auto;
+  border:1px solid var(--e2n-line);
+  border-radius:8px;
+  background:#fbfcfd;
+  padding:10px;
+  font-family:var(--e2n-mono);
+  font-size:12px;
+}
+.event-line { display:grid; grid-template-columns:72px 128px 1fr; gap:8px; padding:4px 0; border-bottom:1px solid #eef2f5; }
+.event-line:last-child { border-bottom:0; }
+.stage-chip {
+  border-radius:999px;
+  padding:2px 8px;
+  background:#e7eef4;
+  color:#315f8d;
+  font-size:11px;
+  white-space:nowrap;
+  text-align:center;
+}
+.metric-grid { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:10px; }
+.metric-box { padding:12px; min-height:82px; }
+.metric-value {
+  font-family:var(--e2n-display);
+  font-size:21px;
+  font-weight:500;
+  color:var(--e2n-ink);
+}
+.artifact-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:14px; }
+.artifact-frame { padding:10px; }
+.artifact-frame img { width:100%; display:block; border-radius:6px; background:#fff; }
+.reference-grid {
+  display:grid;
+  grid-template-columns:minmax(0, 1fr);
+  gap:12px;
+}
+.reference-frame {
+  border:1px solid var(--e2n-line);
+  border-radius:8px;
+  background:#fff;
+  padding:10px;
+}
+.reference-frame img {
+  width:100%;
+  display:block;
+  border-radius:6px;
+  background:#fff;
+}
+.mechanism-mode-list {
+  display:grid;
+  gap:8px;
+  margin-top:14px;
+}
+.mechanism-mode-list div {
+  border:1px solid var(--e2n-soft-line);
+  border-radius:8px;
+  padding:9px 10px;
+  background:#fbfcfd;
+}
+.result-table { width:100%; font-size:13px; }
+.result-table th { color:#405061; font-weight:500; border-bottom:1px solid var(--e2n-line); padding:8px; background:#f3f7f8; }
+.result-table td { border-bottom:1px solid #edf0f3; padding:8px; vertical-align:top; }
+.empty-state { border:1px dashed #b8c2cc; border-radius:8px; padding:22px; color:var(--e2n-muted); background:#f9fbfc; text-align:center; }
+.structure-score-row {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:5px 0;
+  border-bottom:1px solid var(--e2n-soft-line);
+}
+.structure-score-row:last-child { border-bottom:0; }
+@media (max-width: 992px) {
+  .validation-hero { grid-template-columns:1fr; }
+  .metric-grid, .artifact-grid { grid-template-columns:1fr; }
+  .runtime-strip { grid-template-columns:1fr; }
+  .event-line { grid-template-columns:1fr; gap:2px; }
+}
+</style>
+</head>
+<body class="e2n-app">
+<nav class="e2n-topbar d-flex align-items-center px-3 gap-2">
+  <a class="e2n-brand" href="/nanozyme_design">← Back to Design</a>
+  <div class="mx-auto fw-bold">Activity Validation Workbench</div>
+  <a class="btn btn-sm" href="/">Structure Browser</a>
+</nav>
+
+<main class="e2n-workbench">
+  <div class="validation-hero">
+    <div>
+      <div class="e2n-kicker">Mechanism-aware screening</div>
+      <h1 class="e2n-title mt-2" id="page-title">Loading structure...</h1>
+      <p class="e2n-subtitle" id="page-subtitle">Reading design result and validation tasks</p>
+    </div>
+    <div class="d-flex gap-2 flex-wrap">
+      <div class="hero-stat"><strong id="hero-task-count">-</strong><span>activity tasks</span></div>
+      <div class="hero-stat"><strong id="hero-backend">-</strong><span>stored score</span></div>
+      <div class="hero-stat"><strong id="hero-runtime">-</strong><span>runtime</span></div>
+    </div>
+  </div>
+
+  <div class="validation-toolbar">
+    <button class="btn btn-outline-secondary btn-sm" id="btn-reload" type="button">Reload</button>
+    <button class="btn btn-primary btn-sm" id="btn-start" type="button" disabled>Start Validation</button>
+  </div>
+
+  <div id="error-box" class="alert alert-danger" style="display:none;"></div>
+  <div id="diagnostic-banner" class="diagnostic-banner"></div>
+
+  <div class="row g-3">
+    <div class="col-lg-4">
+      <section class="e2n-panel validation-panel mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h6 class="section-title">Structure</h6>
+          <span class="label-muted" id="atom-count"></span>
+        </div>
+        <div id="validation-viewer" class="viewer-box"></div>
+        <div class="mt-3" id="structure-meta"></div>
+      </section>
+
+      <section class="e2n-panel validation-panel">
+        <h6 class="section-title mb-2">Validation Tasks</h6>
+        <div id="activity-list" class="mb-3"></div>
+        <div class="row g-2">
+          <div class="col-6">
+            <label class="form-label small mb-1">Adsorption poses</label>
+            <input class="form-control form-control-sm" id="max-poses" type="number" min="1" max="8" value="3">
+          </div>
+          <div class="col-6">
+            <label class="form-label small mb-1">Scan points</label>
+            <input class="form-control form-control-sm" id="scan-points" type="number" min="2" max="7" value="3">
+          </div>
+        </div>
+        <div class="form-check mt-3">
+          <input class="form-check-input" type="checkbox" id="run-scan" checked>
+          <label class="form-check-label" for="run-scan">Mechanism scan</label>
+        </div>
+        <input type="hidden" id="run-neb" value="0">
+        <div class="mechanism-mode-list">
+          <div>
+            <strong>Hydrolysis</strong>
+            <span class="label-muted d-block">coordinate path, energy profile, key-frame bond distances</span>
+          </div>
+          <div>
+            <strong>Redox</strong>
+            <span class="label-muted d-block">binding/activation coordinate plus charge/spin state map</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="col-lg-8">
+      <section class="e2n-panel validation-panel mb-3" id="reference-section" style="display:none;">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div>
+            <h6 class="section-title">Reference Output Standard</h6>
+            <div class="label-muted">Representative structure and mechanism figures used as the visual target</div>
+          </div>
+        </div>
+        <div id="reference-figures" class="reference-grid"></div>
+      </section>
+
+      <section class="e2n-panel validation-panel mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div>
+            <h6 class="section-title">Live Computation</h6>
+            <div class="label-muted" id="stage-label">Waiting to start</div>
+          </div>
+          <div class="fw-bold" id="progress-label">0%</div>
+        </div>
+        <div class="progress-shell mb-3"><div class="progress-fill" id="progress-fill"></div></div>
+        <div class="event-log" id="event-log">
+          <div class="label-muted">Validation has not started.</div>
+        </div>
+      </section>
+
+      <section class="e2n-panel validation-panel mb-3" id="partial-section" style="display:none;">
+        <h6 class="section-title mb-2">Current Results</h6>
+        <div id="partial-results"></div>
+      </section>
+
+      <section class="e2n-panel validation-panel" id="result-section" style="display:none;">
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+          <div>
+            <h6 class="section-title">Validation Results</h6>
+            <div class="label-muted">MACE structure relaxation and tblite/GFN2-xTB mechanism screening</div>
+          </div>
+          <div id="artifact-links" class="d-flex gap-2 flex-wrap"></div>
+        </div>
+        <div class="metric-grid mb-3" id="metric-grid"></div>
+        <div class="artifact-grid mb-3" id="artifact-grid"></div>
+        <div id="result-table"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script src="{{ url_for('static', filename='js/3Dmol-min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/e2n-common.js') }}?v=journal-plate-20260709"></script>
+<script src="{{ url_for('static', filename='js/activity_validation.js') }}?v=journal-plate-20260709"></script>
+</body>
+</html>

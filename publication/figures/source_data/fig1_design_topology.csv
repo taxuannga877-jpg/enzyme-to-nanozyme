@@ -1,0 +1,58 @@
+topology,design_index,candidate_count
+bridged,1,2
+bridged,3,1
+bridged,6,6
+bridged,17,1
+bridged,21,2
+bridged,26,2
+bridged,27,1
+bridged,29,3
+bridged,42,4
+bridged,46,6
+independent adjacent,1,9
+independent adjacent,3,3
+independent adjacent,5,1
+independent adjacent,7,3
+independent adjacent,8,8
+independent adjacent,12,6
+independent adjacent,13,2
+independent adjacent,14,5
+independent adjacent,16,5
+independent adjacent,17,3
+independent adjacent,19,1
+independent adjacent,20,6
+independent adjacent,24,6
+independent adjacent,26,6
+independent adjacent,28,8
+independent adjacent,30,5
+independent adjacent,41,20
+independent adjacent,42,2
+independent adjacent,45,2
+independent separated,3,5
+independent separated,4,6
+independent separated,8,5
+independent separated,9,3
+independent separated,12,5
+independent separated,14,1
+independent separated,15,4
+independent separated,16,3
+independent separated,17,3
+independent separated,19,3
+independent separated,20,8
+independent separated,21,6
+independent separated,23,7
+independent separated,24,2
+independent separated,25,3
+independent separated,28,8
+independent separated,29,1
+independent separated,30,4
+independent separated,33,7
+independent separated,37,4
+independent separated,39,1
+independent separated,41,32
+independent separated,57,32
+independent separated,65,2
+independent separated,81,32
+independent separated,97,32
+independent separated,99,4
+independent separated,100,3

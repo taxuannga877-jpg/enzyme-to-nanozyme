@@ -36,6 +36,7 @@ class NanozymeType(Enum):
     GOX = "Glucose Oxidase"      # 葡萄糖氧化酶
     PHOS = "Phosphatase"         # 磷酸酶
     DNASE = "DNase"              # 脱氧核酸酶
+    URE = "Urease"               # 脲酶
     UNKNOWN = "Unknown"
 
 
@@ -76,4 +77,71 @@ EC_TO_NANOZYME_TYPE: Dict[str, NanozymeType] = {
 
     # DNase (DNASE) - EC 3.1.21.1
     "3.1.21.1": NanozymeType.DNASE, # DNase
+
+    # Laccase 扩充
+    "1.10.3.3": NanozymeType.LAC,   # Ascorbate oxidase
+    "1.10.3.4": NanozymeType.LAC,   # o-Aminophenol oxidase
+
+    # Oxidase 扩充
+    "1.1.3.5": NanozymeType.OXD,    # Hexose oxidase
+    "1.1.3.9": NanozymeType.OXD,    # Galactose oxidase
+
+    # Urease
+    "3.5.1.5": NanozymeType.URE,    # Urease
+
 }
+
+
+# ============================================================================
+# Metal element sets — shared across design / scoring / export modules
+# ============================================================================
+# PR4-1 (M12 / M13 fix): centralized the catalytic-metal element string sets
+# that were previously inlined verbatim in 8+ call sites. Inlined sets drifted
+# over time (some included PD/PT, some didn't, some included CA/MG which are
+# structural not catalytic). Single source of truth here prevents that drift.
+
+# Strict catalytic transition metals — the design pipeline's primary targets.
+# These all have well-characterized coordination chemistry as nanozyme centers.
+CATALYTIC_METAL_ELEMENTS = frozenset({
+    "FE", "CU", "ZN", "MN", "CO", "NI",      # First-row d-block (most common)
+    "MO", "V", "CR", "RU", "W",              # Second / third row redox-active
+    "PD", "PT", "AU", "AG",                  # d8 noble metals (square planar)
+})
+
+CATALYTIC_METAL_RESIDUE_NAMES = CATALYTIC_METAL_ELEMENTS | frozenset({
+    "FE2", "FE3",
+    "CU1", "CU2",
+    "MN2",
+    "ZN2",
+    "NI2",
+    "CO2",
+})
+
+CONDITIONAL_CATALYTIC_METAL_ELEMENTS = frozenset({"MG"})
+
+NON_CATALYTIC_METAL_ELEMENTS = frozenset({"NA", "K", "CA", "RB", "CS", "SR", "BA"})
+
+# Extended set including alkaline earth / structural metals — used by the
+# dopant modifier to identify "atoms we shouldn't replace with N/S" even though
+# Ca/Mg are not themselves catalytic.
+ALL_METAL_ELEMENTS = CATALYTIC_METAL_ELEMENTS | frozenset({"CA", "MG"})
+
+# Broad metal-element recognizer for PDB/ligand parsing and UI classification.
+# This is intentionally wider than CATALYTIC_METAL_ELEMENTS: parsers need to
+# recognize structural ions and uncommon deposited metal atoms without treating
+# them as supported catalytic design centers.
+KNOWN_METAL_ELEMENTS = frozenset({
+    "LI", "BE", "NA", "MG", "AL", "K", "CA",
+    "SC", "TI", "V", "CR", "MN", "FE", "CO", "NI", "CU", "ZN", "GA",
+    "RB", "SR", "Y", "ZR", "NB", "MO", "TC", "RU", "RH", "PD", "AG", "CD", "IN", "SN",
+    "CS", "BA", "LA", "CE", "PR", "ND", "PM", "SM", "EU", "GD", "TB", "DY", "HO", "ER", "TM", "YB", "LU",
+    "HF", "TA", "W", "RE", "OS", "IR", "PT", "AU", "HG", "TL", "PB", "BI",
+    "FR", "RA", "AC", "TH", "PA", "U", "NP", "PU", "AM", "CM", "BK", "CF", "ES", "FM", "MD", "NO", "LR",
+})
+
+# PDB residue names used for standalone metal ions. SE is kept for backward
+# compatibility with existing ligand filters that treated it as metal-like.
+METAL_RESIDUE_NAMES = frozenset({
+    "FE", "FE2", "FE3", "CU", "CU1", "CU2", "ZN", "ZN2", "MN", "MN2",
+    "CO", "CO2", "NI", "NI2", "CA", "MG", "K", "NA", "MO", "W", "V", "SE",
+})
